@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import colors from '../../config/colors';
-import logo from '../../assets/main_icon.png';
+import logo from '../../assets/syghtings_logo.png';
 import { Button, TextInput, Box } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
@@ -12,7 +12,6 @@ export default function LoginForm({ handleLogin }: { handleLogin: any }) {
     <View style={styles.container}>
       <View style={styles.logo}>
         <Image source={logo} resizeMode='contain' style={styles.logoImage}></Image>
-        <Text style={styles.text}>Syghtings</Text>
       </View>
       <Box pv={20}>
         <TextInput
@@ -29,8 +28,11 @@ export default function LoginForm({ handleLogin }: { handleLogin: any }) {
           color={colors.syghtingGreen}
           leading={props => <Icon name="key" {...props} style={styles.input} />}
         />
+        <TouchableOpacity onPress={() => console.log("forgot!")}>
+          <Text style={styles.forgotPasswordLegend}>Forgot password!</Text>
+        </TouchableOpacity>
       </Box>
-      <Button title="Log in" onPress={handleLogin} style={styles.loginButton} />
+      <Button title="Sign In" onPress={handleLogin} style={styles.loginButton} />
       <TouchableOpacity onPress={() => console.log("register!")}>
         <Text style={styles.registerlink}>
           Not registered?
@@ -57,9 +59,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logoImage: {
-    width: 120,
-    height: 120,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    width: 250,
+    height: 250
   },
   input: {
     width: '100%'
@@ -68,16 +70,20 @@ const styles = StyleSheet.create({
     backgroundColor: colors.syghtingGreen,
     marginTop: 20,
     width: '100%',
-    height:40
+    height: 40
   },
   textButton: {
     color: colors.white,
     textAlign: 'center'
   },
+  forgotPasswordLegend: {
+    alignSelf: 'flex-end',
+    color:colors.gray
+  },
   registerlink: {
     alignSelf: 'center',
     marginTop: 30,
     color: colors.blue,
-    fontSize:18,
+    fontSize: 18,
   }
 });
