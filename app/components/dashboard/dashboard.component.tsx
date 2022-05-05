@@ -1,27 +1,31 @@
-import { AppBar, HStack, IconButton, Avatar, Flex, Box } from "@react-native-material/core";
+import { AppBar, HStack, IconButton, Avatar, Flex, Box, Divider } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Text } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 import colors from '../../config/colors';
 import imageBg from '../../assets/dashboard_bg.jpg';
+import LastSights from './last-sights/last-sights.component';
+import BottomBar from '../bottom-bar/bottom-bar.component';
 
 
-export default function DashboardComponent() {
+export default function DashboardComponent({ lastSightsList }: { lastSightsList: Array<any> }) {
   return (
     <ImageBackground source={imageBg} resizeMode="cover" style={styles.image}>
-      <StatusBar backgroundColor="#07840a" />
+      <StatusBar backgroundColor={colors.lightGray
+      } />
       <View style={styles.container}>
         <Box style={styles.sectionContainer}>
           <AppBar
-            title='Syghtings'
             style={styles.bar}
-            tintColor={colors.white}
+            tintColor={colors.black}
+            transparent={true}
             leading={() => (
-              <IconButton onPress={() => console.log("to be defined")} icon={<Icon size={30} name="menu" color="white" />} />
+              <IconButton onPress={() => console.log("to be defined")} icon={<Icon size={30} name="menu" color={colors.black} />} />
             )}
             trailing={props => (
               <HStack>
+                <IconButton onPress={() => console.log("to be defined")} icon={<Icon size={30} name="bell" color={colors.black} />} />
                 <IconButton
                   icon={<Avatar label="IARA FIGINI" size={40} color={colors.lightGray} />}
                   onPress={() => console.log("to be defined")}
@@ -30,12 +34,15 @@ export default function DashboardComponent() {
               </HStack>
             )}
           />
+          <Divider style={{ marginTop: 10 }} />
           <Box style={styles.mainSection}>
-            <Box style={styles.cameraButton}>
-              <Icon name='camera-plus' size={100} color='#000' />
-              <Text style={styles.newSightLegend}>
-                NEW SIGHT</Text>
-            </Box>
+            <ScrollView>
+              {lastSightsList.map((prop, key) => {
+                return (
+                  <LastSights key={key}/>
+                );
+              })}
+            </ScrollView>
           </Box>
         </Box>
       </View>
@@ -50,9 +57,8 @@ const styles = StyleSheet.create({
   },
   bar: {
     flex: 1,
-    paddingTop: 25,
+    paddingTop: 30,
     maxHeight: 85,
-    backgroundColor: colors.syghtingGreen
   },
   text: {
     fontSize: 30,
@@ -63,20 +69,10 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   mainSection: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: "center"
+    flex: 1
   },
   sectionContainer: {
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
   },
-  cameraButton: {
-    alignSelf: "flex-end",
-    alignItems: "center",
-    marginBottom: 20
-  },
-  newSightLegend: {
-    paddingLeft: 12,
-  }
 });
