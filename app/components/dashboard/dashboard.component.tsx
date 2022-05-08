@@ -1,12 +1,11 @@
-import { AppBar, HStack, IconButton, Avatar, Flex, Box, Divider } from "@react-native-material/core";
+import { AppBar, HStack, IconButton, Avatar, Box, Divider } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { ImageBackground, StyleSheet, View, Text, Image, ScrollView } from 'react-native';
+import { ImageBackground, StyleSheet, View, ScrollView } from 'react-native';
 import colors from '../../config/colors';
 import imageBg from '../../assets/dashboard_bg.jpg';
 import LastSights from './last-sights/last-sights.component';
-import BottomBar from '../bottom-bar/bottom-bar.component';
 
 
 export default function DashboardComponent({ lastSightsList }: { lastSightsList: Array<any> }) {

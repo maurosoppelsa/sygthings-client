@@ -1,11 +1,9 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
 import LoginForm from './login.form';
 
-export default function Login({screenName}:{screenName: any}) {
-  const navigation = useNavigation();
+export default function Login() {
   const handleLogin = () => {
-    return navigation.navigate(screenName);
+    console.log('inProgress');
   }
   return (
     <LoginForm handleLogin={handleLogin}/>
