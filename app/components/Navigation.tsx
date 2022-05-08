@@ -38,7 +38,9 @@ function NewSightStackScreen() {
 
 function ProfileStackScreen() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+            headerShown: false
+        }}>
             <Stack.Screen name='ProfileScreen' component={ProfileScreen}></Stack.Screen>
         </Stack.Navigator>
     );

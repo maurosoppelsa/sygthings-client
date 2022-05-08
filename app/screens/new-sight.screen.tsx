@@ -27,11 +27,9 @@ const styles = StyleSheet.create({
     box: {
         flex:1,
         flexDirection: 'column',
-        backgroundColor:'green'
     },
     text: {
-        fontSize:30,
         alignSelf:'center',
-        color: 'white',
+        color:colors.black,
     }
 });
