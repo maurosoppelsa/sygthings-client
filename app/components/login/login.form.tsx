@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import colors from '../../config/colors';
 import logo from '../../assets/syghtings_logo.png';
@@ -7,7 +7,8 @@ import { Button, TextInput, Box } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
 export default function LoginForm({ handleLogin }: { handleLogin: any }) {
-
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
@@ -15,6 +16,7 @@ export default function LoginForm({ handleLogin }: { handleLogin: any }) {
       </View>
       <Box pv={20}>
         <TextInput
+          onChangeText={name => setUsername(name)}
           inputContainerStyle={styles.input}
           label="User"
           variant="standard"
@@ -22,6 +24,7 @@ export default function LoginForm({ handleLogin }: { handleLogin: any }) {
           leading={props => <Icon name="account" {...props} style={styles.input} />}
         />
         <TextInput
+          onChangeText={pass => setPassword(pass)}
           secureTextEntry={true}
           label="Password"
           variant="standard"
@@ -32,7 +35,7 @@ export default function LoginForm({ handleLogin }: { handleLogin: any }) {
           <Text style={styles.forgotPasswordLegend}>Forgot password!</Text>
         </TouchableOpacity>
       </Box>
-      <Button title="Sign In" onPress={handleLogin} style={styles.loginButton} />
+      <Button title="Sign In" onPress={() => handleLogin(username, password)} style={styles.loginButton} />
       <TouchableOpacity onPress={() => console.log("register!")}>
         <Text style={styles.registerlink}>
           Not registered?

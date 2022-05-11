@@ -4,21 +4,22 @@
 import React from 'react';
 import LoginScreen from './app/screens/login.screen';
 import Navigation from './app/components/Navigation';
+import { Provider as ReduxProvider, useSelector } from 'react-redux'
+import store from './app/store/store'
 
-function Authentication(props: any) {
-  switch (props.authState) {
-    case 'signIn':
-      return (<Navigation></Navigation>);
-    case 'signOut':
-      return (<LoginScreen></LoginScreen>);
-    default:
-      return (<LoginScreen></LoginScreen>);
+function Authentication() {
+  const userState = useSelector((state: any) => state.user);
+  if (userState.loggedIn) {
+    return (<Navigation></Navigation>);
+  } else {
+    return (<LoginScreen></LoginScreen>);
   }
 }
 
 export default function App() {
-
   return (
-    <Authentication authState='signOut'></Authentication>
+    <ReduxProvider store={store}>
+      <Authentication></Authentication>
+    </ReduxProvider>
   );
 }
