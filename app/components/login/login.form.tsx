@@ -9,6 +9,9 @@ import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 export default function LoginForm({ handleLogin }: { handleLogin: any }) {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const isButtonEnabled = () => {
+    return !password || !username;
+  };
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
@@ -35,7 +38,7 @@ export default function LoginForm({ handleLogin }: { handleLogin: any }) {
           <Text style={styles.forgotPasswordLegend}>Forgot password!</Text>
         </TouchableOpacity>
       </Box>
-      <Button title="Sign In" onPress={() => handleLogin(username, password)} style={styles.loginButton} />
+      <Button title="Sign In" onPress={() => handleLogin(username, password)} disabled={isButtonEnabled()} style={styles.loginButton} />
       <TouchableOpacity onPress={() => console.log("register!")}>
         <Text style={styles.registerlink}>
           Not registered?
