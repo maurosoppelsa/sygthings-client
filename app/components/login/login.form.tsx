@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import colors from '../../config/colors';
 import logo from '../../assets/syghtings_logo.png';
 import { Button, TextInput, Box } from "@react-native-material/core";
@@ -45,6 +45,8 @@ export default function LoginForm({ handleLogin }: { handleLogin: any }) {
         </Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
+      { false &&
+        <ActivityIndicator style={styles.loadingSpinner} size="large" color="#0000ff" />}
     </View>
   );
 }
@@ -91,5 +93,9 @@ const styles = StyleSheet.create({
     marginTop: 30,
     color: colors.blue,
     fontSize: 18,
+  },
+  loadingSpinner: {
+    position: 'absolute',
+    alignSelf:'center'
   }
 });

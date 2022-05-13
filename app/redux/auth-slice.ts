@@ -1,15 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { User } from '../interfaces/common';
+import { UserState } from './interfaces';
 
-export type  User = {
-    username: string;
-    password: string;
-} | null;
-
-export type UserState = {
-    user: User;
-    loggedIn: boolean;
-
-};
 
 const initialState: UserState = {
     user: null,
@@ -21,7 +13,7 @@ const userSlice = createSlice({
     name: 'user',
     initialState: initialState,
     reducers: {
-        loginSuccess: (state, action: PayloadAction<any>) => {
+        loginSuccess: (state, action: PayloadAction<User>) => {
             return {
               ...state,
               ...action.payload,
@@ -39,10 +31,10 @@ export default userSlice.reducer;
 
 // Actions
 const { loginSuccess, logoutSuccess } = userSlice.actions;
-export const login = (userData: any) => async (dispatch: any) => {
+export const login = (userData: User) => async (dispatch: any) => {
     try {
-        console.log('userSlice username', userData.username);
-        console.log('userSlice password', userData.password);
+        console.log('userSlice username', userData?.username);
+        console.log('userSlice password', userData?.password);
         // const res = await api.post('/api/auth/login/', { username, password })
         dispatch(loginSuccess(userData));
     } catch (e) {

@@ -5,7 +5,7 @@ import React from 'react';
 import LoginScreen from './app/screens/login.screen';
 import Navigation from './app/components/Navigation';
 import { Provider as ReduxProvider, useSelector } from 'react-redux'
-import store from './app/store/store'
+import store from './app/redux/store'
 
 function Authentication() {
   const userState = useSelector((state: any) => state.user);

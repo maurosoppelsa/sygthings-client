@@ -2,25 +2,26 @@ import React from "react";
 import { Image, Text, StyleSheet } from "react-native";
 import { Box, Button, Divider } from "@react-native-material/core";
 import colors from '../../../config/colors';
+import { Sight } from "../../../interfaces/common";
 
-export default function LastSights() {
+export default function SightComponent({ sight }: { sight: Sight }) {
     return (
         <Box style={styles.container}>
             <Box style={styles.content}>
-                <Box style={styles.lastImages}>
+                <Box>
                     <Image style={styles.sightLocation} source={require("../../../assets/mapita.png")}></Image>
-                    <Image style={styles.animalImage} source={require("../../../assets/ciervo.jpg")}></Image>
+                    <Image style={styles.animalImage} source={{ uri: sight.picture }}></Image>
                 </Box>
-                <Box style={styles.lastSightsDescription}>
-                    <Box style={styles.lastSightInfoTitleBox}>
-                        <Text style={styles.lastSightInfoTitleText}>Province:</Text>
-                        <Text style={styles.lastSightInfoTitleText}>Animal:</Text>
-                        <Text style={styles.lastSightInfoTitleText}>Condition:</Text>
+                <Box style={styles.sightsDescription}>
+                    <Box style={styles.sightInfoTitleBox}>
+                        <Text style={styles.sightInfoTitleText}>Province:</Text>
+                        <Text style={styles.sightInfoTitleText}>Animal:</Text>
+                        <Text style={styles.sightInfoTitleText}>Condition:</Text>
                     </Box>
-                    <Box style={styles.lastSightInfoValue}>
-                        <Text>Corrientes</Text>
-                        <Text>Ciervo de los pantanos</Text>
-                        <Text>Alive</Text>
+                    <Box style={styles.sightInfoValue}>
+                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight.province}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight.animal}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight.condition}</Text>
                     </Box>
                 </Box>
             </Box>
@@ -40,13 +41,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
     },
-    lastSightsDescription: {
+    sightsDescription: {
         flex: 1,
         flexDirection: 'row',
         padding: 5,
-    },
-    lastImages: {
-
     },
     sightLocation: {
         alignSelf: 'flex-start',
@@ -66,19 +64,19 @@ const styles = StyleSheet.create({
         top: 70,
         left: 70
     },
-    lastSightInfoTitleBox: {
+    sightInfoTitleBox: {
         minWidth: 80
     },
-    lastSightInfoTitleText: {
+    sightInfoTitleText: {
         fontWeight: "bold",
     },
-    lastSightInfoValue: {
-        minWidth: 200
+    sightInfoValue: {
+        flex:1
     },
     sightBt: {
         backgroundColor: colors.syghtingGreen,
         alignSelf: "flex-start",
-        bottom:30,
-        left:140
+        bottom: 30,
+        left: 140
     }
 });

@@ -1,44 +1,27 @@
-import { AppBar, HStack, IconButton, Avatar, Box, Divider } from "@react-native-material/core";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import { Box } from "@react-native-material/core";
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { ImageBackground, StyleSheet, View, ScrollView } from 'react-native';
 import colors from '../../config/colors';
 import imageBg from '../../assets/dashboard_bg.jpg';
-import LastSights from './last-sights/last-sights.component';
+import SightComponent from "./sight/sight.component";
+import { Sight } from "../../interfaces/common";
+import { TopMenuBarComponent } from "../top-menu-bar/top-menu-bar.component";
 
 
-export default function DashboardComponent({ lastSightsList }: { lastSightsList: Array<any> }) {
+export default function DashboardComponent({ lastSightsList }: { lastSightsList: Array<Sight> }) {
   return (
     <ImageBackground source={imageBg} resizeMode="cover" style={styles.image}>
       <StatusBar backgroundColor={colors.lightGray
       } />
       <View style={styles.container}>
         <Box style={styles.sectionContainer}>
-          <AppBar
-            style={styles.bar}
-            tintColor={colors.black}
-            transparent={true}
-            leading={() => (
-              <IconButton onPress={() => console.log("to be defined")} icon={<Icon size={30} name="menu" color={colors.black} />} />
-            )}
-            trailing={props => (
-              <HStack>
-                <IconButton onPress={() => console.log("to be defined")} icon={<Icon size={30} name="bell" color={colors.black} />} />
-                <IconButton
-                  icon={<Avatar label="IARA FIGINI" size={40} color={colors.lightGray} />}
-                  onPress={() => console.log("to be defined")}
-                  {...props}
-                />
-              </HStack>
-            )}
-          />
-          <Divider style={{ marginTop: 10 }} />
+          <TopMenuBarComponent />
           <Box style={styles.mainSection}>
             <ScrollView>
-              {lastSightsList.map((prop, key) => {
+              {lastSightsList.map((sight, key) => {
                 return (
-                  <LastSights key={key}/>
+                  <SightComponent sight={sight} key={key}/>
                 );
               })}
             </ScrollView>
@@ -54,11 +37,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row"
   },
-  bar: {
-    flex: 1,
-    paddingTop: 30,
-    maxHeight: 85,
-  },
   text: {
     fontSize: 30,
     color: colors.white
@@ -68,7 +46,7 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   mainSection: {
-    flex: 1
+    flex: 6
   },
   sectionContainer: {
     flex: 1,
