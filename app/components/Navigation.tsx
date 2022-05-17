@@ -9,7 +9,7 @@ import IonicIcon from 'react-native-vector-icons/Ionicons';
 
 import DashboardScreen from '../screens/dashboard.screen';
 import NewSightScreen from '../screens/new-sight.screen';
-import ProfileScreen from '../screens/profile.screen';
+import MySightsScreen from '../screens/my-sights.screen';
 import colors from '../config/colors';
 
 const fullScreenWidth = Dimensions.get('window').width;
@@ -36,12 +36,12 @@ function NewSightStackScreen() {
     );
 }
 
-function ProfileStackScreen() {
+function MySightsStackScreen() {
     return (
         <Stack.Navigator screenOptions={{
             headerShown: false
         }}>
-            <Stack.Screen name='ProfileScreen' component={ProfileScreen}></Stack.Screen>
+            <Stack.Screen name='MySightsScreen' component={MySightsScreen}></Stack.Screen>
         </Stack.Navigator>
     );
 }
@@ -59,8 +59,8 @@ export default function Navigation() {
                         let iconName = '';
                         if (route.name === 'Dashboard') {
                             iconName = focused ? 'home' : 'home-outline';
-                        } else if (route.name === 'Profile') {
-                            iconName = focused ? 'person' : 'person-outline';
+                        } else if (route.name === 'MySights') {
+                            iconName = focused ? 'md-paw' : 'md-paw-outline';
                         }
                         else if (route.name === 'NewSight') {
                             iconName = focused ? 'camera' : 'camera-outline';
@@ -71,7 +71,7 @@ export default function Navigation() {
             >
                 <Tab.Screen name='Dashboard' component={DashboardStackScreen} options={{ tabBarShowLabel: false, }}></Tab.Screen>
                 <Tab.Screen name='NewSight' component={NewSightStackScreen} options={{ tabBarShowLabel: false, }}></Tab.Screen>
-                <Tab.Screen name='Profile' component={ProfileStackScreen} options={{ tabBarShowLabel: false, }}></Tab.Screen>
+                <Tab.Screen name='MySights' component={MySightsStackScreen} options={{ tabBarShowLabel: false, }}></Tab.Screen>
             </Tab.Navigator>
         </NavigationContainer>
     );

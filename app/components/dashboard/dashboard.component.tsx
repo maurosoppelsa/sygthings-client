@@ -7,6 +7,7 @@ import imageBg from '../../assets/dashboard_bg.jpg';
 import SightComponent from "./sight/sight.component";
 import { Sight } from "../../interfaces/common";
 import { TopMenuBarComponent } from "../top-menu-bar/top-menu-bar.component";
+import MyDrawer from "../drawer-menu/drawer-menu.component";
 
 
 export default function DashboardComponent({ lastSightsList }: { lastSightsList: Array<Sight> }) {
@@ -21,7 +22,7 @@ export default function DashboardComponent({ lastSightsList }: { lastSightsList:
             <ScrollView>
               {lastSightsList.map((sight, key) => {
                 return (
-                  <SightComponent sight={sight} key={key}/>
+                  <SightComponent sight={sight} key={key} />
                 );
               })}
             </ScrollView>

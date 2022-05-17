@@ -3,12 +3,12 @@ import React from 'react';
 import { Text, View, StyleSheet } from "react-native";
 import colors from '../config/colors';
 
-export default function ProfileScreen() {
+export default function MySightsScreen() {
     return (
         <View style={styles.container}>
             <Box style={styles.box}>
                 <Text style={styles.text}>
-                    Profile Screen
+                    My Sights Screen
                 </Text>
             </Box>
         </View>
