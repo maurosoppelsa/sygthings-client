@@ -6,8 +6,6 @@ import colors from '../../config/colors';
 import imageBg from '../../assets/dashboard_bg.jpg';
 import SightComponent from "./sight/sight.component";
 import { Sight } from "../../interfaces/common";
-import { TopMenuBarComponent } from "../top-menu-bar/top-menu-bar.component";
-import MyDrawer from "../drawer-menu/drawer-menu.component";
 
 
 export default function DashboardComponent({ lastSightsList }: { lastSightsList: Array<Sight> }) {
@@ -17,7 +15,6 @@ export default function DashboardComponent({ lastSightsList }: { lastSightsList:
       } />
       <View style={styles.container}>
         <Box style={styles.sectionContainer}>
-          <TopMenuBarComponent />
           <Box style={styles.mainSection}>
             <ScrollView>
               {lastSightsList.map((sight, key) => {

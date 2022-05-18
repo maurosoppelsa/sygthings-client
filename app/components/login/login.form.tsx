@@ -15,7 +15,7 @@ export default function LoginForm({ handleLogin }: { handleLogin: any }) {
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
-        <Image source={logo} resizeMode='contain' style={styles.logoImage}></Image>
+        <Image source={logo} style={styles.logoImage}></Image>
       </View>
       <Box pv={20}>
         <TextInput
