@@ -9,8 +9,8 @@ import store from './app/redux/store'
 import { registerRootComponent } from 'expo';
 
 function Authentication() {
-  const userState = useSelector((state: any) => state.user);
-  if (userState.loggedIn) {
+  const authentication = useSelector((state: any) => state.authentication);
+  if (authentication.loggedIn) {
     return (<Navigation></Navigation>);
   } else {
     return (<LoginScreen></LoginScreen>);

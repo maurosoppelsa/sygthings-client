@@ -1,51 +1,62 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from '../interfaces/common';
-import { UserState } from './interfaces';
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { User } from "../interfaces/common";
+import { AppState } from "./interfaces";
 
-
-const initialState: UserState = {
-    user: null,
-    loggedIn: false,
+const initialState: AppState = {
+  user: null,
+  loggedIn: false,
+  loading: false,
+  error: false,
 };
 
-// Slice
-const userSlice = createSlice({
-    name: 'user',
-    initialState: initialState,
-    reducers: {
-        loginSuccess: (state, action: PayloadAction<User>) => {
-            return {
-              ...state,
-              ...action.payload,
-              loggedIn: true,
-            };
-          },
-        logoutSuccess: (state, action) => {
-            state.user = null;
-            state.loggedIn = false;
-        },
-    },
+export const loginUser = createAsyncThunk<{ user: User }, { userdata: User }>(
+  "loginUser",
+  async () => {
+    const response = await fakeResp(true, 1000);
+    if (response.success) {
+      return {
+        user: response.body ?? [],
+      };
+    } else {
+      throw "Error login user";
+    }
+  }
+);
+
+const authSlice = createSlice({
+  name: "userList",
+  initialState: initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = undefined;
+        state.loggedIn = false; 
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.loading = false;
+        state.loggedIn = true;
+      })
+      .addCase(loginUser.rejected, (state) => {
+        state.error = true;
+        state.loading = false;
+        state.loggedIn = false;
+      });
+  },
 });
 
-export default userSlice.reducer;
+export default authSlice.reducer;
 
-// Actions
-const { loginSuccess, logoutSuccess } = userSlice.actions;
-export const login = (userData: User) => async (dispatch: any) => {
-    try {
-        console.log('userSlice username', userData?.username);
-        console.log('userSlice password', userData?.password);
-        // const res = await api.post('/api/auth/login/', { username, password })
-        dispatch(loginSuccess(userData));
-    } catch (e) {
-        return console.error(e.message);
-    }
-}
-export const logout = (user: User) => async (dispatch: any) => {
-    try {
-        // const res = await api.post('/api/auth/logout/')
-        return dispatch(logoutSuccess(user))
-    } catch (e) {
-        return console.error(e.message);
-    }
-}
+const fakeResp = (success: any, timeout: any) => {
+  return new Promise<any>((resolve, reject) => {
+    setTimeout(() => {
+      if (success) {
+        resolve({ success: true });
+      } else {
+        reject({ message: "Error" });
+      }
+    }, timeout);
+  });
+};

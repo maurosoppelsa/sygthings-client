@@ -6,11 +6,11 @@ import logo from '../../assets/syghtings_logo.png';
 import { Button, TextInput, Box } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-export default function LoginForm({ handleLogin }: { handleLogin: any }) {
+export default function LoginForm({ handleLogin, loadingUser }: { handleLogin: any, loadingUser: boolean }) {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const isButtonEnabled = () => {
-    return !password || !username;
+    return !password || !username || loadingUser;
   };
   return (
     <View style={styles.container}>
@@ -25,6 +25,7 @@ export default function LoginForm({ handleLogin }: { handleLogin: any }) {
           variant="standard"
           color={colors.syghtingGreen}
           leading={props => <Icon name="account" {...props} style={styles.input} />}
+          editable={!loadingUser}
         />
         <TextInput
           onChangeText={pass => setPassword(pass)}
@@ -33,6 +34,7 @@ export default function LoginForm({ handleLogin }: { handleLogin: any }) {
           variant="standard"
           color={colors.syghtingGreen}
           leading={props => <Icon name="key" {...props} style={styles.input} />}
+          editable={!loadingUser}
         />
         <TouchableOpacity onPress={() => console.log("forgot!")}>
           <Text style={styles.forgotPasswordLegend}>Forgot password!</Text>
@@ -45,8 +47,8 @@ export default function LoginForm({ handleLogin }: { handleLogin: any }) {
         </Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
-      { false &&
-        <ActivityIndicator style={styles.loadingSpinner} size="large" color="#0000ff" />}
+      {loadingUser &&
+        <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />}
     </View>
   );
 }
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
   },
   forgotPasswordLegend: {
     alignSelf: 'flex-end',
-    color:colors.gray
+    color: colors.gray
   },
   registerlink: {
     alignSelf: 'center',
@@ -96,6 +98,6 @@ const styles = StyleSheet.create({
   },
   loadingSpinner: {
     position: 'absolute',
-    alignSelf:'center'
+    alignSelf: 'center',
   }
 });

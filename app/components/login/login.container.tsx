@@ -1,20 +1,21 @@
 import React from 'react';
 import LoginForm from './login.form';
 import { useAppDispatch } from '../../redux/store'
-import { login } from '../../redux/auth-slice';
+import { loginUser } from '../../redux/auth-slice';
 import { User } from '../../interfaces/common';
+import { useSelector } from 'react-redux';
 
 export default function Login() {
   const dispatch = useAppDispatch();
+  const authentication = useSelector((state: any) => state.authentication);
   const handleLogin = (username: string, password: string) => {
-    const userData: User = {
+    const userdata: User = {
       username,
       password,
     };
-    console.log("login container", userData);
-    dispatch(login(userData));
+    dispatch(loginUser({ userdata }));
   }
   return (
-    <LoginForm handleLogin={(username: string, password: string) => handleLogin(username, password)}/>
+    <LoginForm handleLogin={(username: string, password: string) => handleLogin(username, password)} loadingUser={authentication.loading} />
   );
 }
