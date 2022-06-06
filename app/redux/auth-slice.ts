@@ -7,6 +7,7 @@ const initialState: AppState = {
   loggedIn: false,
   loading: false,
   error: false,
+  cameraActive: false
 };
 
 export const loginUser = createAsyncThunk<{ user: User }, { userdata: User }>(
@@ -24,7 +25,7 @@ export const loginUser = createAsyncThunk<{ user: User }, { userdata: User }>(
 );
 
 const authSlice = createSlice({
-  name: "userList",
+  name: "authSlice",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {

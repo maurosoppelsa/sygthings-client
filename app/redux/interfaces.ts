@@ -10,4 +10,5 @@ export type AppState = {
     loggedIn: boolean;
     loading: boolean;
     error: boolean | undefined;
+    cameraActive: boolean;
 };
