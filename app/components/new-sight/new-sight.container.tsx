@@ -14,10 +14,16 @@ export default function NewSight() {
       );
     const dispatch = useAppDispatch();
     const isCameraActive = useSelector((state: any) => state.camera.cameraActive);
-    const handleCameraBt = () => {
+    const handleCamera = () => {
         dispatch(toggleCamera({cameraActive: true}));
     };
+
+    const takePicture = () => {
+      console.log("taking picture");
+      dispatch(toggleCamera({cameraActive: false}));
+    }
+
     return(
-        <NewSightComponent onPressCameraBt={handleCameraBt} isCameraActive={isCameraActive}/>
+        <NewSightComponent onPressCameraBt={handleCamera} isCameraActive={isCameraActive} onTakePicture={takePicture}/>
     );
 }

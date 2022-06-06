@@ -1,55 +1,60 @@
 import React from 'react';
-import { Box } from "@react-native-material/core";
-import { StyleSheet, Text, ImageBackground, Image } from 'react-native';
+import { Box, Button, Icon } from "@react-native-material/core";
+import { StyleSheet, ImageBackground } from 'react-native';
 import imageBg from '../../assets/mapita-ibera.png';
 import LocationDetailsComponent from './location-details.component';
-import { TouchableOpacity } from 'react-native'
 import colors from '../../config/colors';
 import CameraComponent from './camera.component';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function NewSightComponent({ onPressCameraBt, isCameraActive }: { onPressCameraBt: any, isCameraActive: boolean }) {
+export default function NewSightComponent({ onPressCameraBt, isCameraActive, onTakePicture }: { onPressCameraBt: any, isCameraActive: boolean, onTakePicture: any }) {
     return (
         !isCameraActive ? <ImageBackground source={imageBg} resizeMode="cover" style={styles.image}>
+            <MaterialCommunityIcons name="map-marker-plus" size={35} style={styles.markerBt}/>
             <Box style={styles.container}>
-                <Box style={styles.boxLegend}>
+                <Box style={styles.boxContent}>
                     <LocationDetailsComponent />
-                </Box>
-                <Box style={styles.cameraBox}>
-                    <TouchableOpacity activeOpacity={0.8} onPress={() => {onPressCameraBt()}}>
-                        <Image source={require('../../assets/camera-icon.png')} style={styles.cameraButton}/>
-                    </TouchableOpacity>
+                    <Button style={styles.newSightBt} title='Create new sight' onPress={onPressCameraBt}></Button>
                 </Box>
             </Box>
-        </ImageBackground> : <CameraComponent/>
+        </ImageBackground> : <CameraComponent onTakePicture={() => { onTakePicture() }} />
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column'
+        flexDirection: 'row',
+        alignItems: 'flex-end',
     },
-    cameraButton: {
-        width: 80,
-        height: 80,
+    markerBt:{
+        alignSelf: 'flex-end',
+        marginRight: 15,
+        marginTop: 10,
+        color: '#000000',
     },
     newSightLegend: {
         paddingLeft: 12,
     },
-    boxLegend: {
-        marginTop:10,
-        flex: 5,
-        marginLeft: 10,
-        marginRight: 10,
+    boxContent: {
+        flex: 1,
+        flexDirection: 'column',
+        marginLeft: 20,
+        marginRight: 20,
     },
     image: {
         width: '100%',
         height: '100%'
     },
-    cameraBox: {
-        flex:1,
+    newSightBox: {
+        flex: 1,
         alignItems: 'center',
-        maxHeight: 80,
-        backgroundColor: colors.gray,
+    },
+    newSightBt: {
+        borderRadius: 5,
+        backgroundColor: colors.syghtingGreen,
+        marginBottom: 40,
+        marginTop: 20,
+        alignSelf: 'center',
     }
 });

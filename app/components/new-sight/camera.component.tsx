@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Camera } from 'expo-camera';
+import CameraButtonComponent from './camera-button.component';
 
-export default function CameraComponent() {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+export default function CameraComponent({onTakePicture}: {onTakePicture: any}) {
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [cameraType] = useState(Camera.Constants.Type.back);
 
   useEffect(() => {
     (async () => {
@@ -12,7 +13,7 @@ export default function CameraComponent() {
       setHasPermission(status === 'granted');
     })();
   }, []);
-  
+
 
   if (hasPermission === null) {
     return <View />;
@@ -24,11 +25,7 @@ export default function CameraComponent() {
     <View style={styles.container}>
       <Camera style={styles.camera} type={cameraType}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {}}>
-            <Text style={styles.text}> Flip </Text>
-          </TouchableOpacity>
+          <CameraButtonComponent customStyles={styles.cameraBt} onPressCameraBt={() => {onTakePicture()}} />
         </View>
       </Camera>
     </View>
@@ -38,20 +35,21 @@ export default function CameraComponent() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
   },
   camera: {
     flex: 1,
+    flexDirection: 'row'
   },
   buttonContainer: {
     flex: 1,
     backgroundColor: 'transparent',
     flexDirection: 'row',
-    margin: 20,
   },
-  button: {
-    flex: 0.1,
-    alignSelf: 'flex-end',
+  cameraBt: {
+    flex: 1,
     alignItems: 'center',
+    alignSelf: 'flex-end',
   },
   text: {
     fontSize: 18,
