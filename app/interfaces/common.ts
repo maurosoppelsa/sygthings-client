@@ -14,3 +14,9 @@ export type Sight = {
         longitud: string;
     };
 }
+
+export type Picture = {
+    height: number;
+    width: number;
+    uri: string;
+} | null;
