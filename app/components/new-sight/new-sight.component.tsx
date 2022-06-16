@@ -1,19 +1,20 @@
 import React from 'react';
-import { Box, Button, Icon } from "@react-native-material/core";
-import { StyleSheet, ImageBackground, Text } from 'react-native';
+import { Box, Button } from "@react-native-material/core";
+import { StyleSheet, ImageBackground } from 'react-native';
 import imageBg from '../../assets/mapita-ibera.png';
 import LocationDetailsComponent from './location-details.component';
 import colors from '../../config/colors';
 import CameraComponent from './camera.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Picture } from '../../interfaces/common';
-import NewSightModalComponent from './new-sight-modal.component';
+import NewSightModalComponent from './new-sight-modal/new-sight-modal.component';
 
-export default function NewSightComponent({ onPressCameraBt, isCameraActive, onTakePicture, newPicture, showModal }: { onPressCameraBt: any, isCameraActive: boolean, onTakePicture: any, newPicture: Picture, showModal: boolean }) {
+export default function NewSightComponent({ onPressCameraBt, isCameraActive, onTakePicture, newPicture, newSightStatus, showModal, onSightSubmit }:
+    { onPressCameraBt: any, isCameraActive: boolean, onTakePicture: any, newPicture: Picture, newSightStatus: string, showModal: boolean, onSightSubmit: any }) {
     return (
         !isCameraActive ? <ImageBackground source={imageBg} resizeMode="cover" style={styles.image}>
-            <NewSightModalComponent showModal={showModal} imageUrl={newPicture ? newPicture.uri : ''}/>
             <MaterialCommunityIcons name="map-marker-plus" size={35} style={styles.markerBt} />
+            <NewSightModalComponent modalFormStatus={newSightStatus} imageUrl={newPicture ? newPicture.uri : ''} showModal={showModal} onSubmit={onSightSubmit} />
             <Box style={styles.container}>
                 <Box style={styles.boxContent}>
                     <LocationDetailsComponent />
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         marginLeft: 20,
         marginRight: 20,
+        marginBottom: 60,
     },
     image: {
         width: '100%',
@@ -56,8 +58,7 @@ const styles = StyleSheet.create({
     newSightBt: {
         borderRadius: 5,
         backgroundColor: colors.syghtingGreen,
-        marginBottom: 40,
-        marginTop: 20,
+        marginTop: 30,
         alignSelf: 'center',
     }
 });
