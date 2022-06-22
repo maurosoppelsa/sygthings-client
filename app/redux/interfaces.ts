@@ -1,4 +1,4 @@
-import { User } from "../interfaces/common";
+import { Sight, User } from "../interfaces/common";
 
 export type UserState = {
     user: User;
@@ -10,5 +10,11 @@ export type AppState = {
     loggedIn: boolean;
     loading: boolean;
     error: boolean | undefined;
-    cameraActive: boolean;
+};
+
+export type newSightState = {
+    newSight: Sight,
+    showSightModal: boolean,
+    loading: boolean,
+    error: boolean | undefined,
 };

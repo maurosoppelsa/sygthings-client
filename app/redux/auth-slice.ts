@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { User } from "../interfaces/common";
+import { fakeResp } from "../utils/mocks";
 import { AppState } from "./interfaces";
 
 const initialState: AppState = {
@@ -7,7 +8,6 @@ const initialState: AppState = {
   loggedIn: false,
   loading: false,
   error: false,
-  cameraActive: false
 };
 
 export const loginUser = createAsyncThunk<{ user: User }, { userdata: User }>(
@@ -26,7 +26,7 @@ export const loginUser = createAsyncThunk<{ user: User }, { userdata: User }>(
 
 const authSlice = createSlice({
   name: "authSlice",
-  initialState: initialState,
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -49,15 +49,3 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-
-const fakeResp = (success: any, timeout: any) => {
-  return new Promise<any>((resolve, reject) => {
-    setTimeout(() => {
-      if (success) {
-        resolve({ success: true });
-      } else {
-        reject({ message: "Error" });
-      }
-    }, timeout);
-  });
-};

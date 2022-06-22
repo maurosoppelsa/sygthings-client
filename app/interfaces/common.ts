@@ -13,7 +13,7 @@ export type Sight = {
         latitud: string;
         longitud: string;
     };
-}
+} | null
 
 export type Picture = {
     height: number;

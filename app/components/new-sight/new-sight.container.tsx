@@ -6,6 +6,7 @@ import { toggleCamera, newPicture } from '../../redux/camera-slice';
 import { toggleSightModal } from '../../redux/new-sight-slice';
 import { useFocusEffect } from '@react-navigation/native';
 import { Picture } from '../../interfaces/common';
+import { createSight } from '../../redux/new-sight-slice';
 
 export default function NewSight() {
   const closeCamera = () => dispatch(toggleCamera({ cameraActive: false }));
@@ -33,7 +34,7 @@ export default function NewSight() {
   }
 
   const onSightSubmit = () => {
-    dispatch(toggleSightModal());
+    dispatch(createSight({newSight: null}));
   }
 
   return (
