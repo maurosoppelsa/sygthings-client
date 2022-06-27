@@ -1,3 +1,4 @@
+import { SIGHT_MODAL_STATUS } from "../constants";
 import { Sight, User } from "../interfaces/common";
 
 export type UserState = {
@@ -15,6 +16,6 @@ export type AppState = {
 export type newSightState = {
     newSight: Sight,
     showSightModal: boolean,
-    loading: boolean,
     error: boolean | undefined,
+    modalStatus: SIGHT_MODAL_STATUS,
 };

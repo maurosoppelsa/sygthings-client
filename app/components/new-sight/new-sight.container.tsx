@@ -3,7 +3,7 @@ import NewSightComponent from './new-sight.component';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux/store'
 import { toggleCamera, newPicture } from '../../redux/camera-slice';
-import { toggleSightModal } from '../../redux/new-sight-slice';
+import { openModal, closeModal } from '../../redux/new-sight-slice';
 import { useFocusEffect } from '@react-navigation/native';
 import { Picture } from '../../interfaces/common';
 import { createSight } from '../../redux/new-sight-slice';
@@ -19,10 +19,10 @@ export default function NewSight() {
   const isCameraActive = useSelector((state: any) => state.camera.cameraActive);
   const picture = useSelector((state: any) => state.camera.picture);
   const showSightModal = useSelector((state: any) => state.newSight.showSightModal);
+  const modalStatus = useSelector((state: any) => state.newSight.modalStatus);
   const handleCamera = () => {
     dispatch(toggleCamera({ cameraActive: true }));
   };
-
   const takePicture = (picture: Picture) => {
     const pictureTaked = {
       with: picture?.width,
@@ -30,16 +30,20 @@ export default function NewSight() {
       uri: picture?.uri,
     }
     dispatch(newPicture(pictureTaked));
-    dispatch(toggleSightModal());
+    dispatch(openModal());
   }
 
   const onSightSubmit = () => {
     dispatch(createSight({newSight: null}));
   }
 
+  const onFormClose = () => {
+    dispatch(closeModal());
+  }
+
   return (
     <NewSightComponent onPressCameraBt={handleCamera}
       isCameraActive={isCameraActive} onTakePicture={(picture: Picture) => { takePicture(picture) }}
-      newPicture={picture} newSightStatus='new' showModal={showSightModal} onSightSubmit={onSightSubmit} />
+      newPicture={picture} newSightStatus={modalStatus} showModal={showSightModal} onSightSubmit={onSightSubmit} onFormClose={onFormClose}/>
   );
 }

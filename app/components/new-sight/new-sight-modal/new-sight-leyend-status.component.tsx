@@ -1,18 +1,19 @@
 import { ActivityIndicator, Box } from '@react-native-material/core';
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, Pressable } from 'react-native';
 import colors from '../../../config/colors';
+import { SIGHT_MODAL_STATUS } from '../../../constants';
 
-export default function NewSightLegendStatus({ status }: { status: string }) {
+export default function NewSightLegendStatus({ status, onClose }: { status: string, onClose: any }) {
     let legendText: string = '';
     let statusStyle: any = {};
 
     switch (status) {
-        case 'success':
-            legendText = 'Success';
+        case SIGHT_MODAL_STATUS.SUCCESS:
+            legendText = 'Success!';
             statusStyle = styles.success;
             break;
-        case 'pending':
+        case SIGHT_MODAL_STATUS.PENDING:
             legendText = 'Loading, please wait...';
             statusStyle = styles.pending;
             break;
@@ -23,9 +24,18 @@ export default function NewSightLegendStatus({ status }: { status: string }) {
     return (
         <Box style={styles.container}>
             <Text style={statusStyle}>{legendText}</Text>
-            {status === 'pending' &&
-        <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />}
-        </Box>);
+            {status === SIGHT_MODAL_STATUS.PENDING &&
+                <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />}
+
+            {status === SIGHT_MODAL_STATUS.SUCCESS &&
+                <Pressable
+                    style={styles.closeButton}
+                    onPress={() => { onClose() }}
+                >
+                    <Text style={styles.closeText}>Close</Text>
+                </Pressable>}
+        </Box>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -48,5 +58,20 @@ const styles = StyleSheet.create({
     loadingSpinner: {
         alignSelf: 'center',
         marginTop: 10,
-      }
+    },
+    closeButton: {
+        borderRadius: 5,
+        padding: 10,
+        minWidth: 100,
+        elevation: 2,
+        alignSelf: "center",
+        backgroundColor: colors.blue,
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    closeText: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    }
 });

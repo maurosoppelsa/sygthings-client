@@ -9,12 +9,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Picture } from '../../interfaces/common';
 import NewSightModalComponent from './new-sight-modal/new-sight-modal.component';
 
-export default function NewSightComponent({ onPressCameraBt, isCameraActive, onTakePicture, newPicture, newSightStatus, showModal, onSightSubmit }:
-    { onPressCameraBt: any, isCameraActive: boolean, onTakePicture: any, newPicture: Picture, newSightStatus: string, showModal: boolean, onSightSubmit: any }) {
+export default function NewSightComponent({ onPressCameraBt, isCameraActive, onTakePicture, newPicture, newSightStatus, showModal, onSightSubmit, onFormClose }:
+    { onPressCameraBt: any, isCameraActive: boolean, onTakePicture: any, newPicture: Picture, newSightStatus: string, showModal: boolean, onSightSubmit: any, onFormClose: any }) {
     return (
         !isCameraActive ? <ImageBackground source={imageBg} resizeMode="cover" style={styles.image}>
             <MaterialCommunityIcons name="map-marker-plus" size={35} style={styles.markerBt} />
-            <NewSightModalComponent modalFormStatus={newSightStatus} imageUrl={newPicture ? newPicture.uri : ''} showModal={showModal} onSubmit={onSightSubmit} />
+            <NewSightModalComponent modalFormStatus={newSightStatus} imageUrl={newPicture ? newPicture.uri : ''} showModal={showModal} onSubmit={onSightSubmit} onClose={onFormClose}/>
             <Box style={styles.container}>
                 <Box style={styles.boxContent}>
                     <LocationDetailsComponent />

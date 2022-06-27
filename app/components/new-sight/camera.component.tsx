@@ -22,11 +22,18 @@ export default function CameraComponent({ onTakePicture }: { onTakePicture: any 
   }, []);
 
   const takePicture = async (camera: any) => {
-    setLoadingPicture(true);
-/*     await camera.current.pausePreview(); 
-    await camera.current.resumePreview(); */
-    const picture: Picture = await camera.current.takePictureAsync(options);
-    onTakePicture(picture);
+    try {
+      setLoadingPicture(true);
+      /*     await camera.current.pausePreview(); 
+          await camera.current.resumePreview(); */
+          const picture: Picture = await camera.current.takePictureAsync(options);
+          onTakePicture(picture);
+    } catch(err){
+      /**
+       * should handle error on camera here... 
+       */
+      console.log(err);
+    };
   };
 
   if (hasPermission === null) {

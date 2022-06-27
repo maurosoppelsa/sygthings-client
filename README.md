@@ -1,6 +1,6 @@
 # syghtings client app
 
-Syghtings server is the main backend service for syghtings app, it is suposed that will be subscripted to a message queue and it will stores in the database the message data received from syghtings client app 
+Syghtings client is a mobile app that allows to take animals pictures describing their health status, relate them to their location and submit the information to a centralized server.  
 
 ## Dependencies
 
