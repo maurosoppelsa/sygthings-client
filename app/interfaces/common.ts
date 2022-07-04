@@ -5,7 +5,6 @@ export type User = {
 
 
 export type Sight = {
-    province: string;
     animal: string;
     picture: string;
     condition: string;

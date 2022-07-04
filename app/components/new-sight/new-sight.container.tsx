@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../redux/store'
 import { toggleCamera, newPicture } from '../../redux/camera-slice';
 import { openModal, closeModal } from '../../redux/new-sight-slice';
 import { useFocusEffect } from '@react-navigation/native';
-import { Picture } from '../../interfaces/common';
+import { Picture, Sight } from '../../interfaces/common';
 import { createSight } from '../../redux/new-sight-slice';
 
 export default function NewSight() {
@@ -33,8 +33,16 @@ export default function NewSight() {
     dispatch(openModal());
   }
 
-  const onSightSubmit = () => {
-    dispatch(createSight({newSight: null}));
+  const onSightSubmit = (animalInfo: any) => {
+    dispatch(createSight({newSight: {
+      animal: animalInfo.animalName,
+      picture,
+      condition: animalInfo.condition,
+      location: {
+        latitud: '',
+        longitud: ''
+      }
+    }}));
   }
 
   const onFormClose = () => {
@@ -42,8 +50,14 @@ export default function NewSight() {
   }
 
   return (
-    <NewSightComponent onPressCameraBt={handleCamera}
-      isCameraActive={isCameraActive} onTakePicture={(picture: Picture) => { takePicture(picture) }}
-      newPicture={picture} newSightStatus={modalStatus} showModal={showSightModal} onSightSubmit={onSightSubmit} onFormClose={onFormClose}/>
+    <NewSightComponent 
+      onPressCameraBt={handleCamera}
+      isCameraActive={isCameraActive} 
+      onTakePicture={(picture: Picture) => { takePicture(picture) }}
+      newPicture={picture} 
+      newSightStatus={modalStatus} 
+      showModal={showSightModal} 
+      onSightSubmit={onSightSubmit} 
+      onFormClose={onFormClose}/>
   );
 }

@@ -6,39 +6,39 @@ import colors from "../../../config/colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function NewSightFormComponent({ imageUrl, onSubmit }: { imageUrl: { uri: string }, onSubmit: any }) {
-    const [animalTxt, onChangeAnimalTxt] = React.useState("");
-    const [checked, setChecked] = React.useState('first');
+    const [animalName, onChangeAnimalName] = React.useState("");
+    const [checked, setChecked] = React.useState('Alive');
     return (
         <View style={styles.modalForm}>
             <Image source={imageUrl} style={styles.sightImg}></Image>
             <TextInput
                 style={styles.animalInput}
-                onChangeText={onChangeAnimalTxt}
-                value={animalTxt}
+                onChangeText={onChangeAnimalName}
+                value={animalName}
                 placeholder='Animal name'
             />
             <Box style={styles.radioContainer}>
                 <Text style={styles.radioTitle}>Alive</Text>
                 <RadioButton
-                    value="first"
-                    status={checked === 'first' ? 'checked' : 'unchecked'}
-                    onPress={() => setChecked('first')}
+                    value="Alive"
+                    status={checked === 'Alive' ? 'checked' : 'unchecked'}
+                    onPress={() => setChecked('Alive')}
                 />
             </Box>
             <Box style={styles.radioContainer}>
                 <Text style={styles.radioTitle}>Wounded</Text>
                 <RadioButton
-                    value="second"
-                    status={checked === 'second' ? 'checked' : 'unchecked'}
-                    onPress={() => setChecked('second')}
+                    value="Wounded"
+                    status={checked === 'Wounded' ? 'checked' : 'unchecked'}
+                    onPress={() => setChecked('Wounded')}
                 />
             </Box>
             <Box style={styles.radioContainer}>
                 <Text style={styles.radioTitle}>Dead</Text>
                 <RadioButton
-                    value="third"
-                    status={checked === 'third' ? 'checked' : 'unchecked'}
-                    onPress={() => setChecked('third')}
+                    value="Dead"
+                    status={checked === 'Dead' ? 'checked' : 'unchecked'}
+                    onPress={() => setChecked('Dead')}
                 />
             </Box>
             <Box style={styles.locationLegend}>
@@ -46,8 +46,9 @@ export default function NewSightFormComponent({ imageUrl, onSubmit }: { imageUrl
                 <Text style={styles.locationTxt}>Esteros de Iberá, Corrientes</Text>
             </Box>
             <Pressable
-                style={styles.buttonSubmit}
-                onPress={() => onSubmit()}
+                disabled={!animalName}
+                style={[styles.buttonSubmit, !animalName ? styles.buttonDisabled : styles.buttonEnabled]}
+                onPress={() => onSubmit({animalName, condition: checked})}
             >
                 <Text style={styles.textStyle}>Submit</Text>
             </Pressable>
@@ -77,7 +78,13 @@ const styles = StyleSheet.create({
         minWidth: 120,
         elevation: 2,
         alignSelf: "center",
-        backgroundColor: colors.syghtingGreen
+        
+    },
+    buttonDisabled: {
+        backgroundColor: colors.lightGray,
+    },
+    buttonEnabled: {
+        backgroundColor: colors.syghtingGreen,
     },
     textStyle: {
         color: "white",

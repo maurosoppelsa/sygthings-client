@@ -14,14 +14,15 @@ const initialState: newSightState = {
 
 export const createSight = createAsyncThunk<{ newSight: Sight }, { newSight: Sight }>(
     "createSight",
-    async () => {
+    async (newSight: any) => {
+      console.log(newSight);
       const response = await fakeResp(true, 1000);
       if (response.success) {
         return {
           newSight: response.body ?? [],
         };
       } else {
-        throw "Error login user";
+        throw "Error creating sight";
       }
     }
   );
