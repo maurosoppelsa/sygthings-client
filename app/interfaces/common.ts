@@ -9,8 +9,8 @@ export type Sight = {
     picture: string;
     condition: string;
     location: {
-        latitud: string;
-        longitud: string;
+        latitude: string;
+        longitude: string;
     };
 } | null
 

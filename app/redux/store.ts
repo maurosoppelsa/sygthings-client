@@ -4,10 +4,12 @@ import { combineReducers } from 'redux';
 import authSlice from './auth-slice';
 import cameraSlice from './camera-slice';
 import newSightSlice from './new-sight-slice';
+import mapSlice from './map-slice';
 const reducer = combineReducers({
     authentication: authSlice,
     camera: cameraSlice,
     newSight: newSightSlice,
+    mapImage: mapSlice,
 })
 const store = configureStore({
   reducer,

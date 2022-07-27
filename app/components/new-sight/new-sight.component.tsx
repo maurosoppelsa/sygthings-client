@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Button } from "@react-native-material/core";
 import { StyleSheet, ImageBackground } from 'react-native';
-import imageBg from '../../assets/mapita-ibera.png';
 import LocationDetailsComponent from './location-details.component';
 import colors from '../../config/colors';
 import CameraComponent from './camera.component';
@@ -9,12 +8,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Picture } from '../../interfaces/common';
 import NewSightModalComponent from './new-sight-modal/new-sight-modal.component';
 
-export default function NewSightComponent({ onPressCameraBt, isCameraActive, onTakePicture, newPicture, newSightStatus, showModal, onSightSubmit, onFormClose }:
-    { onPressCameraBt: any, isCameraActive: boolean, onTakePicture: any, newPicture: Picture, newSightStatus: string, showModal: boolean, onSightSubmit: any, onFormClose: any }) {
+export default function NewSightComponent({ onPressCameraBt, isCameraActive, onTakePicture, newPicture, newSightStatus, showModal, onSightSubmit, onFormClose, imageUrl }:
+    { onPressCameraBt: any, isCameraActive: boolean, onTakePicture: any, newPicture: Picture, newSightStatus: string, showModal: boolean, onSightSubmit: any, onFormClose: any, imageUrl: string }) {
+
     return (
-        !isCameraActive ? <ImageBackground source={imageBg} resizeMode="cover" style={styles.image}>
+        !isCameraActive ? <ImageBackground source={{ uri: imageUrl }} resizeMode="cover" style={styles.image}>
             <MaterialCommunityIcons name="map-marker-plus" size={35} style={styles.markerBt} />
-            <NewSightModalComponent modalFormStatus={newSightStatus} imageUrl={newPicture ? newPicture.uri : ''} showModal={showModal} onSubmit={onSightSubmit} onClose={onFormClose}/>
+            <NewSightModalComponent modalFormStatus={newSightStatus} imageUrl={newPicture ? newPicture.uri : ''} showModal={showModal} onSubmit={onSightSubmit} onClose={onFormClose} />
             <Box style={styles.container}>
                 <Box style={styles.boxContent}>
                     <LocationDetailsComponent />
