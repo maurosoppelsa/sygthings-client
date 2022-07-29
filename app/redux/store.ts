@@ -4,12 +4,12 @@ import { combineReducers } from 'redux';
 import authSlice from './auth-slice';
 import cameraSlice from './camera-slice';
 import newSightSlice from './new-sight-slice';
-import mapSlice from './map-slice';
+import geolocationSlice from './geolocation-slice';
 const reducer = combineReducers({
     authentication: authSlice,
     camera: cameraSlice,
     newSight: newSightSlice,
-    mapImage: mapSlice,
+    geolocationInfo: geolocationSlice,
 })
 const store = configureStore({
   reducer,

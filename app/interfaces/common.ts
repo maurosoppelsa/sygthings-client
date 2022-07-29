@@ -19,3 +19,8 @@ export type Picture = {
     width: number;
     uri: string;
 } | null;
+
+export type Location = {
+    latitude: string;
+    longitude: string;
+};

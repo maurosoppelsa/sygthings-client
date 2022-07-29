@@ -5,25 +5,26 @@ import { useAppDispatch } from '../../redux/store'
 import { toggleCamera, newPicture } from '../../redux/camera-slice';
 import { openModal, closeModal } from '../../redux/new-sight-slice';
 import { useFocusEffect } from '@react-navigation/native';
-import { Picture, Sight } from '../../interfaces/common';
+import { Picture } from '../../interfaces/common';
 import { createSight } from '../../redux/new-sight-slice';
-import { getMapUrl } from '../../redux/map-slice';
+import { getMapUrl, getLocationInfo, setCurrentLocation } from '../../redux/geolocation-slice';
 import Geolocation from '@react-native-community/geolocation';
 import { PermissionsAndroid, View, Text, Image } from 'react-native';
 export default function NewSight() {
   const closeCamera = () => dispatch(toggleCamera({ cameraActive: false }));
   const [hasLocationPermission, setHasLocationPermission] = useState<boolean | null>(null);
-  const [location, setLocation] = useState({ latitude: '', longitude: '' });
   const dispatch = useAppDispatch();
   const isCameraActive = useSelector((state: any) => state.camera.cameraActive);
   const picture = useSelector((state: any) => state.camera.picture);
   const showSightModal = useSelector((state: any) => state.newSight.showSightModal);
   const modalStatus = useSelector((state: any) => state.newSight.modalStatus);
-  const mapImageUrl = useSelector((state: any) => state.mapImage.mapImageUrl);
+  const currentLocation = useSelector((state: any) => state.geolocationInfo.location);
+  const mapImageUrl = useSelector((state: any) => state.geolocationInfo.mapImageUrl);
+  const locationName = useSelector((state: any) => state.geolocationInfo.locationInfo);
   var imageBg = require('../../assets/nature_bg1.jpg');
   const exampleImageUri = Image.resolveAssetSource(imageBg).uri;
 
-  const isLocationEmpty = (location: any) =>  Object.values(location).every(x => (x === null || x === ''));
+  const isLocationEmpty = (location: any) => Object.values(location).every(x => (x === null || x === ''));
 
   useFocusEffect(
     React.useCallback(() => {
@@ -48,14 +49,12 @@ export default function NewSight() {
     })();
     Geolocation.getCurrentPosition(
       (position) => {
-        setLocation({
+        dispatch(setCurrentLocation({
           longitude: JSON.stringify(position.coords.longitude),
           latitude: JSON.stringify(position.coords.latitude),
-        });
-        dispatch(getMapUrl({
-            latitude: JSON.stringify(position.coords.latitude),
-            longitude: JSON.stringify(position.coords.longitude),
         }));
+        dispatch(getMapUrl());
+        dispatch(getLocationInfo());
       }, (error) => alert(error.message), {
       enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
     }
@@ -81,7 +80,7 @@ export default function NewSight() {
         animal: animalInfo.animalName,
         picture,
         condition: animalInfo.condition,
-        location,
+        location: currentLocation,
       }
     }));
   }
@@ -96,7 +95,6 @@ export default function NewSight() {
   if (hasLocationPermission === false) {
     return <Text>No access to geolocation</Text>;
   }
-
   return (
     <NewSightComponent
       onPressCameraBt={handleCamera}
@@ -107,6 +105,7 @@ export default function NewSight() {
       showModal={showSightModal}
       onSightSubmit={onSightSubmit}
       onFormClose={onFormClose}
-      imageUrl={(mapImageUrl !== '' && !isLocationEmpty(location)) ? mapImageUrl : exampleImageUri} />
+      imageUrl={(mapImageUrl !== '' && !isLocationEmpty(currentLocation)) ? mapImageUrl : exampleImageUri}
+      locationName={locationName} />
   );
 }

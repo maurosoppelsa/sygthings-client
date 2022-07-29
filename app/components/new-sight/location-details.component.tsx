@@ -5,7 +5,7 @@ import colors from '../../config/colors';
 import markerIcon from '../../assets/map-marker-icon.png';
 import { Image } from 'react-native';
 
-export default function LocationDetailsComponent() {
+export default function LocationDetailsComponent({locationName}: {locationName: string}) {
     return (
         <Box style={styles.container}>
             <Box>
@@ -13,7 +13,7 @@ export default function LocationDetailsComponent() {
             </Box>
             <Box style={styles.legend}>
                 <Text style={styles.title}>Your location</Text>
-                <Text style={styles.details}>Esteros de Iberá, corrientes</Text>
+                <Text style={styles.details}>{locationName}</Text>
             </Box>
         </Box>
     );

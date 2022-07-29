@@ -6,6 +6,12 @@ Syghtings client is a mobile app that allows to take animals pictures describing
 
 `npm install`
 
+## Build app
+
+`npm run android`
+
+Create the following file inside the android folder: `local.properties`, edit the file adding the following lines: `sdk.dir = /home/[username]/Android/Sdk`, where the username has to be replaced by a real one.
+
 ## Running
 
 `npm start`
