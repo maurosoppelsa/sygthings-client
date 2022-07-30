@@ -1,5 +1,6 @@
 import { mapbox_token, mapbox_base_path, map_size, mapbox_style, mapbox_marker, map_zoom } from "../config/map-settings";
 import { Location } from '../interfaces/common';
+import { locationHandler } from "../utils/geolocation-helper";
 
 export default class GeolocationService {
     private static _instance: GeolocationService = new GeolocationService();
@@ -53,8 +54,7 @@ export default class GeolocationService {
         return fetch(`${this.mapboxBasePath}/geocoding/v5/mapbox.places/${this.location.longitude},${this.location.latitude}.json?access_token=${this.mapboxToken}`)
             .then((response) => response.json())
             .then((json) => {
-                console.log(json);
-                return json?.features[0]?.place_name || "";
+                return locationHandler(json.features[0].context);
             })
             .catch((error) => console.error(error))
     }

@@ -7,7 +7,7 @@ const initialState = {
   error: false,
   loading: false,
   location: {},
-  locationInfo: '',
+  locationInfo: {},
 };
 
 const geoService: GeoLocationService = GeoLocationService.getInstance();
@@ -26,7 +26,7 @@ export const getMapUrl = createAsyncThunk<{ mapUrl: any }>(
   }
 );
 
-export const getLocationInfo = createAsyncThunk<{ locationInfo: string }>(
+export const getLocationInfo = createAsyncThunk<{ locationInfo: {country: string, region: string, place: string} }>(
   "getLocationInfo",
   async () => {
     const response = await geoService.getLocationInfo();

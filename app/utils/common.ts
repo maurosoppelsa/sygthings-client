@@ -1,0 +1,1 @@
+export const hasEmptyProperties = (obj: any) => Object.values(obj).every(x => (x === null || x === ''));

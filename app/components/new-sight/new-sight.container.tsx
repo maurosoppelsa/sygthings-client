@@ -10,6 +10,8 @@ import { createSight } from '../../redux/new-sight-slice';
 import { getMapUrl, getLocationInfo, setCurrentLocation } from '../../redux/geolocation-slice';
 import Geolocation from '@react-native-community/geolocation';
 import { PermissionsAndroid, View, Text, Image } from 'react-native';
+import { locationToLegend } from '../../utils/geolocation-helper';
+import { hasEmptyProperties } from '../../utils/common';
 export default function NewSight() {
   const closeCamera = () => dispatch(toggleCamera({ cameraActive: false }));
   const [hasLocationPermission, setHasLocationPermission] = useState<boolean | null>(null);
@@ -20,11 +22,9 @@ export default function NewSight() {
   const modalStatus = useSelector((state: any) => state.newSight.modalStatus);
   const currentLocation = useSelector((state: any) => state.geolocationInfo.location);
   const mapImageUrl = useSelector((state: any) => state.geolocationInfo.mapImageUrl);
-  const locationName = useSelector((state: any) => state.geolocationInfo.locationInfo);
+  const locationInfo = useSelector((state: any) => state.geolocationInfo.locationInfo);
   var imageBg = require('../../assets/nature_bg1.jpg');
   const exampleImageUri = Image.resolveAssetSource(imageBg).uri;
-
-  const isLocationEmpty = (location: any) => Object.values(location).every(x => (x === null || x === ''));
 
   useFocusEffect(
     React.useCallback(() => {
@@ -105,7 +105,7 @@ export default function NewSight() {
       showModal={showSightModal}
       onSightSubmit={onSightSubmit}
       onFormClose={onFormClose}
-      imageUrl={(mapImageUrl !== '' && !isLocationEmpty(currentLocation)) ? mapImageUrl : exampleImageUri}
-      locationName={locationName} />
+      imageUrl={(mapImageUrl !== '' && !hasEmptyProperties(currentLocation)) ? mapImageUrl : exampleImageUri}
+      locationInfo={locationToLegend(locationInfo)} />
   );
 }

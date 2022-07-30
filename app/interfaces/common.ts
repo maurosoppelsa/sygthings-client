@@ -24,3 +24,10 @@ export type Location = {
     latitude: string;
     longitude: string;
 };
+
+export type LocationDetails = {
+    locality: string;
+    place: string;
+    country: string;
+    region: string;
+}
