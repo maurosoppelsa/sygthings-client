@@ -9,24 +9,20 @@ export default function SightComponent({ sight }: { sight: Sight }) {
         <Box style={styles.container}>
             <Box style={styles.content}>
                 <Box>
-                    <Image style={styles.sightLocation} source={require("../../assets/mapita.png")}></Image>
+                    <Box style={styles.animalNameBox}>
+                        <Text style={styles.animalName} numberOfLines={1} ellipsizeMode='tail'>{sight?.animal}</Text>
+                    </Box>
                     <Image style={styles.animalImage} source={{ uri: sight?.picture?.uri }}></Image>
                 </Box>
                 <Box style={styles.sightsDescription}>
                     <Box style={styles.sightInfoTitleBox}>
-                        <Text style={styles.sightInfoTitleText}>Place:</Text>
-                        <Text style={styles.sightInfoTitleText}>Animal:</Text>
-                        <Text style={styles.sightInfoTitleText}>Condition:</Text>
-                    </Box>
-                    <Box style={styles.sightInfoValue}>
-                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight?.placeName}</Text>
-                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight?.animal}</Text>
-                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight?.condition}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.sightInfoTitleText}>Place: {sight?.placeName}</Text>
+                        <Text style={styles.sightInfoTitleText}>Condition: {sight?.condition}</Text>
+                        <Text style={styles.sightAuthor}>Created by John Doe, 05/02/22 </Text>
                     </Box>
                 </Box>
             </Box>
             <Button title={'See this sight'} style={styles.sightBt}></Button>
-            <Divider></Divider>
         </Box>
     );
 }
@@ -34,17 +30,17 @@ export default function SightComponent({ sight }: { sight: Sight }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        fontSize: 20,
         padding: 5,
+        backgroundColor: colors.white,
     },
     content: {
         flexDirection: 'row',
-        width: '100%',
+        maxHeight: 130,
     },
     sightsDescription: {
         flex: 1,
         flexDirection: 'row',
-        padding: 5,
+        padding: 10,
     },
     sightLocation: {
         alignSelf: 'flex-start',
@@ -55,28 +51,55 @@ const styles = StyleSheet.create({
         borderWidth: 2,
     },
     animalImage: {
-        width: 50,
-        height: 50,
-        borderWidth: 2,
-        borderColor: colors.gray,
-        borderRadius: 100,
+        width: 150,
+        height: 150,
+        zIndex: 0,
+    },
+    animalNameBox: {
         position: "absolute",
-        top: 70,
-        left: 70
+        minHeight: 30,
+        top:120,
+        width: 150,
+        zIndex: 1,
+        backgroundColor: colors.black,
+        opacity: 0.7,
+    },
+    animalName: {
+      position: "absolute",
+      top: 5,
+      alignSelf: "center",
+      color: colors.white, 
+      zIndex: 2, 
+      fontWeight: "bold",
     },
     sightInfoTitleBox: {
-        minWidth: 80
+        minWidth: 70
     },
     sightInfoTitleText: {
-        fontWeight: "bold",
+        fontWeight: "100",
+        lineHeight: 25,
     },
     sightInfoValue: {
-        flex:1
+        flex:1,
+    },
+    sightInfoValueText: {
+        fontWeight: "600",
+        lineHeight: 19,
+        fontSize: 13,
+        color: colors.black
     },
     sightBt: {
         backgroundColor: colors.syghtingGreen,
-        alignSelf: "flex-start",
-        bottom: 30,
-        left: 140
+        alignSelf: "flex-end",
+        bottom: 20,
+        right: 50,
+    },
+    sightAuthor: {
+        minWidth:150,
+        position: 'absolute',
+        top: 60,
+        fontSize: 12,
+        color: colors.gray,
+        fontStyle:"italic",
     }
 });
