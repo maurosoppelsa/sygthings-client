@@ -1,27 +1,27 @@
 import React from "react";
 import { Image, Text, StyleSheet } from "react-native";
-import { Box, Button, Divider } from "@react-native-material/core";
-import colors from '../../../config/colors';
-import { Sight } from "../../../interfaces/common";
+import { Box, Divider, Button } from "@react-native-material/core";
+import colors from '../../config/colors';
+import { Sight } from "../../interfaces/common";
 
 export default function SightComponent({ sight }: { sight: Sight }) {
     return (
         <Box style={styles.container}>
             <Box style={styles.content}>
                 <Box>
-                    <Image style={styles.sightLocation} source={require("../../../assets/mapita.png")}></Image>
-                    <Image style={styles.animalImage} source={{ uri: sight.picture }}></Image>
+                    <Image style={styles.sightLocation} source={require("../../assets/mapita.png")}></Image>
+                    <Image style={styles.animalImage} source={{ uri: sight?.picture?.uri }}></Image>
                 </Box>
                 <Box style={styles.sightsDescription}>
                     <Box style={styles.sightInfoTitleBox}>
-                        <Text style={styles.sightInfoTitleText}>Province:</Text>
+                        <Text style={styles.sightInfoTitleText}>Place:</Text>
                         <Text style={styles.sightInfoTitleText}>Animal:</Text>
                         <Text style={styles.sightInfoTitleText}>Condition:</Text>
                     </Box>
                     <Box style={styles.sightInfoValue}>
-                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight.province}</Text>
-                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight.animal}</Text>
-                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight.condition}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight?.placeName}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight?.animal}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail'>{sight?.condition}</Text>
                     </Box>
                 </Box>
             </Box>

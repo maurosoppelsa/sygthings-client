@@ -1,33 +1,19 @@
-import { Box } from '@react-native-material/core';
 import React from 'react';
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import MySights from '../components/my-sights/my-sights.container';
 import colors from '../config/colors';
 
 export default function MySightsScreen() {
     return (
         <View style={styles.container}>
-            <Box style={styles.box}>
-                <Text style={styles.text}>
-                    My Sights Screen
-                </Text>
-            </Box>
+            <MySights/>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        alignItems:'center',
         backgroundColor: colors.white,
         flex: 1,
-        flexDirection: "row",
-    },
-    box: {
-        flex:1,
-        flexDirection: 'column',
-    },
-    text: {
-        alignSelf:'center',
-        color:colors.black,
     }
 });

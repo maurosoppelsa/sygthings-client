@@ -13,7 +13,7 @@ export default function NewSightComponent({ onPressCameraBt, isCameraActive, onT
     return (
         !isCameraActive ? <ImageBackground source={{ uri: imageUrl }} resizeMode="cover" style={styles.image}>
             <MaterialCommunityIcons name="map-marker-plus" size={35} style={styles.markerBt} />
-            <NewSightModalComponent modalFormStatus={newSightStatus} imageUrl={newPicture ? newPicture.uri : ''} showModal={showModal} onSubmit={onSightSubmit} onClose={onFormClose} />
+            <NewSightModalComponent modalFormStatus={newSightStatus} imageUrl={newPicture ? newPicture.uri : ''} showModal={showModal} onSubmit={onSightSubmit} onClose={onFormClose} locationInfo={locationInfo}/>
             <Box style={styles.container}>
                 <Box style={styles.boxContent}>
                     <LocationDetailsComponent locationInfo={locationInfo}/>

@@ -6,8 +6,13 @@ export type User = {
 
 export type Sight = {
     animal: string;
-    picture: string;
+    picture: {
+        height: number,
+        uri: string,
+        with: number,
+    },
     condition: string;
+    placeName: string;
     location: {
         latitude: string;
         longitude: string;

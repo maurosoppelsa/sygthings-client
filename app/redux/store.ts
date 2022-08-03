@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux';
 import { combineReducers } from 'redux';
 import authSlice from './auth-slice';
 import cameraSlice from './camera-slice';
-import newSightSlice from './new-sight-slice';
+import sightSlice from './sight-slice';
 import geolocationSlice from './geolocation-slice';
 const reducer = combineReducers({
     authentication: authSlice,
     camera: cameraSlice,
-    newSight: newSightSlice,
+    sight: sightSlice,
     geolocationInfo: geolocationSlice,
 })
 const store = configureStore({

@@ -3,10 +3,10 @@ import NewSightComponent from './new-sight.component';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux/store'
 import { toggleCamera, newPicture } from '../../redux/camera-slice';
-import { openModal, closeModal } from '../../redux/new-sight-slice';
+import { openModal, closeModal } from '../../redux/sight-slice';
 import { useFocusEffect } from '@react-navigation/native';
 import { Picture } from '../../interfaces/common';
-import { createSight } from '../../redux/new-sight-slice';
+import { createSight } from '../../redux/sight-slice';
 import { getMapUrl, getLocationInfo, setCurrentLocation } from '../../redux/geolocation-slice';
 import Geolocation from '@react-native-community/geolocation';
 import { PermissionsAndroid, View, Text, Image } from 'react-native';
@@ -18,8 +18,8 @@ export default function NewSight() {
   const dispatch = useAppDispatch();
   const isCameraActive = useSelector((state: any) => state.camera.cameraActive);
   const picture = useSelector((state: any) => state.camera.picture);
-  const showSightModal = useSelector((state: any) => state.newSight.showSightModal);
-  const modalStatus = useSelector((state: any) => state.newSight.modalStatus);
+  const showSightModal = useSelector((state: any) => state.sight.showSightModal);
+  const modalStatus = useSelector((state: any) => state.sight.modalStatus);
   const currentLocation = useSelector((state: any) => state.geolocationInfo.location);
   const mapImageUrl = useSelector((state: any) => state.geolocationInfo.mapImageUrl);
   const locationInfo = useSelector((state: any) => state.geolocationInfo.locationInfo);
@@ -76,10 +76,11 @@ export default function NewSight() {
 
   const onSightSubmit = (animalInfo: any) => {
     dispatch(createSight({
-      newSight: {
+      sight: {
         animal: animalInfo.animalName,
         picture,
         condition: animalInfo.condition,
+        placeName: animalInfo.placeName,
         location: currentLocation,
       }
     }));

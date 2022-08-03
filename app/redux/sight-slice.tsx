@@ -9,17 +9,19 @@ const initialState: newSightState = {
   showSightModal: false,
   error: false,
   newSight: null,
+  mySights:[],
   modalStatus: SIGHT_MODAL_STATUS.NEW,
 };
 
-export const createSight = createAsyncThunk<{ newSight: Sight }, { newSight: Sight }>(
+export const createSight = createAsyncThunk<{ sight: Sight }, { sight: Sight }>(
   "createSight",
-  async (newSight: any) => {
-    console.log(newSight);
+  async ({sight}) => {
+    console.log(sight);
     const response = await fakeResp(true, 1000);
     if (response.success) {
       return {
-        newSight: response.body ?? [],
+        sight,
+        // newSight: response.body ?? [],
       };
     } else {
       throw "Error creating sight";
@@ -27,8 +29,8 @@ export const createSight = createAsyncThunk<{ newSight: Sight }, { newSight: Sig
   }
 );
 
-const newSightSlice = createSlice({
-  name: "newSightSlice",
+const sightSlice = createSlice({
+  name: "sightSlice",
   initialState,
   reducers: {
     openModal: (state: any) => {
@@ -46,8 +48,9 @@ const newSightSlice = createSlice({
         state.error = false;
       })
       .addCase(createSight.fulfilled, (state, action) => {
-        state.newSight = action.payload.newSight;
+        state.newSight = action.payload.sight;
         state.modalStatus = SIGHT_MODAL_STATUS.SUCCESS;
+        state.mySights = [...state.mySights, action.payload.sight];
       })
       .addCase(createSight.rejected, (state) => {
         state.error = true;
@@ -56,5 +59,5 @@ const newSightSlice = createSlice({
   },
 });
 
-export const { openModal, closeModal } = newSightSlice.actions;
-export default newSightSlice.reducer;
+export const { openModal, closeModal } = sightSlice.actions;
+export default sightSlice.reducer;

@@ -15,7 +15,19 @@ export type AppState = {
 
 export type newSightState = {
     newSight: Sight,
+    mySights: Sight[],
     showSightModal: boolean,
     error: boolean | undefined,
     modalStatus: SIGHT_MODAL_STATUS,
 };
+
+export type picture = {
+    height: number,
+    uri: string,
+    with: number,
+};
+
+export type location = {
+    latitude: string,
+    longitude: string,
+}

@@ -54,7 +54,7 @@ export default class GeolocationService {
         return fetch(`${this.mapboxBasePath}/geocoding/v5/mapbox.places/${this.location.longitude},${this.location.latitude}.json?access_token=${this.mapboxToken}`)
             .then((response) => response.json())
             .then((json) => {
-                return locationHandler(json.features[0].context);
+                return locationHandler(json?.features[0]?.context);
             })
             .catch((error) => console.error(error))
     }

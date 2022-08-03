@@ -5,7 +5,7 @@ import { RadioButton } from 'react-native-paper';
 import colors from "../../../config/colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function NewSightFormComponent({ imageUrl, onSubmit }: { imageUrl: { uri: string }, onSubmit: any }) {
+export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo }: { imageUrl: { uri: string }, onSubmit: any, locationInfo: string }) {
     const [animalName, onChangeAnimalName] = React.useState("");
     const [checked, setChecked] = React.useState('Alive');
     return (
@@ -43,12 +43,12 @@ export default function NewSightFormComponent({ imageUrl, onSubmit }: { imageUrl
             </Box>
             <Box style={styles.locationLegend}>
                 <MaterialCommunityIcons name="map-marker" size={30} style={styles.locationIcon} />
-                <Text style={styles.locationTxt}>Esteros de Iberá, Corrientes</Text>
+                <Text style={styles.locationTxt}>{locationInfo}</Text>
             </Box>
             <Pressable
                 disabled={!animalName}
                 style={[styles.buttonSubmit, !animalName ? styles.buttonDisabled : styles.buttonEnabled]}
-                onPress={() => onSubmit({animalName, condition: checked})}
+                onPress={() => onSubmit({ animalName, condition: checked, placeName: locationInfo })}
             >
                 <Text style={styles.textStyle}>Submit</Text>
             </Pressable>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         minWidth: 120,
         elevation: 2,
         alignSelf: "center",
-        
+
     },
     buttonDisabled: {
         backgroundColor: colors.lightGray,

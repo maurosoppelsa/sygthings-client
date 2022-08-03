@@ -1,5 +1,5 @@
 import React, { useState, useEffect, RefObject, useRef } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, PermissionsAndroid } from 'react-native';
 import { Camera } from 'expo-camera';
 import CameraButtonComponent from './camera-button.component';
 import { Picture } from '../../interfaces/common';
@@ -16,8 +16,18 @@ export default function CameraComponent({ onTakePicture }: { onTakePicture: any 
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
+      const grantedPermisions = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: "Camera permisions",
+          message:
+            "to create a new sight we need to access to your camera",
+          buttonNeutral: "Ask Me Later",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK"
+        }
+      );
+      setHasPermission(grantedPermisions === 'granted');
     })();
   }, []);
 
@@ -26,9 +36,9 @@ export default function CameraComponent({ onTakePicture }: { onTakePicture: any 
       setLoadingPicture(true);
       /*     await camera.current.pausePreview(); 
           await camera.current.resumePreview(); */
-          const picture: Picture = await camera.current.takePictureAsync(options);
-          onTakePicture(picture);
-    } catch(err){
+      const picture: Picture = await camera.current.takePictureAsync(options);
+      onTakePicture(picture);
+    } catch (err) {
       /**
        * should handle error on camera here... 
        */

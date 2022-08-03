@@ -7,6 +7,9 @@ export const locationHandler = (locationDetails: any) => {
         region: '',
         country: '',
     }
+    if (!locationDetails) {
+        return;
+    }
     locationDetails.map((location: any) => {
         Object.keys(locationFormat).map((key) => {
             if (location.id.startsWith(key)) {
