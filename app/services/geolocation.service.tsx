@@ -1,4 +1,4 @@
-import { mapbox_token, mapbox_base_path, map_size, mapbox_style, mapbox_marker, map_zoom } from "../config/map-settings";
+import { mapbox_token, mapbox_base_path, map_size, mapbox_style, mapbox_marker, map_image_zoom } from "../config/map-settings";
 import { Location } from '../interfaces/common';
 import { locationHandler } from "../utils/geolocation-helper";
 
@@ -28,7 +28,7 @@ export default class GeolocationService {
         this.marker = mapbox_marker;
         this.size = map_size;
         this.style = mapbox_style;
-        this.zoom = map_zoom;
+        this.zoom = map_image_zoom;
     }
 
     public setLocation(location: Location) {
