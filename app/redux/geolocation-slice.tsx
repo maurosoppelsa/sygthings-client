@@ -8,6 +8,7 @@ const initialState = {
   loading: false,
   location: {},
   locationInfo: {},
+  showLocationModal: false,
 };
 
 const geoService: GeoLocationService = GeoLocationService.getInstance();
@@ -53,7 +54,11 @@ export const setCurrentLocation = createAsyncThunk(
 const geolocationSlice = createSlice({
   name: "mapSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleLocationModal: (state: any) => {
+        state.showLocationModal = !state.showLocationModal;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getMapUrl.pending, (state) => {
@@ -87,3 +92,4 @@ const geolocationSlice = createSlice({
 });
 
 export default geolocationSlice.reducer;
+export const {toggleLocationModal} = geolocationSlice.actions;

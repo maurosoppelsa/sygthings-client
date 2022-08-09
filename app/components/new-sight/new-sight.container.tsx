@@ -7,7 +7,7 @@ import { openModal, closeModal } from '../../redux/sight-slice';
 import { useFocusEffect } from '@react-navigation/native';
 import { Picture } from '../../interfaces/common';
 import { createSight } from '../../redux/sight-slice';
-import { getMapUrl, getLocationInfo, setCurrentLocation } from '../../redux/geolocation-slice';
+import { getMapUrl, getLocationInfo, setCurrentLocation, toggleLocationModal } from '../../redux/geolocation-slice';
 import Geolocation from '@react-native-community/geolocation';
 import { PermissionsAndroid, View, Text, Image } from 'react-native';
 import { locationToLegend } from '../../utils/geolocation-helper';
@@ -23,6 +23,7 @@ export default function NewSight() {
   const currentLocation = useSelector((state: any) => state.geolocationInfo.location);
   const mapImageUrl = useSelector((state: any) => state.geolocationInfo.mapImageUrl);
   const locationInfo = useSelector((state: any) => state.geolocationInfo.locationInfo);
+  const showChangeLocationModal = useSelector((state: any) => state.geolocationInfo.showLocationModal);
   var imageBg = require('../../assets/nature_bg1.jpg');
   const exampleImageUri = Image.resolveAssetSource(imageBg).uri;
 
@@ -90,6 +91,27 @@ export default function NewSight() {
     dispatch(closeModal());
   }
 
+  const openUpdateLocationModal = () => {
+    dispatch(toggleLocationModal());
+    dispatch(openModal());
+  }
+
+  const onUpdateLocation = (coordinates: Number[]) => {
+    dispatch(setCurrentLocation({
+      longitude: coordinates[0].toString(),
+      latitude: coordinates[1].toString(),
+    }));
+    dispatch(getMapUrl());
+    dispatch(getLocationInfo());
+    dispatch(toggleLocationModal());
+    dispatch(closeModal());
+  }
+
+  const onCloseLocationModal = () => {
+    dispatch(toggleLocationModal());
+    dispatch(closeModal());
+  }
+
   if (hasLocationPermission === null) {
     return <View />;
   }
@@ -107,6 +129,11 @@ export default function NewSight() {
       onSightSubmit={onSightSubmit}
       onFormClose={onFormClose}
       imageUrl={(mapImageUrl !== '' && !hasEmptyProperties(currentLocation)) ? mapImageUrl : exampleImageUri}
-      locationInfo={locationToLegend(locationInfo)} />
+      locationInfo={locationToLegend(locationInfo)}
+      onChangeLocation={openUpdateLocationModal}
+      showLocationModal={showChangeLocationModal}
+      onUpdateLocation={onUpdateLocation}
+      onCloseLocationModal={onCloseLocationModal}
+      location={currentLocation} />
   );
 }

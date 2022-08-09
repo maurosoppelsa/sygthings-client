@@ -51,6 +51,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
         marginBottom: 20,
+        shadowColor: colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
     },
     success: {
         color: 'green',

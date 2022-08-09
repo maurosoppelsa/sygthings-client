@@ -4,7 +4,7 @@ import { Sight } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import { ScrollView, Text, StyleSheet } from 'react-native';
 import SightComponent from '../sight/sight.component';
-import colors from '../../config/colors';
+import TitleComponent from '../common/title-component';
 
 
 export default function MySights() {
@@ -18,6 +18,7 @@ export default function MySights() {
     return (
         <Box style={styles.container}>
             <ScrollView>
+            <TitleComponent title="My Sights" />
                 {mySights.map((sight, key) => {
                     return (
                         <Box key={key}>

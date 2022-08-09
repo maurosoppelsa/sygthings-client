@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     modalForm: {
         width: '90%',
         backgroundColor: colors.white,
-        borderRadius: 5,
         padding: 25,
         alignItems: "flex-start",
         shadowColor: colors.black,

@@ -5,18 +5,26 @@ import LocationDetailsComponent from './location-details.component';
 import colors from '../../config/colors';
 import CameraComponent from './camera.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Picture } from '../../interfaces/common';
+import { Location, Picture } from '../../interfaces/common';
 import NewSightModalComponent from './new-sight-modal/new-sight-modal.component';
 
-export default function NewSightComponent({ onPressCameraBt, isCameraActive, onTakePicture, newPicture, newSightStatus, showModal, onSightSubmit, onFormClose, imageUrl, locationInfo }:
-    { onPressCameraBt: any, isCameraActive: boolean, onTakePicture: any, newPicture: Picture, newSightStatus: string, showModal: boolean, onSightSubmit: any, onFormClose: any, imageUrl: string, locationInfo: any }) {
+export default function NewSightComponent({ onPressCameraBt, isCameraActive, onTakePicture, newPicture, newSightStatus, showModal, onSightSubmit, onFormClose, imageUrl, locationInfo, onChangeLocation, showLocationModal, onUpdateLocation, onCloseLocationModal, location }:
+    { onPressCameraBt: any, isCameraActive: boolean, onTakePicture: any, newPicture: Picture, newSightStatus: string, showModal: boolean, onSightSubmit: any, onFormClose: any, imageUrl: string, locationInfo: any, onChangeLocation: any, showLocationModal:boolean, onUpdateLocation: any, onCloseLocationModal: any, location: Location }) {
     return (
         !isCameraActive ? <ImageBackground source={{ uri: imageUrl }} resizeMode="cover" style={styles.image}>
-            <MaterialCommunityIcons name="map-marker-plus" size={35} style={styles.markerBt} />
-            <NewSightModalComponent modalFormStatus={newSightStatus} imageUrl={newPicture ? newPicture.uri : ''} showModal={showModal} onSubmit={onSightSubmit} onClose={onFormClose} locationInfo={locationInfo}/>
+            <MaterialCommunityIcons name="map-marker-plus" size={35} style={styles.markerBt} onPress={() => onChangeLocation()} />
+            <NewSightModalComponent 
+            modalFormStatus={newSightStatus} 
+            imageUrl={newPicture ? newPicture.uri : ''} 
+            showModal={showModal} onSubmit={onSightSubmit} 
+            onClose={onFormClose} locationInfo={locationInfo} 
+            showLocationModal={showLocationModal} 
+            onUpdateLocation={onUpdateLocation} 
+            onCloseLocationModal={onCloseLocationModal}
+            location={location}/>
             <Box style={styles.container}>
                 <Box style={styles.boxContent}>
-                    <LocationDetailsComponent locationInfo={locationInfo}/>
+                    <LocationDetailsComponent locationInfo={locationInfo} />
                     <Button style={styles.newSightBt} title='Create new sight' onPress={onPressCameraBt}></Button>
                 </Box>
             </Box>

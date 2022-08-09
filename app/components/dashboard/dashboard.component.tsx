@@ -5,6 +5,7 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import colors from '../../config/colors';
 import SightComponent from "../sight/sight.component";
 import { Sight } from "../../interfaces/common";
+import TitleComponent from "../common/title-component";
 
 
 export default function DashboardComponent({ lastSightsList }: { lastSightsList: Array<Sight> }) {
@@ -16,6 +17,7 @@ export default function DashboardComponent({ lastSightsList }: { lastSightsList:
         <Box style={styles.sectionContainer}>
           <Box style={styles.mainSection}>
             <ScrollView>
+              <TitleComponent title="Last Sights" />
               {lastSightsList.map((sight, key) => {
                 return (
                   <SightComponent sight={sight} key={key} />

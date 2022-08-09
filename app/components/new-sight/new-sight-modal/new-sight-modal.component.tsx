@@ -1,12 +1,21 @@
 import React from "react";
-import { Modal, StyleSheet, View } from "react-native";
+import { Modal, StyleSheet, View, Text } from "react-native";
 import { SIGHT_MODAL_STATUS } from "../../../constants";
+import { Location } from "../../../interfaces/common";
+import ChangeLocationComponent from "./change-location.component";
 import NewSightFormComponent from "./new-sight-form.component";
 import NewSightLegendStatus from "./new-sight-leyend-status.component";
 
-const NewSightModalComponent = ({ modalFormStatus, imageUrl, showModal, onSubmit, onClose, locationInfo }: { modalFormStatus: string, imageUrl: string, showModal: boolean, onSubmit: any, onClose: any, locationInfo: string }) => {
-  const ModalContent = () => modalFormStatus === SIGHT_MODAL_STATUS.NEW ? <NewSightFormComponent imageUrl={{ uri: imageUrl }} onSubmit={onSubmit} locationInfo={locationInfo} /> :
-    <NewSightLegendStatus status={modalFormStatus} onClose={onClose} />
+const NewSightModalComponent = ({ modalFormStatus, imageUrl, showModal, onSubmit, onClose, locationInfo, showLocationModal, onUpdateLocation, onCloseLocationModal, location }: { modalFormStatus: string, imageUrl: string, showModal: boolean, onSubmit: any, onClose: any, locationInfo: string, showLocationModal: boolean, onUpdateLocation: any, onCloseLocationModal: any, location: Location }) => {
+  const ModalContent = () => {
+    if (showLocationModal) {
+      return <ChangeLocationComponent onUpdatelocation={onUpdateLocation} onClose={onCloseLocationModal} location={location}/>;
+    } else if (modalFormStatus === SIGHT_MODAL_STATUS.NEW) {
+      return <NewSightFormComponent imageUrl={{ uri: imageUrl }} onSubmit={onSubmit} locationInfo={locationInfo} />
+    } else {
+      return <NewSightLegendStatus status={modalFormStatus} onClose={onClose} />
+    }
+  }
   return (
     <View style={styles.centeredView}>
       <Modal

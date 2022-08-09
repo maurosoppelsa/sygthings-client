@@ -7,3 +7,6 @@ export const map_size = {
 export const mapbox_style = 'outdoors-v11';
 export const mapbox_marker = 'pin-s-l+000';
 export const map_zoom = '11';
+
+const mapliter_key = 'YJZYI4SXhXxTI50OhBym';
+export const mapliter_url = `https://api.maptiler.com/maps/outdoor/style.json?key=${mapliter_key}`;
