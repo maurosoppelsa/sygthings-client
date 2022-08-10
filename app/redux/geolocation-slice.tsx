@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Location } from "../interfaces/common";
+import { Coordinates } from "../interfaces/common";
 import GeoLocationService from "../services/geolocation.service";
 
 const initialState = {
   mapImageUrl: '',
   error: false,
   loading: false,
-  location: {},
+  coordinates: {},
   locationInfo: {},
   showLocationModal: false,
 };
@@ -41,12 +41,12 @@ export const getLocationInfo = createAsyncThunk<{ locationInfo: {country: string
   }
 );
 
-export const setCurrentLocation = createAsyncThunk(
+export const setCurrentCoordinates = createAsyncThunk(
   "setCurrentLocation",
-  (location: Location) => {
-    geoService.setLocation(location);
+  (coordinates: Coordinates) => {
+    geoService.setLocation(coordinates);
     return {
-      location,
+      coordinates,
     };
   }
 );
@@ -77,8 +77,8 @@ const geolocationSlice = createSlice({
         state.error = false;
         state.loading = true;
       })
-      .addCase(setCurrentLocation.fulfilled, (state, action) => {
-        state.location = action.payload.location;
+      .addCase(setCurrentCoordinates.fulfilled, (state, action) => {
+        state.coordinates = action.payload.coordinates;
       })
       .addCase(getLocationInfo.fulfilled, (state, action) => {
         state.locationInfo = action.payload.locationInfo;

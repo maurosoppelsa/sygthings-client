@@ -30,6 +30,11 @@ export type Location = {
     longitude: string;
 };
 
+export type Coordinates = {
+    latitude: string;
+    longitude: string;
+};
+
 export type LocationDetails = {
     locality: string;
     place: string;

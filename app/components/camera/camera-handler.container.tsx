@@ -1,18 +1,29 @@
-import React, { useState, useEffect, RefObject, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View, PermissionsAndroid } from 'react-native';
 import { Camera } from 'expo-camera';
 import CameraButtonComponent from './camera-button.component';
 import { Picture } from '../../interfaces/common';
 import colors from '../../config/colors';
 import { Box } from '@react-native-material/core';
+import { toggleCamera, newPicture } from '../../redux/camera-slice';
+import { useAppDispatch } from '../../redux/store'
+import { useFocusEffect } from '@react-navigation/native';
 
-export default function CameraComponent({ onTakePicture }: { onTakePicture: any }) {
+export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [cameraType] = useState(Camera.Constants.Type.back);
   const [loadingPicture, setLoadingPicture] = useState(false);
+  const dispatch = useAppDispatch();
+  const closeCamera = () => dispatch(toggleCamera({ cameraActive: false }));
 
   const camera = useRef(null);
   const options = { quality: 0.5 };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => closeCamera();
+    }, [])
+  );
 
   useEffect(() => {
     (async () => {
@@ -37,7 +48,13 @@ export default function CameraComponent({ onTakePicture }: { onTakePicture: any 
       /*     await camera.current.pausePreview(); 
           await camera.current.resumePreview(); */
       const picture: Picture = await camera.current.takePictureAsync(options);
-      onTakePicture(picture);
+      const pictureTaked = {
+        with: picture?.width,
+        height: picture?.height,
+        uri: picture?.uri,
+      }
+      dispatch(newPicture(pictureTaked));
+      onTakePicture();
     } catch (err) {
       /**
        * should handle error on camera here... 

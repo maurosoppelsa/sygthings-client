@@ -7,7 +7,7 @@ import { mapbox_token, map_style, map_zoom_level } from "../../../config/map-set
 import { Location } from '../../../interfaces/common';
 
 
-export default function ChangeLocationComponent({ onUpdatelocation, onClose, location }: { onUpdatelocation: any, onClose: any, location: Location }) {
+export default function MapComponent({ onUpdatelocation, onClose, location }: { onUpdatelocation: any, onClose: any, location: Location }) {
     const [coordinates, setCoordinates] = useState([parseInt(location.longitude), parseInt(location.latitude)]);
     MapboxGL.setAccessToken(mapbox_token);
 

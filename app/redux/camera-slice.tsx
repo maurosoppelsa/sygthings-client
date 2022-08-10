@@ -6,7 +6,6 @@ const cameraSlice = createSlice({
     reducers: {
         toggleCamera: (state: any, action: any) => {
             state.cameraActive = action.payload.cameraActive;
-            state.picture = null;
         },
         newPicture: (state: any, action: any) => {
             state.picture = action.payload;

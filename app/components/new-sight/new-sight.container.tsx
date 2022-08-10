@@ -1,37 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import NewSightComponent from './new-sight.component';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux/store'
-import { toggleCamera, newPicture } from '../../redux/camera-slice';
+import { toggleCamera } from '../../redux/camera-slice';
 import { openModal, closeModal } from '../../redux/sight-slice';
-import { useFocusEffect } from '@react-navigation/native';
-import { Picture } from '../../interfaces/common';
 import { createSight } from '../../redux/sight-slice';
-import { getMapUrl, getLocationInfo, setCurrentLocation, toggleLocationModal } from '../../redux/geolocation-slice';
+import { getMapUrl, getLocationInfo, setCurrentCoordinates, toggleLocationModal } from '../../redux/geolocation-slice';
 import Geolocation from '@react-native-community/geolocation';
-import { PermissionsAndroid, View, Text, Image } from 'react-native';
+import { PermissionsAndroid, Text, StyleSheet } from 'react-native';
 import { locationToLegend } from '../../utils/geolocation-helper';
 import { hasEmptyProperties } from '../../utils/common';
+import CameraHandler from '../camera/camera-handler.container';
+import LocationDetailsComponent from './location-details.component';
+import colors from '../../config/colors';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import NewSightModalComponent from './new-sight-modal/new-sight-modal.component';
+import { Box, Button } from '@react-native-material/core';
+import BackgroundComponent from '../common/background.component';
+
 export default function NewSight() {
-  const closeCamera = () => dispatch(toggleCamera({ cameraActive: false }));
   const [hasLocationPermission, setHasLocationPermission] = useState<boolean | null>(null);
   const dispatch = useAppDispatch();
   const isCameraActive = useSelector((state: any) => state.camera.cameraActive);
   const picture = useSelector((state: any) => state.camera.picture);
   const showSightModal = useSelector((state: any) => state.sight.showSightModal);
   const modalStatus = useSelector((state: any) => state.sight.modalStatus);
-  const currentLocation = useSelector((state: any) => state.geolocationInfo.location);
+  const currentCoordinates = useSelector((state: any) => state.geolocationInfo.coordinates);
   const mapImageUrl = useSelector((state: any) => state.geolocationInfo.mapImageUrl);
   const locationInfo = useSelector((state: any) => state.geolocationInfo.locationInfo);
   const showChangeLocationModal = useSelector((state: any) => state.geolocationInfo.showLocationModal);
-  var imageBg = require('../../assets/nature_bg1.jpg');
-  const exampleImageUri = Image.resolveAssetSource(imageBg).uri;
-
-  useFocusEffect(
-    React.useCallback(() => {
-      return () => closeCamera();
-    }, [])
-  );
 
   useEffect(() => {
     (async () => {
@@ -50,7 +46,7 @@ export default function NewSight() {
     })();
     Geolocation.getCurrentPosition(
       (position) => {
-        dispatch(setCurrentLocation({
+        dispatch(setCurrentCoordinates({
           longitude: JSON.stringify(position.coords.longitude),
           latitude: JSON.stringify(position.coords.latitude),
         }));
@@ -62,16 +58,11 @@ export default function NewSight() {
     );
   }, []);
 
-  const handleCamera = () => {
+  const activateCamera = () => {
     dispatch(toggleCamera({ cameraActive: true }));
   };
-  const takePicture = (picture: Picture) => {
-    const pictureTaked = {
-      with: picture?.width,
-      height: picture?.height,
-      uri: picture?.uri,
-    }
-    dispatch(newPicture(pictureTaked));
+
+  const onTakePicture = () => {
     dispatch(openModal());
   }
 
@@ -82,7 +73,7 @@ export default function NewSight() {
         picture,
         condition: animalInfo.condition,
         placeName: animalInfo.placeName,
-        location: currentLocation,
+        location: currentCoordinates,
       }
     }));
   }
@@ -97,7 +88,7 @@ export default function NewSight() {
   }
 
   const onUpdateLocation = (coordinates: Number[]) => {
-    dispatch(setCurrentLocation({
+    dispatch(setCurrentCoordinates({
       longitude: coordinates[0].toString(),
       latitude: coordinates[1].toString(),
     }));
@@ -112,28 +103,64 @@ export default function NewSight() {
     dispatch(closeModal());
   }
 
-  if (hasLocationPermission === null) {
-    return <View />;
-  }
-  if (hasLocationPermission === false) {
+  if (hasLocationPermission === null || hasLocationPermission === false) {
     return <Text>No access to geolocation</Text>;
   }
+
   return (
-    <NewSightComponent
-      onPressCameraBt={handleCamera}
-      isCameraActive={isCameraActive}
-      onTakePicture={(picture: Picture) => { takePicture(picture) }}
-      newPicture={picture}
-      newSightStatus={modalStatus}
-      showModal={showSightModal}
-      onSightSubmit={onSightSubmit}
-      onFormClose={onFormClose}
-      imageUrl={(mapImageUrl !== '' && !hasEmptyProperties(currentLocation)) ? mapImageUrl : exampleImageUri}
-      locationInfo={locationToLegend(locationInfo)}
-      onChangeLocation={openUpdateLocationModal}
-      showLocationModal={showChangeLocationModal}
-      onUpdateLocation={onUpdateLocation}
-      onCloseLocationModal={onCloseLocationModal}
-      location={currentLocation} />
+    !isCameraActive ?
+      <BackgroundComponent imageUrl={mapImageUrl} enableDefault={hasEmptyProperties(currentCoordinates)}>
+        <MaterialCommunityIcons name="map-marker-plus" size={35} style={styles.markerBt} onPress={() => openUpdateLocationModal()} />
+        <NewSightModalComponent
+          modalFormStatus={modalStatus}
+          imageUrl={picture ? picture.uri : ''}
+          showModal={showSightModal} onSubmit={onSightSubmit}
+          onClose={onFormClose} locationInfo={locationToLegend(locationInfo)}
+          showLocationModal={showChangeLocationModal}
+          onUpdateLocation={onUpdateLocation}
+          onCloseLocationModal={onCloseLocationModal}
+          location={currentCoordinates} />
+        <Box style={styles.locationDetailcontainer}>
+          <Box style={styles.locationDetailContent}>
+            <LocationDetailsComponent locationInfo={locationToLegend(locationInfo)} />
+            <Button style={styles.newSightBt} title='Create new sight' onPress={() => activateCamera()}></Button>
+          </Box>
+        </Box>
+      </BackgroundComponent>
+      : <CameraHandler onTakePicture={onTakePicture} />
   );
 }
+
+const styles = StyleSheet.create({
+  markerBt: {
+    alignSelf: 'flex-end',
+    marginRight: 15,
+    marginTop: 10,
+    color: colors.black,
+  },
+  newSightLegend: {
+    paddingLeft: 12,
+  },
+  locationDetailContent: {
+    flex: 1,
+    flexDirection: 'column',
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 60,
+  },
+  locationDetailcontainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  newSightBox: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  newSightBt: {
+    borderRadius: 5,
+    backgroundColor: colors.syghtingGreen,
+    marginTop: 30,
+    alignSelf: 'center',
+  }
+});
