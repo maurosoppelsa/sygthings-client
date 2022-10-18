@@ -1,11 +1,21 @@
 import { Box, Flex } from '@react-native-material/core';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../../config/colors';
-import PersonCircleComponent from './person-circle.component';
+import PersonCircleComponent from './profile-circle.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import TotalSightsComponent from './total-sights.component';
+import { useAppDispatch } from '../../redux/store';
+import { logout } from '../../redux/auth-slice';
+import { Sight } from '../../interfaces/common';
+import { useSelector } from 'react-redux';
 
 export default function Profile() {
+
+    const dispatch = useAppDispatch();
+    const logoutUser = () => dispatch(logout());
+    const mySights: Array<Sight> = useSelector((state: any) => state.sight.mySights);
+
     return (
         <View style={styles.container}>
             <Box style={styles.profileContent}>
@@ -21,10 +31,14 @@ export default function Profile() {
                     <MaterialCommunityIcons style={styles.mailIcon} name="email-outline" size={15} onPress={() => () => { }} />
                     <Text style={styles.email}>some.email@email.com</Text>
                 </Box>
-                <Box style={styles.logoutBox}>
-                    <MaterialCommunityIcons style={styles.logoutIcon} name="power-standby" size={20} onPress={() => () => { }} />
-                    <Text style={styles.logoutTxt}>Log out</Text>
+                <Box style={styles.totalSightsContent}>
+                    <TotalSightsComponent sightsAmount={mySights.length} />
+                    <Text style={styles.sightsLegend}>Thanks for your help! Animals around the world will appreciate your effort.</Text>
                 </Box>
+                <TouchableOpacity style={styles.logoutBox} onPress={() => logoutUser()}>
+                    <MaterialCommunityIcons style={styles.logoutIcon} name="power-standby" size={20} />
+                    <Text style={styles.logoutTxt}>Log out</Text>
+                </TouchableOpacity>
             </Box>
         </View>
     );
@@ -35,6 +49,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         padding: 20,
         backgroundColor: colors.white,
+        height: '100%',
     },
     profileContent: {
         display: 'flex',
@@ -55,7 +70,7 @@ const styles = StyleSheet.create({
     personInfoContent: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 20,
+        marginTop: 10,
     },
     editBt: {
         alignSelf: 'flex-end',
@@ -72,7 +87,8 @@ const styles = StyleSheet.create({
     logoutBox: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 20,
+        marginTop: 25,
+        alignSelf: 'center'
     },
     logoutIcon: {
         color: colors.red,
@@ -81,5 +97,17 @@ const styles = StyleSheet.create({
     logoutTxt: {
         color: colors.red,
         fontSize: 14,
-    }
+    },
+    totalSightsContent: {
+        display: 'flex',
+        alignItems: 'center',
+        marginTop: 30,
+    },
+    sightsLegend: {
+        fontStyle: 'italic',
+        color: colors.gray,
+        fontSize: 14,
+        marginTop: 10,
+        textAlign: 'center',
+    },
 });

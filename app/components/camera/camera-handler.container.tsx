@@ -6,7 +6,7 @@ import { Picture } from '../../interfaces/common';
 import colors from '../../config/colors';
 import { Box } from '@react-native-material/core';
 import { toggleCamera, newPicture } from '../../redux/camera-slice';
-import { useAppDispatch } from '../../redux/store'
+import { useAppDispatch } from '../../redux/store';
 import { useFocusEffect } from '@react-navigation/native';
 
 export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
