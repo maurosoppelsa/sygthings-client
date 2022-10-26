@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, Text, StyleSheet } from "react-native";
-import { Box, Divider, Button } from "@react-native-material/core";
+import { Box, Button } from "@react-native-material/core";
 import colors from '../../config/colors';
 import { Sight } from "../../interfaces/common";
 

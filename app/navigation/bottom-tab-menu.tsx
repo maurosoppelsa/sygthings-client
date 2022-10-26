@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
 
@@ -8,6 +8,8 @@ import DashboardScreen from '../screens/dashboard.screen';
 import NewSightScreen from '../screens/new-sight.screen';
 import MySightsScreen from '../screens/my-sights.screen';
 import colors from '../config/colors';
+import ProfileScreen from '../screens/profile.screen';
+import PersonCircleComponent from '../components/common/profile-circle.component';
 
 
 const Stack = createNativeStackNavigator();
@@ -46,12 +48,32 @@ function MySightsStackScreen() {
     );
 }
 
+function ProfileStackScreen() {
+    return (
+        <Stack.Navigator screenOptions={{
+            headerShown: false,
+        }}>
+            <Stack.Screen name='ProfileScreen' component={ProfileScreen}></Stack.Screen>
+        </Stack.Navigator>
+    );
+}
+
+
 export default function TabNavigator() {
     return (
         <Tab.Navigator
-            screenOptions={({ route }) => ({
+            screenOptions={({ route, navigation }) => ({
                 tabBarStyle: { ...styles.bottomMenu },
-                headerShown: false,
+                headerShown: true,
+                headerTintColor: colors.white,
+                headerStyle: {
+                    backgroundColor: colors.syghtingGreen,
+                },
+                headerRight(props) {
+                    return <TouchableOpacity style={styles.profileBt} onPress={() => navigation.navigate('Profile')}>
+                        <PersonCircleComponent image={'https://images.pexels.com/photos/773371/pexels-photo-773371.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}></PersonCircleComponent>
+                    </TouchableOpacity>
+                },
                 tabBarIcon: ({ focused }) => {
                     let iconName = '';
                     if (route.name === 'Dashboard') {
@@ -66,9 +88,10 @@ export default function TabNavigator() {
                 },
             })}
         >
-            <Tab.Screen name='Dashboard' component={DashboardStackScreen} options={{ tabBarShowLabel: false, }}></Tab.Screen>
-            <Tab.Screen name='NewSight' component={NewSightStackScreen} options={{ tabBarShowLabel: false, }}></Tab.Screen>
-            <Tab.Screen name='MySights' component={MySightsStackScreen} options={{ tabBarShowLabel: false, }}></Tab.Screen>
+            <Tab.Screen name='Dashboard' component={DashboardStackScreen} options={{ tabBarShowLabel: false, title: 'Last Sights' }}></Tab.Screen>
+            <Tab.Screen name='NewSight' component={NewSightStackScreen} options={{ tabBarShowLabel: false, title: 'New Sights' }}></Tab.Screen>
+            <Tab.Screen name='MySights' component={MySightsStackScreen} options={{ tabBarShowLabel: false, title: 'My Sights' }}></Tab.Screen>
+            <Tab.Screen name='Profile' component={ProfileStackScreen} options={{ tabBarShowLabel: false, title: 'Profile', tabBarButton: () => null }}></Tab.Screen>
         </Tab.Navigator>
     );
 }
@@ -83,5 +106,8 @@ const styles = StyleSheet.create({
     bottomMenuIcon: {
         color: colors.white,
         fontSize: 23
+    },
+    profileBt: {
+        padding: 10,
     }
 });

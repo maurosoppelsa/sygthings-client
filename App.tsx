@@ -7,6 +7,8 @@ import Navigation from './app/navigation';
 import { Provider as ReduxProvider, useSelector } from 'react-redux'
 import store from './app/redux/store'
 import { registerRootComponent } from 'expo';
+import { StatusBar } from 'expo-status-bar';
+import colors from './app/config/colors';
 
 function Authentication() {
   const authentication = useSelector((state: any) => state.authentication);
@@ -20,6 +22,8 @@ function Authentication() {
 export default function App() {
   return (
     <ReduxProvider store={store}>
+      <StatusBar backgroundColor={colors.syghtingDarkGreen
+      } />
       <Authentication></Authentication>
     </ReduxProvider>
   );

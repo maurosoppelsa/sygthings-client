@@ -2,7 +2,7 @@ import { Box, Flex } from '@react-native-material/core';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../../config/colors';
-import PersonCircleComponent from './profile-circle.component';
+import PersonCircleComponent from '../common/profile-circle.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TotalSightsComponent from './total-sights.component';
 import { useAppDispatch } from '../../redux/store';
