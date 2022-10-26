@@ -18,7 +18,7 @@ export default function MySights() {
     return (
         <Box style={styles.container}>
             <ScrollView>
-            <TitleComponent title="My Sights" />
+            <TitleComponent title="What I've seen..." />
                 {mySights.map((sight, key) => {
                     return (
                         <Box key={key}>

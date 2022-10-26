@@ -1,5 +1,4 @@
 import { Box } from "@react-native-material/core";
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import colors from '../../config/colors';
@@ -11,13 +10,11 @@ import TitleComponent from "../common/title-component";
 export default function DashboardComponent({ lastSightsList }: { lastSightsList: Array<Sight> }) {
   return (
     <Box style={styles.mainContainer}>
-      <StatusBar backgroundColor={colors.lightGray
-      } />
       <View style={styles.viewContainer}>
         <Box style={styles.sectionContainer}>
           <Box style={styles.mainSection}>
             <ScrollView>
-              <TitleComponent title="Last Sights" />
+              <TitleComponent title="What people seen..." />
               {lastSightsList.map((sight, key) => {
                 return (
                   <SightComponent sight={sight} key={key} />
