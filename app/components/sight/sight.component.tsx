@@ -4,7 +4,7 @@ import { Box, Button } from "@react-native-material/core";
 import colors from '../../config/colors';
 import { Sight } from "../../interfaces/common";
 
-export default function SightComponent({ sight }: { sight: Sight }) {
+export default function SightComponent({ sight, getDetails }: { sight: Sight, getDetails: any }) {
     return (
         <Box style={styles.container}>
             <Box style={styles.content}>
@@ -22,7 +22,7 @@ export default function SightComponent({ sight }: { sight: Sight }) {
                     </Box>
                 </Box>
             </Box>
-            <Button title={'See this sight'} style={styles.sightBt}></Button>
+            <Button title={'See this sight'} style={styles.sightBt} onPress={() => getDetails(sight)}></Button>
         </Box>
     );
 }
