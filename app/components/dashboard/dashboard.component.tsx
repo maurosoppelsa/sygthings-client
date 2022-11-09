@@ -52,7 +52,7 @@ export default function DashboardComponent({ lastSightsList }: { lastSightsList:
       <View style={styles.viewContainer}>
         <Box style={styles.sectionContainer}>
           <Box style={styles.mainSection}>
-            <ShowSightConent sightItem={currentSight}></ShowSightConent>
+            <ShowSightConent></ShowSightConent>
           </Box>
         </Box>
       </View>

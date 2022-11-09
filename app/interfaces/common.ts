@@ -16,7 +16,10 @@ export type Sight = {
     location: {
         latitude: string;
         longitude: string;
-    };
+    },
+    description: string;
+    createdAt: string;
+    userId: string;
 } | null
 
 export type Picture = {

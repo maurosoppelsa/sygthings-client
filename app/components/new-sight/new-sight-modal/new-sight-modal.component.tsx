@@ -6,10 +6,11 @@ import MapComponent from "./map.component";
 import NewSightFormComponent from "./new-sight-form.component";
 import NewSightLegendStatus from "./new-sight-leyend-status.component";
 
-const NewSightModalComponent = ({ modalFormStatus, imageUrl, showModal, onSubmit, onClose, locationInfo, showLocationModal, onUpdateLocation, onCloseLocationModal, location }: { modalFormStatus: string, imageUrl: string, showModal: boolean, onSubmit: any, onClose: any, locationInfo: string, showLocationModal: boolean, onUpdateLocation: any, onCloseLocationModal: any, location: Location }) => {
+const NewSightModalComponent = ({ modalFormStatus, imageUrl, showModal, onSubmit, onClose, locationInfo, showLocationModal, onUpdateLocation, onCloseLocationModal, location }:
+  { modalFormStatus: string, imageUrl: string, showModal: boolean, onSubmit: any, onClose: any, locationInfo: string, showLocationModal: boolean, onUpdateLocation: any, onCloseLocationModal: any, location: Location }) => {
   const ModalContent = () => {
     if (showLocationModal) {
-      return <MapComponent onUpdatelocation={onUpdateLocation} onClose={onCloseLocationModal} location={location}/>;
+      return <MapComponent onUpdatelocation={onUpdateLocation} onClose={onCloseLocationModal} location={location} />;
     } else if (modalFormStatus === SIGHT_MODAL_STATUS.NEW) {
       return <NewSightFormComponent imageUrl={{ uri: imageUrl }} onSubmit={onSubmit} locationInfo={locationInfo} />
     } else {

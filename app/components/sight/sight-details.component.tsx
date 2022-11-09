@@ -1,9 +1,10 @@
-import { Box } from '@react-native-material/core';
+import { Box, Divider } from '@react-native-material/core';
 import React from 'react';
 import { StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import colors from '../../config/colors';
 import { Sight } from '../../interfaces/common';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { capitalizeText } from '../../utils/common';
 
 
 export default function SightDetailsComponent({ sight, onClose }: { sight: Sight, onClose: any }) {
@@ -16,15 +17,15 @@ export default function SightDetailsComponent({ sight, onClose }: { sight: Sight
             <Box style={styles.headerContainer}>
                 <Text style={styles.sightName}>{sight?.animal}</Text>
                 <Box style={styles.locationContainer}>
-                    <MaterialCommunityIcons name="map-marker" size={30} style={styles.locationIcon} />
+                    <MaterialCommunityIcons name="map-marker" size={22} style={styles.locationIcon} />
                     <Text>{sight?.placeName}</Text>
                 </Box>
             </Box>
+            <Divider style={styles.divider} />
             <Box style={styles.detailsContainer}>
-                <Text>Condition: {sight?.condition}</Text>
-                <Text>Description:</Text>
-                <Text style={styles.description}>Proin velit neque, tempor sit amet risus quis, interdum vestibulum sem. Sed fringilla risus aliquet interdum volutpat. In hac habitasse platea dictumst.</Text>
-                <Text style={styles.createdText}>Created by Emma Phillips, Biologist, at 05/03/2022</Text>
+                <Text>Condition: { capitalizeText(sight?.condition) }</Text>
+                <Text>Description: <Text style={styles.description}>{sight?.description}</Text></Text>
+                <Text style={styles.createdText}>Created by Emma Phillips, Biologist, at {sight?.createdAt}</Text>
             </Box>
         </Box>
     );
@@ -33,39 +34,45 @@ export default function SightDetailsComponent({ sight, onClose }: { sight: Sight
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
+        padding: 3,
     },
     headerContainer: {
         display: 'flex',
-        alignItems: 'center',
         marginBottom: 2,
+        alignItems: 'center',
     },
     sightImage: {
         width: '100%',
         height: '60%',
     },
     sightName: {
+        marginTop: 5,
         color: colors.black,
         fontSize: 30,
         fontWeight: 'bold',
     },
     detailsContainer: {
-        padding: 5,
+        padding: 10,
     },
     locationContainer: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+        marginTop: 5,
     },
     locationIcon: {
         color: 'red',
+        marginRight: 5,
     },
     description: {
         fontSize: 12,
+        lineHeight: 20
     },
     createdText: {
         fontSize: 12,
-        marginTop: 10,
+        marginTop: 20,
         alignSelf: 'center',
+        color: colors.black,
     },
     touchableBackBtWrapper: {
         position: 'absolute',
@@ -75,4 +82,7 @@ const styles = StyleSheet.create({
     backButton: {
         color: colors.white,
     },
+    divider: {
+        marginTop: 15,
+    }
 });

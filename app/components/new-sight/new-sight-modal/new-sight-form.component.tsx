@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo }: { imageUrl: { uri: string }, onSubmit: any, locationInfo: string }) {
     const [animalName, onChangeAnimalName] = React.useState("");
+    const [description, onChangeDescription] = React.useState("");
     const [checked, setChecked] = React.useState('Alive');
     return (
         <View style={styles.modalForm}>
@@ -16,6 +17,12 @@ export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo
                 onChangeText={onChangeAnimalName}
                 value={animalName}
                 placeholder='Animal name'
+            />
+            <TextInput
+                style={styles.animalInput}
+                onChangeText={onChangeDescription}
+                value={description}
+                placeholder='description'
             />
             <Box style={styles.radioContainer}>
                 <Text style={styles.radioTitle}>Alive</Text>
@@ -48,7 +55,7 @@ export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo
             <Pressable
                 disabled={!animalName}
                 style={[styles.buttonSubmit, !animalName ? styles.buttonDisabled : styles.buttonEnabled]}
-                onPress={() => onSubmit({ animalName, condition: checked, placeName: locationInfo })}
+                onPress={() => onSubmit({ animalName, description, condition: checked, placeName: locationInfo })}
             >
                 <Text style={styles.textStyle}>Submit</Text>
             </Pressable>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux/store'
 import { toggleCamera } from '../../redux/camera-slice';
@@ -6,7 +6,7 @@ import { openModal, closeModal } from '../../redux/sight-slice';
 import { createSight } from '../../redux/sight-slice';
 import { getMapUrl, getLocationInfo, setCurrentCoordinates, toggleLocationModal } from '../../redux/geolocation-slice';
 import Geolocation from '@react-native-community/geolocation';
-import { PermissionsAndroid, Text, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { locationToLegend } from '../../utils/geolocation-helper';
 import { hasEmptyProperties } from '../../utils/common';
 import CameraHandler from '../camera/camera-handler.container';
@@ -18,7 +18,6 @@ import { Box, Button } from '@react-native-material/core';
 import BackgroundComponent from '../common/background.component';
 
 export default function NewSight() {
-  const [hasLocationPermission, setHasLocationPermission] = useState<boolean | null>(null);
   const dispatch = useAppDispatch();
   const isCameraActive = useSelector((state: any) => state.camera.cameraActive);
   const picture = useSelector((state: any) => state.camera.picture);
@@ -30,20 +29,6 @@ export default function NewSight() {
   const showChangeLocationModal = useSelector((state: any) => state.geolocationInfo.showLocationModal);
 
   useEffect(() => {
-    (async () => {
-      const grantedPermisions = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: "Geolocation permisions",
-          message:
-            "to create a new sight we need to access to your location",
-          buttonNeutral: "Ask Me Later",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK"
-        }
-      );
-      setHasLocationPermission(grantedPermisions === 'granted');
-    })();
     Geolocation.getCurrentPosition(
       (position) => {
         dispatch(setCurrentCoordinates({
@@ -56,6 +41,7 @@ export default function NewSight() {
       enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
     }
     );
+
   }, []);
 
   const activateCamera = () => {
@@ -74,6 +60,9 @@ export default function NewSight() {
         condition: animalInfo.condition,
         placeName: animalInfo.placeName,
         location: currentCoordinates,
+        description: animalInfo.description,
+        createdAt: JSON.stringify(new Date(Date.now())),
+        userId: '',
       }
     }));
   }
@@ -103,8 +92,9 @@ export default function NewSight() {
     dispatch(closeModal());
   }
 
-  if (hasLocationPermission === null || hasLocationPermission === false) {
-    return <Text>No access to geolocation</Text>;
+  if (!mapImageUrl) {
+    return (<View>
+    </View>);
   }
 
   return (
