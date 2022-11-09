@@ -23,7 +23,7 @@ export default function SightDetailsComponent({ sight, onClose }: { sight: Sight
             </Box>
             <Divider style={styles.divider} />
             <Box style={styles.detailsContainer}>
-                <Text>Condition: { capitalizeText(sight?.condition) }</Text>
+                <Text>Condition: {capitalizeText(sight?.condition)}</Text>
                 <Text>Description: <Text style={styles.description}>{sight?.description}</Text></Text>
                 <Text style={styles.createdText}>Created by Emma Phillips, Biologist, at {sight?.createdAt}</Text>
             </Box>
@@ -33,11 +33,10 @@ export default function SightDetailsComponent({ sight, onClose }: { sight: Sight
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
-        padding: 3,
+        width: '100%',
+        height: '100%',
     },
     headerContainer: {
-        display: 'flex',
         marginBottom: 2,
         alignItems: 'center',
     },
