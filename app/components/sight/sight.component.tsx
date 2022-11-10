@@ -7,48 +7,41 @@ import { Sight } from "../../interfaces/common";
 export default function SightComponent({ sight, getDetails }: { sight: Sight, getDetails: any }) {
     return (
         <Box style={styles.container}>
-            <Box style={styles.content}>
-                <Box>
+                <Box style={styles.leftContent}>
                     <Box style={styles.animalNameBox}>
                         <Text style={styles.animalName} numberOfLines={1} ellipsizeMode='tail'>{sight?.animal}</Text>
                     </Box>
                     <Image style={styles.animalImage} source={{ uri: sight?.picture?.uri }}></Image>
                 </Box>
-                <Box style={styles.sightsDescription}>
+                <Box style={styles.rightContent}>
                     <Box style={styles.sightInfoTitleBox}>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.sightInfoTitleText}>Place: {sight?.placeName}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.sightInfoTitleText}>Place: <Text>{sight?.placeName}</Text></Text>
                         <Text style={styles.sightInfoTitleText}>Condition: {sight?.condition}</Text>
                         <Text style={styles.sightAuthor}>Created by John Doe, 05/02/22 </Text>
                     </Box>
+                    <Button title={'See this sight'} style={styles.sightBt} onPress={() => getDetails(sight)}></Button>
                 </Box>
             </Box>
-            <Button title={'See this sight'} style={styles.sightBt} onPress={() => getDetails(sight)}></Button>
-        </Box>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        display: "flex",
+        flexDirection: "row",
         padding: 5,
         backgroundColor: colors.white,
     },
     content: {
         flexDirection: 'row',
-        maxHeight: 130,
     },
-    sightsDescription: {
-        flex: 1,
-        flexDirection: 'row',
-        padding: 10,
+    leftContent: {
+        width: '40%',
     },
-    sightLocation: {
-        alignSelf: 'flex-start',
-        width: 100,
-        height: 100,
-        borderRadius: 1,
-        borderColor: colors.lightGray,
-        borderWidth: 2,
+    rightContent: {
+        width: '50%',
+        paddingLeft: 20,
+        alignSelf: "center"
     },
     animalImage: {
         width: 150,
@@ -90,16 +83,13 @@ const styles = StyleSheet.create({
     },
     sightBt: {
         backgroundColor: colors.syghtingGreen,
-        alignSelf: "flex-end",
-        bottom: 20,
-        right: 50,
+        alignSelf: "flex-start",
+        marginTop: 20,
     },
     sightAuthor: {
-        minWidth:150,
-        position: 'absolute',
-        top: 60,
         fontSize: 12,
         color: colors.gray,
         fontStyle:"italic",
+        marginTop: 10,
     }
 });

@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     },
     createdText: {
         fontSize: 12,
-        marginTop: 20,
         alignSelf: 'center',
         color: colors.black,
     },
