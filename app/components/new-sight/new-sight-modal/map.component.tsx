@@ -1,15 +1,18 @@
 import { Box } from '@react-native-material/core';
 import MapboxGL, { Logger } from '@rnmapbox/maps';
 import React, { useState } from 'react';
-import { Text, StyleSheet, Pressable } from 'react-native';
+import { Text, StyleSheet, Pressable, View } from 'react-native';
 import colors from '../../../config/colors';
 import { mapbox_token, map_style, map_zoom_level } from "../../../config/map-settings";
 import { Location } from '../../../interfaces/common';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 
 export default function MapComponent({ onUpdatelocation, onClose, location }: { onUpdatelocation: any, onClose: any, location: Location }) {
     const [coordinates, setCoordinates] = useState([parseInt(location.longitude), parseInt(location.latitude)]);
     MapboxGL.setAccessToken(mapbox_token);
+    MapboxGL.setWellKnownTileServer('Mapbox');
 
     // edit logging messages
     Logger.setLogCallback(log => {
@@ -25,13 +28,26 @@ export default function MapComponent({ onUpdatelocation, onClose, location }: { 
         return false;
     });
 
+    const renderAnnotations = () => {
+        return (
+            <MapboxGL.PointAnnotation
+                key="pointAnnotation"
+                id="pointAnnotation"
+                coordinate={coordinates}>
+                <MaterialCommunityIcons name="map-marker" size={22} style={styles.locationIcon} />
+            </MapboxGL.PointAnnotation>
+        );
+    }
+
+    // original config replace styleUrl by styleJSON={JSON.stringify(map_style)}
     return (
         <Box style={styles.container}>
-            <MapboxGL.MapView style={styles.map} styleJSON={JSON.stringify(map_style)} onRegionWillChange={(payload) => { setCoordinates(payload.geometry.coordinates) }}>
+            <MapboxGL.MapView style={styles.map} styleURL={MapboxGL.StyleURL.Light} onRegionWillChange={(payload) => { setCoordinates(payload.geometry.coordinates) }}>
                 <MapboxGL.Camera
                     zoomLevel={map_zoom_level}
                     centerCoordinate={[parseInt(location.longitude), parseInt(location.latitude)]}
                 />
+                {renderAnnotations()}
             </MapboxGL.MapView>
             <Box style={styles.buttonsContainer}>
                 <Pressable
@@ -89,5 +105,8 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         flexDirection: 'row',
+    },
+    locationIcon: {
+        color: 'red',
     }
 });
