@@ -11,9 +11,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function MapComponent({ onUpdatelocation, onClose, location }: { onUpdatelocation: any, onClose: any, location: Location }) {
     const [coordinates, setCoordinates] = useState([parseInt(location.longitude), parseInt(location.latitude)]);
-    MapboxGL.setAccessToken(mapbox_token);
     MapboxGL.setWellKnownTileServer('Mapbox');
-
+    MapboxGL.setAccessToken(mapbox_token);
     // edit logging messages
     Logger.setLogCallback(log => {
         const { message } = log;
