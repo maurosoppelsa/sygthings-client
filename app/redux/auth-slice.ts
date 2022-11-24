@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { User } from "../interfaces/common";
-import { fakeResp } from "../utils/mocks";
+import AuthService from "../services/auth.service";
 import { AppState } from "./interfaces";
 
 const initialState: AppState = {
@@ -10,13 +10,15 @@ const initialState: AppState = {
   error: false,
 };
 
-export const loginUser = createAsyncThunk<{ user: User }, { userdata: User }>(
+const authService: AuthService = AuthService.getInstance();
+
+export const loginUser = createAsyncThunk<{ user: User }, { user: User }>(
   "loginUser",
-  async () => {
-    const response = await fakeResp(true, 1000);
+  async ({user}) => {
+    const response = await authService.login(user);
     if (response.success) {
       return {
-        user: response.body ?? [],
+        user: response.user ?? [],
       };
     } else {
       throw "Error login user";

@@ -10,11 +10,12 @@
             "with": 640
         },
         "location": {
-            "latitud": "12345",
-            "longitud": "12345"
+            "latitude": "12345",
+            "longitude": "12345"
         },
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in nunc sollicitudin mauris euismod semper. ",
-        "createdAt": "06/11/2022"
+        "createdAt": "06/11/2022",
+        "userId": "637a3aa14a8efe213b48ce3b"
     },
     {
         "province": "Deccan Peninsular-Central Highlands",
@@ -27,11 +28,12 @@
             "with": 640
         },
         "location": {
-            "latitud": "12345",
-            "longitud": "12345"
+            "latitude": "12345",
+            "longitude": "12345"
         },
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in nunc sollicitudin mauris euismod semper. ",
-        "createdAt": "06/11/2022"
+        "createdAt": "06/11/2022",
+        "userId": "637a3aa14a8efe213b48ce3b"
     },
     {
         "province": "Gangetic Plain-",
@@ -44,11 +46,12 @@
             "with": 640
         },
         "location": {
-            "latitud": "12345",
-            "longitud": "12345"
+            "latitude": "12345",
+            "longitude": "12345"
         },
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in nunc sollicitudin mauris euismod semper. ",
-        "createdAt": "06/11/2022"
+        "createdAt": "06/11/2022",
+        "userId": "637a3aa14a8efe213b48ce3b"
     },
     {
         "province": "The Coasts",
@@ -61,11 +64,12 @@
             "with": 640
         },
         "location": {
-            "latitud": "12345",
-            "longitud": "12345"
+            "latitude": "12345",
+            "longitude": "12345"
         },
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in nunc sollicitudin mauris euismod semper. ",
-        "createdAt": "06/11/2022"
+        "createdAt": "06/11/2022",
+        "userId": "637a3aa14a8efe213b48ce3b"
     },
     {
         "province": "Aldovia",
@@ -78,11 +82,12 @@
             "with": 640
         },
         "location": {
-            "latitud": "12345",
-            "longitud": "12345"
+            "latitude": "12345",
+            "longitude": "12345"
         },
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in nunc sollicitudin mauris euismod semper. ",
-        "createdAt": "06/11/2022"
+        "createdAt": "06/11/2022",
+        "userId": "637a3aa14a8efe213b48ce3b"
     },
     {
         "province": "Billy Liar",
@@ -95,11 +100,12 @@
             "with": 640
         },
         "location": {
-            "latitud": "12345",
-            "longitud": "12345"
+            "latitude": "12345",
+            "longitude": "12345"
         },
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in nunc sollicitudin mauris euismod semper. ",
-        "createdAt": "06/11/2022"
+        "createdAt": "06/11/2022",
+        "userId": "637a3aa14a8efe213b48ce3b"
     },
     {
         "province": "Stratis",
@@ -112,11 +118,12 @@
             "with": 640
         },
         "location": {
-            "latitud": "12345",
-            "longitud": "12345"
+            "latitude": "12345",
+            "longitude": "12345"
         },
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in nunc sollicitudin mauris euismod semper. ",
-        "createdAt": "06/11/2022"
+        "createdAt": "06/11/2022",
+        "userId": "637a3aa14a8efe213b48ce3b"
     },
     {
         "province": "Peshawar",
@@ -129,11 +136,12 @@
             "with": 640
         },
         "location": {
-            "latitud": "12345",
-            "longitud": "12345"
+            "latitude": "12345",
+            "longitude": "12345"
         },
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in nunc sollicitudin mauris euismod semper. ",
-        "createdAt": "06/11/2022"
+        "createdAt": "06/11/2022",
+        "userId": "637a3aa14a8efe213b48ce3b"
     },
     {
         "province": "Attica",
@@ -146,10 +154,11 @@
             "with": 640
         },
         "location": {
-            "latitud": "12345",
-            "longitud": "12345"
+            "latitude": "12345",
+            "longitude": "12345"
         },
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla in nunc sollicitudin mauris euismod semper. ",
-        "createdAt": "06/11/2022"
+        "createdAt": "06/11/2022",
+        "userId": "637a3aa14a8efe213b48ce3b"
     }
 ]

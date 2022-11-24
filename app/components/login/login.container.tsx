@@ -9,13 +9,15 @@ export default function Login() {
   const dispatch = useAppDispatch();
   const authentication = useSelector((state: any) => state.authentication);
   const handleLogin = (username: string, password: string) => {
-    const userdata: User = {
+    const user: User = {
       username,
       password,
     };
-    dispatch(loginUser({ userdata }));
+    dispatch(loginUser({ user }));
   }
   return (
-    <LoginForm handleLogin={(username: string, password: string) => handleLogin(username, password)} loadingUser={authentication.loading} />
+    <LoginForm
+      handleLogin={(username: string, password: string) => handleLogin(username, password)}
+      loadingUser={authentication.loading} loginFailed={authentication.error} />
   );
 }

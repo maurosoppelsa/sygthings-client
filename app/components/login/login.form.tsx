@@ -6,7 +6,7 @@ import logo from '../../assets/syghtings_logo.png';
 import { Button, TextInput, Box } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-export default function LoginForm({ handleLogin, loadingUser }: { handleLogin: any, loadingUser: boolean }) {
+export default function LoginForm({ handleLogin, loadingUser, loginFailed }: { handleLogin: any, loadingUser: boolean, loginFailed: boolean }) {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const isButtonEnabled = () => {
@@ -49,6 +49,9 @@ export default function LoginForm({ handleLogin, loadingUser }: { handleLogin: a
       <StatusBar style="auto" />
       {loadingUser &&
         <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />}
+      {
+        loginFailed && <Text style={styles.loginFailed}>Login failed! username or password invalid.</Text>
+      }
     </View>
   );
 }
@@ -99,5 +102,11 @@ const styles = StyleSheet.create({
   loadingSpinner: {
     position: 'absolute',
     alignSelf: 'center',
+  },
+  loginFailed: {
+    color: colors.red,
+    alignSelf: 'center',
+    marginTop: 15,
+    fontSize: 18,
   }
 });
