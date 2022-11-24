@@ -6,14 +6,14 @@ import PersonCircleComponent from '../common/profile-circle.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TotalSightsComponent from './total-sights.component';
 import { useAppDispatch } from '../../redux/store';
-import { logout } from '../../redux/auth-slice';
+import { logoutUser } from '../../redux/auth-slice';
 import { Sight } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 
 export default function Profile() {
 
     const dispatch = useAppDispatch();
-    const logoutUser = () => dispatch(logout());
+    const logout = () => dispatch(logoutUser());
     const mySights: Array<Sight> = useSelector((state: any) => state.sight.mySights);
 
     return (
@@ -35,7 +35,7 @@ export default function Profile() {
                     <TotalSightsComponent sightsAmount={mySights.length} />
                     <Text style={styles.sightsLegend}>Thanks for your help! Animals around the world will appreciate your effort.</Text>
                 </Box>
-                <TouchableOpacity style={styles.logoutBox} onPress={() => logoutUser()}>
+                <TouchableOpacity style={styles.logoutBox} onPress={() => logout()}>
                     <MaterialCommunityIcons style={styles.logoutIcon} name="power-standby" size={20} />
                     <Text style={styles.logoutTxt}>Log out</Text>
                 </TouchableOpacity>

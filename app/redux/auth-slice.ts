@@ -26,15 +26,22 @@ export const loginUser = createAsyncThunk<{ user: User }, { user: User }>(
   }
 );
 
+export const logoutUser = createAsyncThunk<{}>(
+  "logoutUser",
+  async () => {
+    const response = await authService.logout();
+    if (response.success) {
+      return;
+    } else {
+      throw "Error login user";
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "authSlice",
   initialState,
-  reducers: {
-    logout: (state: any) => {
-        state.user = null;
-        state.loggedIn = false;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -51,9 +58,19 @@ const authSlice = createSlice({
         state.error = true;
         state.loading = false;
         state.loggedIn = false;
+      })
+      .addCase(logoutUser.pending, (state) => {
+        state.error = undefined; 
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = null;
+        state.loggedIn = false;
+        state.loading = false;
+      })
+      .addCase(logoutUser.rejected, (state) => {
+        state.error = true;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
 export default authSlice.reducer;
