@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TotalSightsComponent from './total-sights.component';
 import { useAppDispatch } from '../../redux/store';
 import { logoutUser } from '../../redux/auth-slice';
-import { Sight } from '../../interfaces/common';
+import { Sight, User } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 
 export default function Profile() {
@@ -15,6 +15,7 @@ export default function Profile() {
     const dispatch = useAppDispatch();
     const logout = () => dispatch(logoutUser());
     const mySights: Array<Sight> = useSelector((state: any) => state.sight.mySights);
+    const currentUser: User = useSelector((state: any) => state.authentication.user);
 
     return (
         <View style={styles.container}>
@@ -23,13 +24,13 @@ export default function Profile() {
                 <Box style={styles.personContent}>
                     <PersonCircleComponent fullname={"Emma Phillips"}></PersonCircleComponent>
                     <Box style={styles.personDescription}>
-                        <Text>Emma Phillips</Text>
-                        <Text style={styles.occupation}>Biologist</Text>
+                        <Text>{currentUser?.username}</Text>
+                        <Text style={styles.occupation}>{currentUser?.occupation}</Text>
                     </Box>
                 </Box>
                 <Box style={styles.personInfoContent}>
                     <MaterialCommunityIcons style={styles.mailIcon} name="email-outline" size={15} onPress={() => () => { }} />
-                    <Text style={styles.email}>some.email@email.com</Text>
+                    <Text style={styles.email}>{currentUser?.email}</Text>
                 </Box>
                 <Box style={styles.totalSightsContent}>
                     <TotalSightsComponent sightsAmount={mySights.length} />

@@ -16,6 +16,7 @@ export type AppState = {
 export type newSightState = {
     newSight: Sight,
     mySights: Sight[],
+    currentSights: Sight[],
     showSightModal: boolean,
     error: boolean | undefined,
     modalStatus: SIGHT_MODAL_STATUS,
