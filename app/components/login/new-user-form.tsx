@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import colors from '../../config/colors';
-import { Button, TextInput, Box } from "@react-native-material/core";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import { Button, Box } from "@react-native-material/core";
+import { TextInput } from 'react-native-paper';
 const { useValidation } = require('react-native-form-validator')
 
 export default function NewUserForm({ onCreate, onCancel }: { onCreate: any, onCancel: any }) {
@@ -11,13 +11,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: any, onC
     const [userName, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [occupation, setOccupation] = useState('');
-    const [touched, setTouched] = useState({
-        userName: false,
-        email: false,
-        password: false,
-        confirmPassword: false,
-        occupation: false,
-    });
+    const [touchedForm, setTouchedForm] = useState(false);
 
 
     const { validate, isFieldInError, getErrorsInField, getErrorMessages } =
@@ -25,11 +19,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: any, onC
             state: { userName, email, password, confirmPassword, occupation },
         });
 
-    const handleBlur = (field: string) => {
-        setTouched({ ...touched, [field]: true });
-    };
-
-    useEffect(() => {
+    const createUser = () => {
         validate({
             userName: { minlength: 3, maxlength: 7, required: true },
             email: { email: true, required: true },
@@ -37,11 +27,10 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: any, onC
             confirmPassword: { equalPassword: password, required: true },
             occupation: { minlength: 3, maxlength: 7, required: true },
         });
-    }, [userName, email, password, confirmPassword, occupation]);
-
-    const createUser = () => {
-        onCreate({ userName, password, email, occupation });
-        console.log('getErrorMessages', getErrorMessages());
+        setTouchedForm(false);
+        if (getErrorMessages().length === 0) {
+            onCreate({ userName, password, email, occupation });
+        }
     };
 
     return (
@@ -49,64 +38,78 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: any, onC
             <Box pv={20}>
                 <TextInput
                     label="User Name"
-                    variant="standard"
-                    color={colors.syghtingGreen}
                     onChangeText={name => setUsername(name)}
-                    onBlur={() => handleBlur('userName')}
-                    style={styles.input}
-                    leading={props => <Icon name="account" {...props} style={styles.input} />} />
-                {isFieldInError('userName') && touched.userName  &&
+                    underlineColor={colors.syghtingGreen}
+                    activeUnderlineColor={colors.syghtingDarkGreen}
+                    left={<TextInput.Icon color={colors.gray} name="account" />}
+                    error={isFieldInError('userName') && !touchedForm}
+                    onFocus={() => setTouchedForm(true)}
+                />
+                {isFieldInError('userName') && !touchedForm &&
                     getErrorsInField('userName').map((errorMessage: any, index: any) => (
                         <Text style={styles.error} key={index}>{errorMessage}</Text>
                     ))}
+
                 <TextInput
-                    label="Password"
-                    variant="standard"
-                    color={colors.syghtingGreen}
-                    onChangeText={pass => setPassword(pass)}
-                    onBlur={() => handleBlur('password')}
-                    leading={props => <Icon name="key" {...props} style={styles.input} />}
-                />
-                {isFieldInError('password') &&  touched.password &&
-                    getErrorsInField('password').map((errorMessage: any, index: any) => (
-                        <Text style={styles.error} key={index}>{errorMessage}</Text>
-                    ))}
-                <TextInput label="Confirm Password"
-                    variant="standard"
-                    color={colors.syghtingGreen}
-                    onChangeText={pass => setConfirmPassword(pass)}
-                    onBlur={() => handleBlur('confirmPassword')}
-                    leading={props => <Icon name="key" {...props} style={styles.input} />}
-                />
-                {isFieldInError('confirmPassword') && touched.confirmPassword &&
-                    getErrorsInField('confirmPassword').map((errorMessage: any, index: any) => (
-                        <Text style={styles.error} key={index}>{errorMessage}</Text>
-                    ))}
-                <TextInput label="Email"
-                    variant="standard"
-                    color={colors.syghtingGreen}
+                    label="Email"
                     onChangeText={email => setEmail(email)}
-                    onBlur={() => handleBlur('email')}
-                    leading={props => <Icon name="email" {...props} style={styles.input} />}
+                    underlineColor={colors.syghtingGreen}
+                    activeUnderlineColor={colors.syghtingDarkGreen}
+                    left={<TextInput.Icon color={colors.gray} name="email" />}
+                    error={isFieldInError('email') && !touchedForm}
+                    onFocus={() => setTouchedForm(true)}
                 />
-                {isFieldInError('email') && touched.email &&
+                {isFieldInError('email') && !touchedForm &&
                     getErrorsInField('email').map((errorMessage: any, index: any) => (
                         <Text style={styles.error} key={index}>{errorMessage}</Text>
                     ))}
-                <TextInput label="Occupation"
-                    variant="standard"
-                    color={colors.syghtingGreen}
-                    onChangeText={occupation => setOccupation(occupation)}
-                    onBlur={() => handleBlur('occupation')}
-                    leading={props => <Icon name="briefcase" {...props} style={styles.input} />}
+
+                <TextInput
+                    label="Password"
+                    onChangeText={pass => setPassword(pass)}
+                    secureTextEntry={true}
+                    underlineColor={colors.syghtingGreen}
+                    activeUnderlineColor={colors.syghtingDarkGreen}
+                    left={<TextInput.Icon color={colors.gray} name="key" />}
+                    error={isFieldInError('password') && !touchedForm}
+                    onFocus={() => setTouchedForm(true)}
                 />
-                {isFieldInError('occupation') && touched.occupation &&
+                {isFieldInError('password') && !touchedForm &&
+                    getErrorsInField('password').map((errorMessage: any, index: any) => (
+                        <Text style={styles.error} key={index}>{errorMessage}</Text>
+                    ))}
+
+                <TextInput
+                    label="Confirm Password"
+                    onChangeText={pass => setConfirmPassword(pass)}
+                    secureTextEntry={true}
+                    underlineColor={colors.syghtingGreen}
+                    activeUnderlineColor={colors.syghtingDarkGreen}
+                    left={<TextInput.Icon color={colors.gray} name="key" />}
+                    error={isFieldInError('confirmPassword') && !touchedForm}
+                    onFocus={() => setTouchedForm(true)}
+                />
+                {isFieldInError('confirmPassword') && !touchedForm &&
+                    getErrorsInField('confirmPassword').map((errorMessage: any, index: any) => (
+                        <Text style={styles.error} key={index}>{errorMessage}</Text>
+                    ))}
+
+                <TextInput
+                    label="Occupation"
+                    onChangeText={occupation => setOccupation(occupation)}
+                    underlineColor={colors.syghtingGreen}
+                    activeUnderlineColor={colors.syghtingDarkGreen}
+                    left={<TextInput.Icon color={colors.gray} name="briefcase" />}
+                    error={isFieldInError('occupation') && !touchedForm}
+                    onFocus={() => setTouchedForm(true)}
+                />
+                {isFieldInError('occupation') && !touchedForm &&
                     getErrorsInField('occupation').map((errorMessage: any, index: any) => (
                         <Text style={styles.error} key={index}>{errorMessage}</Text>
                     ))}
             </Box>
             <Box style={styles.buttonContainer}>
-                <Button disabled={getErrorMessages().length !== 0} title="Create" style={styles.formButton} onPress={() => { createUser() }} />
+                <Button title="Create" style={styles.formButton} onPress={() => { createUser() }} />
                 <Button title="Cancel" style={styles.formButton} onPress={() => onCancel()} />
             </Box>
         </Box>

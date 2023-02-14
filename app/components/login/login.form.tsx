@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import colors from '../../config/colors';
-import { Button, TextInput, Box } from "@react-native-material/core";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import { Button, Box } from "@react-native-material/core";
+import { TextInput } from 'react-native-paper';
 
 export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { handleLogin: any, loadingUser: boolean, goToRegister: any }) {
   const [password, setPassword] = useState('');
@@ -12,24 +12,25 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { 
   };
   return (
     <Box>
-      <Box pv={20}>
+      <Box>
         <TextInput
-          onChangeText={name => setUsername(name)}
-          inputContainerStyle={styles.input}
           label="User"
-          variant="standard"
-          color={colors.syghtingGreen}
-          leading={props => <Icon name="account" {...props} style={styles.input} />}
-          editable={!loadingUser}
+          onChangeText={name => setUsername(name)}
+          autoComplete="username"
+          underlineColor={colors.syghtingGreen}
+          activeUnderlineColor={colors.syghtingDarkGreen}
+          left={<TextInput.Icon color={colors.gray} name="account" />}
+          disabled={loadingUser}
         />
         <TextInput
+          label="Password"
           onChangeText={pass => setPassword(pass)}
           secureTextEntry={true}
-          label="Password"
-          variant="standard"
-          color={colors.syghtingGreen}
-          leading={props => <Icon name="key" {...props} style={styles.input} />}
-          editable={!loadingUser}
+          autoComplete="password"
+          underlineColor={colors.syghtingGreen}
+          activeUnderlineColor={colors.syghtingDarkGreen}
+          left={<TextInput.Icon color={colors.gray} name="key" />}
+          disabled={loadingUser}
         />
         <TouchableOpacity onPress={() => console.log("forgot!")}>
           <Text style={styles.forgotPasswordLegend}>Forgot password!</Text>
