@@ -1,22 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import colors from '../../config/colors';
-import logo from '../../assets/syghtings_logo.png';
 import { Button, TextInput, Box } from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 
-export default function LoginForm({ handleLogin, loadingUser, loginFailed }: { handleLogin: any, loadingUser: boolean, loginFailed: boolean }) {
+export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { handleLogin: any, loadingUser: boolean, goToRegister: any }) {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const isButtonEnabled = () => {
     return !password || !username || loadingUser;
   };
   return (
-    <View style={styles.container}>
-      <View style={styles.logo}>
-        <Image source={logo} style={styles.logoImage}></Image>
-      </View>
+    <Box>
       <Box pv={20}>
         <TextInput
           onChangeText={name => setUsername(name)}
@@ -41,40 +36,20 @@ export default function LoginForm({ handleLogin, loadingUser, loginFailed }: { h
         </TouchableOpacity>
       </Box>
       <Button title="Sign In" onPress={() => handleLogin(username, password)} disabled={isButtonEnabled()} style={styles.loginButton} />
-      <TouchableOpacity onPress={() => console.log("register!")}>
+      <TouchableOpacity onPress={() => goToRegister()}>
         <Text style={styles.registerlink}>
           Not registered?
         </Text>
       </TouchableOpacity>
-      <StatusBar style="auto" />
-      {loadingUser &&
-        <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />}
-      {
-        loginFailed && <Text style={styles.loginFailed}>Login failed! username or password invalid.</Text>
-      }
-    </View>
+    </Box>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-    justifyContent: 'center',
-    padding: 15,
-  },
   text: {
     fontSize: 25,
     color: colors.gray,
     marginBottom: 20
-  },
-  logo: {
-    alignItems: 'center',
-  },
-  logoImage: {
-    resizeMode: 'contain',
-    width: 250,
-    height: 250
   },
   input: {
     width: '100%'
@@ -99,14 +74,4 @@ const styles = StyleSheet.create({
     color: colors.blue,
     fontSize: 18,
   },
-  loadingSpinner: {
-    position: 'absolute',
-    alignSelf: 'center',
-  },
-  loginFailed: {
-    color: colors.red,
-    alignSelf: 'center',
-    marginTop: 15,
-    fontSize: 18,
-  }
 });

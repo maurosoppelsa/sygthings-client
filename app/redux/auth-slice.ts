@@ -7,6 +7,7 @@ const initialState: AppState = {
   user: null,
   loggedIn: false,
   loading: false,
+  isRegistering: false,
   error: false,
 };
 
@@ -38,10 +39,26 @@ export const logoutUser = createAsyncThunk<{}>(
   }
 );
 
+export const createUser = createAsyncThunk<{}>(
+  "createUser",
+  async () => {
+    const response = await authService.logout();
+    if (response.success) {
+      return;
+    } else {
+      throw "Error login user";
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "authSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleRegister: (state: any) => {
+      state.isRegistering = !state.isRegistering;
+  },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -72,5 +89,5 @@ const authSlice = createSlice({
       });
   },
 });
-
+export const { toggleRegister } = authSlice.actions;
 export default authSlice.reducer;

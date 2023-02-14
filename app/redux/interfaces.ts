@@ -10,6 +10,7 @@ export type AppState = {
     user: User;
     loggedIn: boolean;
     loading: boolean;
+    isRegistering: boolean;
     error: boolean | undefined;
 };
 
