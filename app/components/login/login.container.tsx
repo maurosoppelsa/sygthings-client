@@ -6,7 +6,6 @@ import { User } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import NewUserForm from './new-user-form';
 import { View, StyleSheet, Image, ActivityIndicator, Text } from 'react-native';
-import logo from '../../assets/syghtings_logo.png';
 import colors from '../../config/colors';
 import { StatusBar } from 'expo-status-bar';
 
@@ -48,9 +47,6 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.logo}>
-        <Image source={logo} style={styles.logoImage}></Image>
-      </View>
       <View style={styles.formContainer}>
         {getFormType()}
       </View>
@@ -71,18 +67,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 15,
   },
-  logo: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logoImage: {
-    width: 300,
-    height: 300,
-    resizeMode: 'contain',
-  },
   formContainer: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   loadingSpinner: {
     position: 'absolute',

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import colors from '../../config/colors';
 import { Button, Box } from "@react-native-material/core";
 import { TextInput } from 'react-native-paper';
+import logo from '../../assets/syghtings_logo.png';
 
 export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { handleLogin: any, loadingUser: boolean, goToRegister: any }) {
   const [password, setPassword] = useState('');
@@ -13,7 +14,11 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { 
   return (
     <Box>
       <Box>
+        <Image source={logo} style={styles.logoImage}></Image>
+      </Box>
+      <Box>
         <TextInput
+          style={styles.input}
           label="User"
           onChangeText={name => setUsername(name)}
           autoComplete="username"
@@ -23,6 +28,7 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { 
           disabled={loadingUser}
         />
         <TextInput
+          style={styles.input}
           label="Password"
           onChangeText={pass => setPassword(pass)}
           secureTextEntry={true}
@@ -53,7 +59,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   input: {
-    width: '100%'
+    backgroundColor: colors.white,
   },
   loginButton: {
     backgroundColor: colors.syghtingGreen,
@@ -74,5 +80,11 @@ const styles = StyleSheet.create({
     marginTop: 30,
     color: colors.blue,
     fontSize: 18,
+  },
+  logoImage: {
+    width: 300,
+    height: 300,
+    resizeMode: 'contain',
+    alignSelf: 'center',
   },
 });
