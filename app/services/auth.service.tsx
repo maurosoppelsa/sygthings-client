@@ -55,4 +55,23 @@ export default class AuthService {
                 return json;
             })
     }
+
+    public register = (user: User) => {
+        return fetch(`${SERVER_URL}/users`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: user?.username,
+                email: user?.email,
+                occupation: user?.occupation,
+                password: user?.password,
+            })
+        }).then((response) => response.json())
+            .then((json) => {
+                return json;
+            })
+    }
 }

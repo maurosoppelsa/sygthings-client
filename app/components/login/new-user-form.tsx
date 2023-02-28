@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import colors from '../../config/colors';
 import { Button, Box } from "@react-native-material/core";
-import { Avatar, Card, Checkbox, IconButton, TextInput } from 'react-native-paper';
+import { Avatar, Card, Checkbox, TextInput } from 'react-native-paper';
 import { customRules, spanishErrorMessages } from '../../utils/customInputValidation';
+import { User } from '../../interfaces/common';
 const { useValidation } = require('react-native-form-validator')
 
-export default function NewUserForm({ onCreate, onCancel }: { onCreate: any, onCancel: any }) {
+type onCreateUser = (user: User) => void;
+
+export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreateUser, onCancel: any }) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [userName, setUsername] = useState('');
+    const [username, setuserName] = useState('');
     const [email, setEmail] = useState('');
     const [occupation, setOccupation] = useState('');
     const [touchedForm, setTouchedForm] = useState(false);
@@ -17,27 +20,27 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: any, onC
 
     const { validate, isFieldInError, getErrorsInField, getErrorMessages } =
         useValidation({
-            state: { userName, email, password, confirmPassword, occupation },
+            state: { username, email, password, confirmPassword, occupation },
             deviceLocale: 'es',
             messages: spanishErrorMessages,
             rules: customRules
         });
 
     const formIsNotEmpty = () => {
-        return userName && email && password && confirmPassword && occupation;
+        return username && email && password && confirmPassword && occupation;
     };
 
     const createUser = () => {
         validate({
-            userName: { minlength: 3, maxlength: 7, required: true },
+            username: { minlength: 3, maxlength: 7, required: true },
             email: { email: true, required: true },
             password: { minlength: 3, maxlength: 7, required: true },
             confirmPassword: { equalPassword: password, required: true },
-            occupation: { minlength: 3, maxlength: 7, required: true },
+            occupation: { minlength: 3, maxlength: 10, required: true },
         });
         setTouchedForm(false);
         if (getErrorMessages().length === 0 && formIsNotEmpty()) {
-            onCreate({ userName, password, email, occupation });
+            onCreate({ username, password, email, occupation });
         }
     };
 
@@ -56,15 +59,15 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: any, onC
                 <TextInput
                     style={styles.input}
                     label="User Name"
-                    onChangeText={name => setUsername(name)}
+                    onChangeText={name => setuserName(name)}
                     underlineColor={colors.syghtingGreen}
                     activeUnderlineColor={colors.syghtingDarkGreen}
                     left={<TextInput.Icon color={colors.gray} name="account" />}
-                    error={isFieldInError('userName') && !touchedForm}
+                    error={isFieldInError('username') && !touchedForm}
                     onFocus={() => setTouchedForm(true)}
                 />
-                {isFieldInError('userName') && !touchedForm &&
-                    getErrorsInField('userName').map((errorMessage: any, index: any) => (
+                {isFieldInError('username') && !touchedForm &&
+                    getErrorsInField('username').map((errorMessage: any, index: any) => (
                         <Text style={styles.error} key={index}>{errorMessage}</Text>
                     ))}
 

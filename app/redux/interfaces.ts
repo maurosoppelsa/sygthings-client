@@ -12,6 +12,7 @@ export type AppState = {
     loading: boolean;
     isRegistering: boolean;
     error: boolean | undefined;
+    message: string;
 };
 
 export type newSightState = {
