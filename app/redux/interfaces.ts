@@ -13,6 +13,7 @@ export type AppState = {
     isRegistering: boolean;
     error: boolean | undefined;
     message: string;
+    isVerifyingEmail: boolean;
 };
 
 export type newSightState = {

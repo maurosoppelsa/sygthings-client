@@ -4,6 +4,8 @@ import AuthService from "../services/auth.service";
 import { AppState } from "./interfaces";
 import { authErrorMessages, authSuccessMessages } from "../messages";
 
+let errorMessage = "";
+
 const initialState: AppState = {
   user: null,
   loggedIn: false,
@@ -11,6 +13,7 @@ const initialState: AppState = {
   isRegistering: false,
   error: false,
   message: "",
+  isVerifyingEmail: false,
 };
 
 const authService: AuthService = AuthService.getInstance();
@@ -24,6 +27,7 @@ export const loginUser = createAsyncThunk<{ user: User }, { user: User }>(
         user: response.user ?? [],
       };
     } else {
+      errorMessage = response.message;
       throw "Error login user";
     }
   }
@@ -36,6 +40,7 @@ export const logoutUser = createAsyncThunk<{}>(
     if (response.success) {
       return;
     } else {
+      errorMessage = response.message;
       throw "Error login user";
     }
   }
@@ -48,6 +53,7 @@ export const createUser = createAsyncThunk<{ user: User }, { user: User }>(
     if (response.success) {
       return response;
     } else {
+      errorMessage = response.message;
       throw "Error creating user";
     }
   }
@@ -81,7 +87,7 @@ const authSlice = createSlice({
         state.error = true;
         state.loading = false;
         state.loggedIn = false;
-        state.message = authErrorMessages["auth/login-error"];
+        state.message = errorMessage || authErrorMessages["auth/login-error"];
       })
       .addCase(logoutUser.pending, (state) => {
         state.error = undefined;
@@ -93,7 +99,7 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.rejected, (state) => {
         state.error = true;
-        state.message = authErrorMessages["auth/logout-error"];
+        state.message = errorMessage || authErrorMessages["auth/logout-error"];
       })
       .addCase(createUser.pending, (state) => {
         state.loading = true;
@@ -104,13 +110,13 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.loading = false;
         state.loggedIn = false;
-        state.message = authSuccessMessages["auth/user-created"];
+        state.isVerifyingEmail = true;
       })
       .addCase(createUser.rejected, (state) => {
         state.error = true;
         state.loading = false;
         state.loggedIn = false;
-        state.message = authErrorMessages["auth/error-creating-user"];
+        state.message = errorMessage || authErrorMessages["auth/error-creating-user"];
       });
   },
 });

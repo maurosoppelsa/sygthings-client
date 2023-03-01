@@ -8,6 +8,7 @@ import NewUserForm from './new-user-form';
 import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import colors from '../../config/colors';
 import { StatusBar } from 'expo-status-bar';
+import VerifyEmail from './verify-email';
 
 export default function Login() {
   const dispatch = useAppDispatch();
@@ -22,12 +23,13 @@ export default function Login() {
   }
 
   const goToRegister = () => {
+    dispatch(cleanupErrors())
     dispatch(toggleRegister());
   }
 
   const registerUser = (user: User) => {
+    dispatch(cleanupErrors())
     dispatch(createUser({ user }));
-    dispatch(toggleRegister())
   }
 
   const goToLogin = () => {
@@ -36,6 +38,9 @@ export default function Login() {
   }
 
   const getFormType = () => {
+    if (authentication.isVerifyingEmail) {
+      return (<VerifyEmail></VerifyEmail>);
+    }
     if (authentication.isRegistering) {
       return <NewUserForm onCreate={(user: User) => registerUser(user)} onCancel={() => goToLogin()} />
     } else {
@@ -53,7 +58,7 @@ export default function Login() {
       </View>
       {authentication.loading &&
         <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />}
-        <Text style={[styles.message, authentication.error ? styles.fail : styles.success]}>{authentication.message}</Text>
+      <Text style={styles.errorMessage}>{authentication.message}</Text>
       <StatusBar style="auto" />
     </View>
   );
@@ -75,15 +80,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
   },
-  message: {
+  errorMessage: {
     fontSize: 18,
     alignSelf: 'center',
     marginBottom: 25,
-  },
-  success: {
-    color: colors.syghtingGreen,
-  },
-  fail: {
     color: colors.red,
-  }
+  },
 });
