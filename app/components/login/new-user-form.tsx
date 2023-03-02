@@ -5,6 +5,8 @@ import { Button, Box } from "@react-native-material/core";
 import { Avatar, Card, Checkbox, TextInput } from 'react-native-paper';
 import { customRules, spanishErrorMessages } from '../../utils/customInputValidation';
 import { User } from '../../interfaces/common';
+import I18n from '../../../i18n/i18n';
+
 const { useValidation } = require('react-native-form-validator')
 
 type onCreateUser = (user: User) => void;
@@ -51,14 +53,14 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                 <Card.Title
                     titleStyle={styles.title}
                     subtitleStyle={styles.subtitle}
-                    title="User Register"
-                    subtitle="Welcome to syghtings!"
+                    title={I18n.t('Login.NewUser.title')}
+                    subtitle={I18n.t('Login.NewUser.subtitle')}
                     left={() => <Avatar.Icon style={styles.icon} size={55} icon="rabbit" />}
                 />
                 </Box>
                 <TextInput
                     style={styles.input}
-                    label="User Name"
+                    label={I18n.t('Login.NewUser.userName')}
                     onChangeText={name => setuserName(name)}
                     underlineColor={colors.syghtingGreen}
                     activeUnderlineColor={colors.syghtingDarkGreen}
@@ -73,7 +75,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
 
                 <TextInput
                     style={styles.input}
-                    label="Email"
+                    label={I18n.t('Login.NewUser.email')}
                     onChangeText={email => setEmail(email)}
                     underlineColor={colors.syghtingGreen}
                     activeUnderlineColor={colors.syghtingDarkGreen}
@@ -88,7 +90,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
 
                 <TextInput
                     style={styles.input}
-                    label="Password"
+                    label={I18n.t('Login.password')}
                     onChangeText={pass => setPassword(pass)}
                     secureTextEntry={true}
                     underlineColor={colors.syghtingGreen}
@@ -104,7 +106,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
 
                 <TextInput
                     style={styles.input}
-                    label="Confirm Password"
+                    label={I18n.t('Login.NewUser.confirmPassword')}
                     onChangeText={pass => setConfirmPassword(pass)}
                     secureTextEntry={true}
                     underlineColor={colors.syghtingGreen}
@@ -120,7 +122,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
 
                 <TextInput
                     style={styles.input}
-                    label="Occupation"
+                    label={I18n.t('Login.NewUser.ocuppation')}
                     onChangeText={occupation => setOccupation(occupation)}
                     underlineColor={colors.syghtingGreen}
                     activeUnderlineColor={colors.syghtingDarkGreen}
@@ -140,15 +142,15 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                             setChecked(!termsChecked);
                         }}
                     />
-                    <Text>Agree with </Text>
+                    <Text>{I18n.t('Login.NewUser.agreement')} </Text>
                     <TouchableOpacity onPress={() => console.log('terms and conditions')}>
-                        <Text style={styles.termsLink}>Terms and Conditions</Text>
+                        <Text style={styles.termsLink}>{I18n.t('Login.NewUser.terms')}</Text>
                     </TouchableOpacity>
                 </Box>
             </Box>
             <Box style={styles.buttonContainer}>
-                <Button disabled={!termsChecked} title="Create Account" style={styles.formButton} onPress={() => { createUser() }} />
-                <Button title="Cancel" style={styles.formButton} onPress={() => onCancel()} />
+                <Button disabled={!termsChecked} title={I18n.t('Login.NewUser.createAccount')} style={styles.formButton} onPress={() => { createUser() }} />
+                <Button title={I18n.t('Login.NewUser.cancel')} style={styles.formButton} onPress={() => onCancel()} />
             </Box>
         </Box>
     );

@@ -1,0 +1,21 @@
+{
+    "Login": {
+        "user": "User",
+        "password": "Password",
+        "notRegistered": "Not registered?",
+        "forgotPassword": "Forgot password!",
+        "signIn": "Sign in",
+        "NewUser": {
+            "title": "New User",
+            "subtitle": "Welcome to Syghting!",
+            "userName": "User Name",
+            "email": "Email",
+            "confirmPassword": "Confirm Password",
+            "ocuppation": "Ocuppation",
+            "agreement": "Agree with",
+            "terms": "Terms and Conditions",
+            "createAccount": "Create Account",
+            "cancel": "Cancel"
+        }
+    }
+}

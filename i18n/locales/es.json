@@ -1,0 +1,21 @@
+{
+    "Login": {
+        "user": "Usuario",
+        "password": "Contraseña",
+        "notRegistered": "¿No estás registrado?",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "signIn": "Iniciar sesión",
+        "NewUser": {
+            "title": "Nuevo Usuario",
+            "subtitle": "¡Bienvenido a Syghting!",
+            "userName": "Nombre de Usuario",
+            "email": "Correo Electrónico",
+            "confirmPassword": "Confirmar Contraseña",
+            "ocuppation": "Ocupación",
+            "agreement": "Acepto",
+            "terms": "Términos y Condiciones",
+            "createAccount": "Crear Cuenta",
+            "cancel": "Cancelar"
+        }
+    }
+}

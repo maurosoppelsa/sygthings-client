@@ -4,6 +4,7 @@ import colors from '../../config/colors';
 import { Button, Box } from "@react-native-material/core";
 import { TextInput } from 'react-native-paper';
 import logo from '../../assets/syghtings_logo.png';
+import I18n from '../../../i18n/i18n';
 
 export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { handleLogin: any, loadingUser: boolean, goToRegister: any }) {
   const [password, setPassword] = useState('');
@@ -19,7 +20,7 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { 
       <Box>
         <TextInput
           style={styles.input}
-          label="User"
+          label={I18n.t('Login.user')}
           onChangeText={name => setUsername(name)}
           autoComplete="username"
           underlineColor={colors.syghtingGreen}
@@ -29,7 +30,7 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { 
         />
         <TextInput
           style={styles.input}
-          label="Password"
+          label={I18n.t('Login.password')}
           onChangeText={pass => setPassword(pass)}
           secureTextEntry={true}
           autoComplete="password"
@@ -39,13 +40,13 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { 
           disabled={loadingUser}
         />
         <TouchableOpacity onPress={() => console.log("forgot!")}>
-          <Text style={styles.forgotPasswordLegend}>Forgot password!</Text>
+          <Text style={styles.forgotPasswordLegend}>{I18n.t('Login.forgotPassword')}</Text>
         </TouchableOpacity>
       </Box>
-      <Button title="Sign In" onPress={() => handleLogin(username, password)} disabled={isButtonEnabled()} style={styles.loginButton} />
+      <Button title={I18n.t('Login.signIn')} onPress={() => handleLogin(username, password)} disabled={isButtonEnabled()} style={styles.loginButton} />
       <TouchableOpacity onPress={() => goToRegister()}>
         <Text style={styles.registerlink}>
-          Not registered?
+          {I18n.t('Login.notRegistered')}
         </Text>
       </TouchableOpacity>
     </Box>
