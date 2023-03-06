@@ -3,16 +3,17 @@ import { Box } from "@react-native-material/core";
 import { StyleSheet, Text } from 'react-native';
 import colors from '../../config/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import I18n from '../../../i18n/i18n';
 
 export default function LocationDetailsComponent({ locationInfo }: { locationInfo: string }) {
-    const noLocationLegend = `We weren't able to locate your position, but you can do it manually.`;
+    const noLocationLegend = I18n.t('LocationDetails.noLocationLegend');
     return (
         <Box style={styles.container}>
             <Box>
                 <MaterialCommunityIcons name="map-marker" size={40} style={styles.locationIcon} />
             </Box>
             <Box style={styles.legend}>
-                <Text style={styles.title}>Your location</Text>
+                <Text style={styles.title}>{I18n.t('LocationDetails.yourLocation')}</Text>
                 <Text style={styles.details}>{locationInfo || noLocationLegend}</Text>
             </Box>
         </Box>

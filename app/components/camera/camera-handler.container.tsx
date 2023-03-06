@@ -8,6 +8,7 @@ import { Box } from '@react-native-material/core';
 import { toggleCamera, newPicture } from '../../redux/camera-slice';
 import { useAppDispatch } from '../../redux/store';
 import { useFocusEffect } from '@react-navigation/native';
+import I18n from '../../../i18n/i18n';
 
 export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
@@ -67,7 +68,7 @@ export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
     return <View />;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <Text>{I18n.t('Camera.noAccessCamera')}</Text>;
   }
   return (
     <View style={styles.container}>
@@ -75,7 +76,7 @@ export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
         {loadingPicture &&
           <Box style={styles.loadingBox}>
             <Box style={styles.loadingContent}>
-              <Text style={styles.loadingLeyend}>Loading Picture please wait</Text>
+              <Text style={styles.loadingLeyend}>{I18n.t('Camera.loading')}</Text>
               <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />
             </Box>
           </Box>}

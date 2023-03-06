@@ -17,5 +17,65 @@
             "createAccount": "Create Account",
             "cancel": "Cancel"
         }
+    },
+    "Navigation": {
+        "sections": {
+            "dashboard": "Last sightings",
+            "newSights": "New sighting",
+            "mySights": "My sightings",
+            "profile": "Profile"
+        }
+    },
+    "dashboard": {
+        "title": "Last sightings",
+        "legend": "What people seen..."
+    },
+    "Sight": {
+        "condition": "Condition",
+        "placeName": "Place",
+        "button": "see this sight"
+    },
+    "NewSight": {
+        "button": "Create new Sighting"
+    },
+    "MySights": {
+      "legend": "What you seen..."
+    },
+    "LocationDetails": {
+        "yourLocation": "Your location",
+        "noLocation": "We weren't able to locate your position, but you can do it manually."
+    },
+    "NewSightForm": {
+        "animalName": "Animal name",
+        "condition": "Condition",
+        "description": "Description",
+        "button": "Submit",
+        "alive": "Alive",
+        "dead": "Dead",
+        "wounded": "Wounded",
+        "statusModal": {
+            "success": {
+                "title": "Success!",
+                "message": "Thanks for submitting, your new sight will be under review."
+            },
+            "pending": {
+                "title": "Loading, please wait...",
+                "message": ""
+            },
+            "fail": {
+                "title": "Failed",
+                "message": "Something went wrong, please try again."
+            },
+            "close": "Close"
+        }
+    },
+    "Camera": {
+        "loading": "Loading Picture please wait...",
+        "noAccessCamera": "No camera access"
+    },
+    "Profile": {
+        "sightsLegend": "Thanks for your help! Animals around the world will appreciate your effort.",
+        "totalSights": "Total Sights",
+        "logout": "Logout"
     }
 }

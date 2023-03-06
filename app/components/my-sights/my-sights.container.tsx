@@ -4,6 +4,7 @@ import { Sight } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import { Text } from 'react-native';
 import SightListComponent from '../sight/sight-list.component';
+import I18n from '../../../i18n/i18n';
 
 
 export default function MySights() {
@@ -16,6 +17,6 @@ export default function MySights() {
             </Box>);
     }
     return (
-        <SightListComponent sightList={mySights} listTitle={"What I've seen..."} />
+        <SightListComponent sightList={mySights} listTitle={I18n.t('MySights.legend')} />
     );
 }

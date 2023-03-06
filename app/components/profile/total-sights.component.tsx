@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import colors from '../../config/colors';
 import { FontAwesome5 } from '@expo/vector-icons';
+import I18n from '../../../i18n/i18n';
 
 
 export default function TotalSightsComponent({ sightsAmount }: { sightsAmount: number }) {
@@ -10,7 +11,7 @@ export default function TotalSightsComponent({ sightsAmount }: { sightsAmount: n
         <Box style={styles.container}>
             <Box style={styles.titleContainer}>
                 <FontAwesome5 name="paw" size={20} onPress={() => () => { }} />
-                <Text style={styles.title}>Total Sights:</Text>
+                <Text style={styles.title}>{I18n.t('Profile.totalSights')}</Text>
             </Box>
             <Text style={styles.sightsAmount}>{sightsAmount}</Text>
         </Box>

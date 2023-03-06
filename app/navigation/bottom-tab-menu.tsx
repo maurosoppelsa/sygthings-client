@@ -10,6 +10,7 @@ import MySightsScreen from '../screens/my-sights.screen';
 import colors from '../config/colors';
 import ProfileScreen from '../screens/profile.screen';
 import PersonCircleComponent from '../components/common/profile-circle.component';
+import I18n from '../../i18n/i18n';
 
 
 const Stack = createNativeStackNavigator();
@@ -88,10 +89,10 @@ export default function TabNavigator() {
                 },
             })}
         >
-            <Tab.Screen name='Dashboard' component={DashboardStackScreen} options={{ tabBarShowLabel: false, title: 'Last Sights' }}></Tab.Screen>
-            <Tab.Screen name='NewSight' component={NewSightStackScreen} options={{ tabBarShowLabel: false, title: 'New Sights' }}></Tab.Screen>
-            <Tab.Screen name='MySights' component={MySightsStackScreen} options={{ tabBarShowLabel: false, title: 'My Sights' }}></Tab.Screen>
-            <Tab.Screen name='Profile' component={ProfileStackScreen} options={{ tabBarShowLabel: false, title: 'Profile', tabBarButton: () => null }}></Tab.Screen>
+            <Tab.Screen name='Dashboard' component={DashboardStackScreen} options={{ tabBarShowLabel: false, title: I18n.t('Navigation.sections.dashboard') }}></Tab.Screen>
+            <Tab.Screen name='NewSight' component={NewSightStackScreen} options={{ tabBarShowLabel: false, title: I18n.t('Navigation.sections.newSights') }}></Tab.Screen>
+            <Tab.Screen name='MySights' component={MySightsStackScreen} options={{ tabBarShowLabel: false, title: I18n.t('Navigation.sections.mySights') }}></Tab.Screen>
+            <Tab.Screen name='Profile' component={ProfileStackScreen} options={{ tabBarShowLabel: false, title: I18n.t('Navigation.sections.profile'), tabBarButton: () => null }}></Tab.Screen>
         </Tab.Navigator>
     );
 }

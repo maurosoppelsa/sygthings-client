@@ -4,6 +4,7 @@ import { StyleSheet, Text, Pressable, View, Image, TextInput } from "react-nativ
 import { RadioButton } from 'react-native-paper';
 import colors from "../../../config/colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import I18n from '../../../../i18n/i18n';
 
 export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo }: { imageUrl: { uri: string }, onSubmit: any, locationInfo: string }) {
     const [animalName, onChangeAnimalName] = React.useState("");
@@ -16,13 +17,13 @@ export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo
                 style={styles.animalInput}
                 onChangeText={onChangeAnimalName}
                 value={animalName}
-                placeholder='Animal name'
+                placeholder={I18n.t('NewSightForm.animalName')}
             />
             <TextInput
                 style={styles.animalInput}
                 onChangeText={onChangeDescription}
                 value={description}
-                placeholder='description'
+                placeholder={I18n.t('NewSightForm.description')}
             />
             <Box style={styles.radioContainer}>
                 <Text style={styles.radioTitle}>Alive</Text>
@@ -57,7 +58,7 @@ export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo
                 style={[styles.buttonSubmit, !animalName ? styles.buttonDisabled : styles.buttonEnabled]}
                 onPress={() => onSubmit({ animalName, description, condition: checked, placeName: locationInfo })}
             >
-                <Text style={styles.textStyle}>Submit</Text>
+                <Text style={styles.textStyle}>{I18n.t('NewSightForm.button')}</Text>
             </Pressable>
         </View>
     );

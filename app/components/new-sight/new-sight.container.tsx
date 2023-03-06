@@ -16,6 +16,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import NewSightModalComponent from './new-sight-modal/new-sight-modal.component';
 import { Box, Button } from '@react-native-material/core';
 import BackgroundComponent from '../common/background.component';
+import I18n from '../../../i18n/i18n';
 
 export default function NewSight() {
   const dispatch = useAppDispatch();
@@ -113,7 +114,7 @@ export default function NewSight() {
         <Box style={styles.locationDetailcontainer}>
           <Box style={styles.locationDetailContent}>
             <LocationDetailsComponent locationInfo={locationToLegend(locationInfo)} />
-            <Button style={styles.newSightBt} title='Create new sight' onPress={() => activateCamera()}></Button>
+            <Button style={styles.newSightBt} title={I18n.t('NewSight.button')} onPress={() => activateCamera()}></Button>
           </Box>
         </Box>
       </BackgroundComponent>

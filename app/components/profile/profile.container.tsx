@@ -9,6 +9,7 @@ import { useAppDispatch } from '../../redux/store';
 import { logoutUser } from '../../redux/auth-slice';
 import { Sight, User } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
+import I18n from '../../../i18n/i18n';
 
 export default function Profile() {
 
@@ -34,11 +35,11 @@ export default function Profile() {
                 </Box>
                 <Box style={styles.totalSightsContent}>
                     <TotalSightsComponent sightsAmount={mySights.length} />
-                    <Text style={styles.sightsLegend}>Thanks for your help! Animals around the world will appreciate your effort.</Text>
+                    <Text style={styles.sightsLegend}>{I18n.t('Profile.sightsLegend')}</Text>
                 </Box>
                 <TouchableOpacity style={styles.logoutBox} onPress={() => logout()}>
                     <MaterialCommunityIcons style={styles.logoutIcon} name="power-standby" size={20} />
-                    <Text style={styles.logoutTxt}>Log out</Text>
+                    <Text style={styles.logoutTxt}>{I18n.t('Profile.logout')}</Text>
                 </TouchableOpacity>
             </Box>
         </View>

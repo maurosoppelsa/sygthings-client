@@ -17,5 +17,64 @@
             "createAccount": "Crear Cuenta",
             "cancel": "Cancelar"
         }
+    },
+    "Navigation": {
+        "sections": {
+            "dashboard": "Últimos avistamientos",
+            "newSights": "Nuevo avistamientos",
+            "mySights": "Mis avistamientos",
+            "profile": "Perfil"
+        }
+    },
+    "Dashboard": {
+        "legend": "Que han visto las personas..."
+    },
+    "Sight": {
+        "placeName": "Lugar",
+        "condition": "Condición",
+        "button": "ver avistamiento"
+    },
+    "NewSight": {
+        "button": "Crear nuevo avistamiento"
+    },
+    "MySights": {
+        "legend": "Que has visto..."
+      },
+    "LocationDetails": {
+        "yourLocation": "Tu ubicación",
+        "noLocationLegend": "No hemos podido encontrar la ubicación, pero puedes hacerlo manualmente"
+    },
+    "NewSightForm": {
+        "animalName": "Nombre del animal",
+        "condition": "Condición",
+        "description": "Descripción",
+        "button": "Enviar",
+        "alive": "Vivo",
+        "dead": "Muerto",
+        "wounded": "Herido",
+        "statusModal": {
+            "success": {
+                "title": "Cargado con éxito",
+                "message": "Gracias por tu aporte, tu avistamiento se encontrará bajo revisión."
+            },
+            "pending": {
+                "title": "Cargando por favor espera...",
+                "message": ""
+            },
+            "fail": {
+                "title": "Error",
+                "message": "Ha ocurrido un error, por favor intenta nuevamente."
+            },
+            "close": "Cerrar"
+        }
+    },
+    "Camera": {
+        "loading": "Cargando foto por favor espere...",
+        "noAccessCamera": "No hay acceso a la cámara"
+    },
+    "Profile": {
+        "sightsLegend": "Gracias por tu ayuda, los animales del mundo apreciarán tu esfuerzo.",
+        "totalSights": "Total de avistamientos",
+        "logout": "Cerrar sesión"
     }
 }

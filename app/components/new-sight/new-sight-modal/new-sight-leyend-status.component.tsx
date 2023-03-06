@@ -3,6 +3,7 @@ import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
 import colors from '../../../config/colors';
 import { SIGHT_MODAL_STATUS } from '../../../constants';
+import I18n from '../../../../i18n/i18n';
 
 export default function NewSightLegendStatus({ status, onClose }: { status: string, onClose: any }) {
     let legendText: string = '';
@@ -11,19 +12,19 @@ export default function NewSightLegendStatus({ status, onClose }: { status: stri
 
     switch (status) {
         case SIGHT_MODAL_STATUS.SUCCESS:
-            legendText = 'Success!';
+            legendText = I18n.t('NewSightForm.statusModal.success.title');
             statusStyle = styles.success;
-            textInfo = 'Thanks for submitting, your new sight will be under review.';
+            textInfo = I18n.t('NewSightForm.statusModal.success.message');
             break;
         case SIGHT_MODAL_STATUS.PENDING:
-            legendText = 'Loading, please wait...';
+            legendText = I18n.t('NewSightForm.statusModal.pending.title');
             statusStyle = styles.pending;
-            textInfo = '';
+            textInfo = I18n.t('NewSightForm.statusModal.pending.message');
             break;
         default:
-            legendText = 'Failed';
+            legendText = I18n.t('NewSightForm.statusModal.fail.title');
             statusStyle = styles.failed;
-            textInfo = 'Something went wrong, please try again.';
+            textInfo = I18n.t('NewSightForm.statusModal.fail.message');
     }
     return (
         <Box style={styles.container}>
@@ -37,7 +38,7 @@ export default function NewSightLegendStatus({ status, onClose }: { status: stri
                     style={styles.closeButton}
                     onPress={() => { onClose() }}
                 >
-                    <Text style={styles.closeText}>Close</Text>
+                    <Text style={styles.closeText}>{I18n.t('NewSightForm.statusModal.close')}</Text>
                 </Pressable>}
         </Box>
     );

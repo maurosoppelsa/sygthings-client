@@ -3,6 +3,7 @@ import { Image, Text, StyleSheet } from "react-native";
 import { Box, Button } from "@react-native-material/core";
 import colors from '../../config/colors';
 import { Sight } from "../../interfaces/common";
+import I18n from '../../../i18n/i18n';
 
 export default function SightComponent({ sight, getDetails }: { sight: Sight, getDetails: any }) {
     return (
@@ -15,11 +16,11 @@ export default function SightComponent({ sight, getDetails }: { sight: Sight, ge
                 </Box>
                 <Box style={styles.rightContent}>
                     <Box style={styles.sightInfoTitleBox}>
-                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.sightInfoTitleText}>Place: <Text>{sight?.placeName}</Text></Text>
-                        <Text style={styles.sightInfoTitleText}>Condition: {sight?.condition}</Text>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.sightInfoTitleText}>{I18n.t('Sight.placeName')}: <Text>{sight?.placeName}</Text></Text>
+                        <Text style={styles.sightInfoTitleText}>{I18n.t('Sight.condition')}: {sight?.condition}</Text>
                         <Text style={styles.sightAuthor}>Created by John Doe, 05/02/22 </Text>
                     </Box>
-                    <Button title={'See this sight'} style={styles.sightBt} onPress={() => getDetails(sight)}></Button>
+                    <Button title={I18n.t('Sight.button')} style={styles.sightBt} onPress={() => getDetails(sight)}></Button>
                 </Box>
             </Box>
     );
