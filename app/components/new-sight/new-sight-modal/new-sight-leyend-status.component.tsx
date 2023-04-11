@@ -33,7 +33,7 @@ export default function NewSightLegendStatus({ status, onClose }: { status: stri
             {status === SIGHT_MODAL_STATUS.PENDING &&
                 <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />}
 
-            {status === (SIGHT_MODAL_STATUS.SUCCESS ||  SIGHT_MODAL_STATUS.FAILED) &&
+            {(status === (SIGHT_MODAL_STATUS.SUCCESS) || (status === SIGHT_MODAL_STATUS.FAILED)) &&
                 <Pressable
                     style={styles.closeButton}
                     onPress={() => { onClose() }}

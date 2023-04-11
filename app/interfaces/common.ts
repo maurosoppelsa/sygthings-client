@@ -9,6 +9,7 @@ export type User = {
 
 export type Sight = {
     animal: string;
+    province: string;
     picture: {
         height: number,
         uri: string,
@@ -22,7 +23,7 @@ export type Sight = {
     },
     description: string;
     createdAt: string;
-    userId: string;
+    userId: string | undefined;
 } | null
 
 export type Picture = {

@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { SIGHT_MODAL_STATUS } from "../constants";
 import { Sight } from "../interfaces/common";
 import SightService from "../services/sight.service";
-import { fakeResp } from "../utils/mocks";
 import { newSightState } from "./interfaces";
 
 
@@ -15,16 +14,15 @@ const initialState: newSightState = {
   currentSights: [],
 };
 
-const authService: SightService = SightService.getInstance();
+const sightService: SightService = SightService.getInstance();
 
 export const createSight = createAsyncThunk<{ sight: Sight }, { sight: Sight }>(
   "createSight",
   async ({ sight }) => {
-    const response = await fakeResp(true, 1000);
-    if (response.success) {
+    const response = await sightService.createSight(sight);
+    if (response) {
       return {
         sight,
-        // newSight: response.body ?? [],
       };
     } else {
       throw "Error creating sight";
@@ -35,7 +33,7 @@ export const createSight = createAsyncThunk<{ sight: Sight }, { sight: Sight }>(
 export const getCurrentSights = createAsyncThunk<{ sights: Sight[] }>(
   "getCurrentSights",
   async () => {
-    const response = await authService.getAllSights();
+    const response = await sightService.getAllSights();
     if (response.sights.length !== 0) {
       return {
         sights: response.sights,

@@ -17,6 +17,7 @@ import NewSightModalComponent from './new-sight-modal/new-sight-modal.component'
 import { Box, Button } from '@react-native-material/core';
 import BackgroundComponent from '../common/background.component';
 import I18n from '../../../i18n/i18n';
+import { User } from '../../interfaces/common';
 
 export default function NewSight() {
   const dispatch = useAppDispatch();
@@ -28,6 +29,7 @@ export default function NewSight() {
   const mapImageUrl = useSelector((state: any) => state.geolocationInfo.mapImageUrl);
   const locationInfo = useSelector((state: any) => state.geolocationInfo.locationInfo);
   const showChangeLocationModal = useSelector((state: any) => state.geolocationInfo.showLocationModal);
+  const currentUser: User = useSelector((state: any) => state.authentication.user);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -63,7 +65,8 @@ export default function NewSight() {
         location: currentCoordinates,
         description: animalInfo.description,
         createdAt: JSON.stringify(new Date(Date.now())),
-        userId: '',
+        province: locationInfo.region,
+        userId: currentUser?.id,
       }
     }));
   }
