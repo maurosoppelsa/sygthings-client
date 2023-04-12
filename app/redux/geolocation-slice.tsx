@@ -27,7 +27,7 @@ export const getMapUrl = createAsyncThunk<{ mapUrl: any }>(
   }
 );
 
-export const getLocationInfo = createAsyncThunk<{ locationInfo: {country: string, region: string, place: string} }>(
+export const getLocationInfo = createAsyncThunk<{ locationInfo: { country: string, region: string, place: string } }>(
   "getLocationInfo",
   async () => {
     const response = await geoService.getLocationInfo();
@@ -51,12 +51,16 @@ export const setCurrentCoordinates = createAsyncThunk(
   }
 );
 
+export const resetGeoLocation = createAsyncThunk("resetGeoLocation", () => {
+  return;
+});
+
 const geolocationSlice = createSlice({
   name: "mapSlice",
   initialState,
   reducers: {
     toggleLocationModal: (state: any) => {
-        state.showLocationModal = !state.showLocationModal;
+      state.showLocationModal = !state.showLocationModal;
     },
   },
   extraReducers: (builder) => {
@@ -87,9 +91,16 @@ const geolocationSlice = createSlice({
       .addCase(getLocationInfo.rejected, (state) => {
         state.error = true;
         state.loading = false;
+      })
+      .addCase(resetGeoLocation.fulfilled, (state) => {
+        state.mapImageUrl = '';
+        state.error = false;
+        state.loading = false;
+        state.coordinates = {};
+        state.locationInfo = {};
       });
   },
 });
 
 export default geolocationSlice.reducer;
-export const {toggleLocationModal} = geolocationSlice.actions;
+export const { toggleLocationModal } = geolocationSlice.actions;

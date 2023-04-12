@@ -23,7 +23,7 @@ export default function Profile() {
             <Box style={styles.profileContent}>
                 <MaterialCommunityIcons style={styles.editBt} name="border-color" size={20} onPress={() => () => { }} />
                 <Box style={styles.personContent}>
-                    <PersonCircleComponent fullname={"Emma Phillips"}></PersonCircleComponent>
+                    <PersonCircleComponent fullname={currentUser?.username}></PersonCircleComponent>
                     <Box style={styles.personDescription}>
                         <Text>{currentUser?.username}</Text>
                         <Text style={styles.occupation}>{currentUser?.occupation}</Text>

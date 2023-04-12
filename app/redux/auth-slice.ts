@@ -2,7 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { User } from "../interfaces/common";
 import AuthService from "../services/auth.service";
 import { AppState } from "./interfaces";
-import { authErrorMessages, authSuccessMessages } from "../messages";
+import { authErrorMessages } from "../messages";
+import { resetSights } from "./sight-slice";
+import { resetGeoLocation } from "./geolocation-slice";
 
 let errorMessage = "";
 
@@ -35,13 +37,17 @@ export const loginUser = createAsyncThunk<{ user: User }, { user: User }>(
 
 export const logoutUser = createAsyncThunk<{}>(
   "logoutUser",
-  async () => {
+  async (_, { dispatch }) => {
+    
+    dispatch(resetSights());
+    dispatch(resetGeoLocation());
+
     const response = await authService.logout();
     if (response.success) {
       return;
     } else {
-      errorMessage = response.message;
-      throw "Error login user";
+      const errorMessage = response.message;
+      throw new Error(`Error logout: ${errorMessage}`);
     }
   }
 );

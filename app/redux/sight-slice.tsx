@@ -30,13 +30,13 @@ export const createSight = createAsyncThunk<{ sight: Sight }, { sight: Sight }>(
   }
 );
 
-export const getCurrentSights = createAsyncThunk<{ sights: Sight[] }>(
+export const getCurrentSights = createAsyncThunk<{ sights: Sight[] }, string>(
   "getCurrentSights",
-  async () => {
-    const response = await sightService.getAllSights();
-    if (response.sights.length !== 0) {
+  async (userId) => {
+    const response = await sightService.getAllSights(userId);
+    if (response.data.length !== 0) {
       return {
-        sights: response.sights,
+        sights: response.data,
       };
     } else {
       throw "Error getting sights";
@@ -57,6 +57,10 @@ export const getSightsByUser = createAsyncThunk<{ sights: Sight[] }, string>(
     }
   }
 );
+
+export const resetSights = createAsyncThunk("resetSights", async () => {
+  return;
+});
 
 
 const sightSlice = createSlice({
@@ -105,6 +109,10 @@ const sightSlice = createSlice({
       })
       .addCase(getSightsByUser.rejected, (state) => {
         state.error = true;
+      })
+      .addCase(resetSights.fulfilled, (state) => {
+        state.currentSights = [];
+        state.mySights = [];
       });
   },
 });

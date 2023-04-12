@@ -6,13 +6,17 @@ import { getCurrentSights } from '../../redux/sight-slice';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import colors from '../../config/colors';
 import I18n from '../../../i18n/i18n';
+import { User } from '../../interfaces/common';
 
 export default function Dashboard() {
   const dispatch = useAppDispatch();
   const lastSightsList = useSelector((state: any) => state.sight.currentSights);
+  const currentUser: User = useSelector((state: any) => state.authentication.user);
 
   useEffect(() => {
-    dispatch(getCurrentSights());
+    if (currentUser?.id) {
+      dispatch(getCurrentSights(currentUser.id));
+    }
   }, []);
   if (!lastSightsList) {
     return (

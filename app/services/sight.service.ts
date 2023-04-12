@@ -16,9 +16,9 @@ export default class SightService {
         return SightService._instance;
     }
 
-    public getAllSights() {
+    public getAllSights(userId: string) {
         const cookie = AsyncStorage.getItem('cookie');
-        return fetch(`${SERVER_URL}/sight`, {
+        return fetch(`${SERVER_URL}/sight/exclude/${userId}`, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',

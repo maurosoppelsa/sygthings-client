@@ -11,6 +11,8 @@ import colors from '../config/colors';
 import ProfileScreen from '../screens/profile.screen';
 import PersonCircleComponent from '../components/common/profile-circle.component';
 import I18n from '../../i18n/i18n';
+import { User } from '../interfaces/common';
+import { useSelector } from 'react-redux';
 
 
 const Stack = createNativeStackNavigator();
@@ -71,8 +73,9 @@ export default function TabNavigator() {
                     backgroundColor: colors.syghtingGreen,
                 },
                 headerRight(props) {
+                    const currentUser: User = useSelector((state: any) => state.authentication.user);
                     return <TouchableOpacity style={styles.profileBt} onPress={() => navigation.navigate('Profile')}>
-                        <PersonCircleComponent image={'https://images.pexels.com/photos/773371/pexels-photo-773371.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}></PersonCircleComponent>
+                        <PersonCircleComponent fullname={currentUser?.username}></PersonCircleComponent>
                     </TouchableOpacity>
                 },
                 tabBarIcon: ({ focused }) => {
