@@ -32,6 +32,22 @@ export default class SightService {
             .catch((error) => console.error(error))
     }
 
+    public getSightsByUser(userId: string) {
+        const cookie = AsyncStorage.getItem('cookie');
+        return fetch(`${SERVER_URL}/sight/${userId}`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `${cookie}`,
+            },
+        })
+            .then((response) => response.json())
+            .then((json) => {
+                return json;
+            })
+            .catch((error) => console.error(error))
+    }
+
     public createSight(sight: any) {
         const cookie = AsyncStorage.getItem('cookie');
         return fetch(`${SERVER_URL}/sight`, {

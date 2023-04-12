@@ -44,6 +44,21 @@ export const getCurrentSights = createAsyncThunk<{ sights: Sight[] }>(
   }
 );
 
+export const getSightsByUser = createAsyncThunk<{ sights: Sight[] }, string>(
+  "getSightsByUser",
+  async (userId) => {
+    const response = await sightService.getSightsByUser(userId);
+    if (response.data.length !== 0) {
+      return {
+        sights: response.data,
+      };
+    } else {
+      throw "Error getting sights";
+    }
+  }
+);
+
+
 const sightSlice = createSlice({
   name: "sightSlice",
   initialState,
@@ -79,6 +94,16 @@ const sightSlice = createSlice({
         state.currentSights = action.payload.sights;
       })
       .addCase(getCurrentSights.rejected, (state) => {
+        state.error = true;
+      })
+      .addCase(getSightsByUser.pending, (state) => {
+        state.error = false;
+      })
+      .addCase(getSightsByUser.fulfilled, (state, action) => {
+        state.error = false;
+        state.mySights = action.payload.sights;
+      })
+      .addCase(getSightsByUser.rejected, (state) => {
         state.error = true;
       });
   },

@@ -39,7 +39,8 @@
         "button": "Create new Sighting"
     },
     "MySights": {
-      "legend": "What you seen..."
+      "legend": "What you seen...",
+      "noSights": "You don't have any sight yet."
     },
     "LocationDetails": {
         "yourLocation": "Your location",

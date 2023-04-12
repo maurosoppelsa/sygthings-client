@@ -38,7 +38,8 @@
         "button": "Crear nuevo avistamiento"
     },
     "MySights": {
-        "legend": "Que has visto..."
+        "legend": "Que has visto...",
+        "noSights": "No has realizado ningún avistamiento"
       },
     "LocationDetails": {
         "yourLocation": "Tu ubicación",
