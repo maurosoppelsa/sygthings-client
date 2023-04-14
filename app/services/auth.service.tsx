@@ -24,7 +24,7 @@ export default class AuthService {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: user?.username,
+                email: user?.email,
                 password: user?.password,
             })
         }).then((response: any) => {
@@ -64,7 +64,8 @@ export default class AuthService {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                username: user?.username,
+                name: user?.name,
+                lastName: user?.lastName,
                 email: user?.email,
                 occupation: user?.occupation,
                 password: user?.password,

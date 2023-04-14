@@ -14,9 +14,9 @@ export default function Login() {
   const dispatch = useAppDispatch();
   //const navi = useNavigation<any>();
   const authentication = useSelector((state: any) => state.authentication);
-  const handleLogin = (username: string, password: string) => {
+  const handleLogin = (email: string, password: string) => {
     const user: User = {
-      username,
+      email,
       password,
     };
     dispatch(loginUser({ user }));
@@ -45,7 +45,7 @@ export default function Login() {
       return <NewUserForm onCreate={(user: User) => registerUser(user)} onCancel={() => goToLogin()} />
     } else {
       return <LoginForm
-        handleLogin={(username: string, password: string) => handleLogin(username, password)}
+        handleLogin={(email: string, password: string) => handleLogin(email, password)}
         loadingUser={authentication.loading} goToRegister={() => goToRegister()} />
     }
   }

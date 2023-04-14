@@ -1,6 +1,6 @@
 {
     "Login": {
-        "user": "User",
+        "email": "Email",
         "password": "Password",
         "notRegistered": "Not registered?",
         "forgotPassword": "Forgot password!",
@@ -8,7 +8,8 @@
         "NewUser": {
             "title": "New User",
             "subtitle": "Welcome to Syghting!",
-            "userName": "User Name",
+            "name": "Name",
+            "lastName": "Last Name",
             "email": "Email",
             "confirmPassword": "Confirm Password",
             "ocuppation": "Ocuppation",

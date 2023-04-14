@@ -17,15 +17,16 @@ export default function Profile() {
     const logout = () => dispatch(logoutUser());
     const mySights: Array<Sight> = useSelector((state: any) => state.sight.mySights);
     const currentUser: User = useSelector((state: any) => state.authentication.user);
+    const fullName = `${currentUser?.name} ${currentUser?.lastName}`;
 
     return (
         <View style={styles.container}>
             <Box style={styles.profileContent}>
                 <MaterialCommunityIcons style={styles.editBt} name="border-color" size={20} onPress={() => () => { }} />
                 <Box style={styles.personContent}>
-                    <PersonCircleComponent fullname={currentUser?.username}></PersonCircleComponent>
+                    <PersonCircleComponent fullname={fullName}></PersonCircleComponent>
                     <Box style={styles.personDescription}>
-                        <Text>{currentUser?.username}</Text>
+                        <Text>{fullName}</Text>
                         <Text style={styles.occupation}>{currentUser?.occupation}</Text>
                     </Box>
                 </Box>

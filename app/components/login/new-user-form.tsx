@@ -14,7 +14,8 @@ type onCreateUser = (user: User) => void;
 export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreateUser, onCancel: any }) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [username, setuserName] = useState('');
+    const [name, setName] = useState('');
+    const [lastName, setlastName] = useState('');
     const [email, setEmail] = useState('');
     const [occupation, setOccupation] = useState('');
     const [touchedForm, setTouchedForm] = useState(false);
@@ -22,19 +23,20 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
 
     const { validate, isFieldInError, getErrorsInField, getErrorMessages } =
         useValidation({
-            state: { username, email, password, confirmPassword, occupation },
+            state: { name, lastName, email, password, confirmPassword, occupation },
             deviceLocale: 'es',
             messages: spanishErrorMessages,
             rules: customRules
         });
 
     const formIsNotEmpty = () => {
-        return username && email && password && confirmPassword && occupation;
+        return name && lastName && email && password && confirmPassword && occupation;
     };
 
     const createUser = () => {
         validate({
-            username: { minlength: 3, maxlength: 7, required: true },
+            name: { minlength: 3, maxlength: 7, required: true },
+            lastName: { minlength: 3, maxlength: 7, required: true },
             email: { email: true, required: true },
             password: { minlength: 3, maxlength: 7, required: true },
             confirmPassword: { equalPassword: password, required: true },
@@ -42,7 +44,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
         });
         setTouchedForm(false);
         if (getErrorMessages().length === 0 && formIsNotEmpty()) {
-            onCreate({ username, password, email, occupation });
+            onCreate({ name, lastName, password, email, occupation });
         }
     };
 
@@ -50,26 +52,41 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
         <Box>
             <Box>
                 <Box style={styles.headerContent}>
-                <Card.Title
-                    titleStyle={styles.title}
-                    subtitleStyle={styles.subtitle}
-                    title={I18n.t('Login.NewUser.title')}
-                    subtitle={I18n.t('Login.NewUser.subtitle')}
-                    left={() => <Avatar.Icon style={styles.icon} size={55} icon="rabbit" />}
-                />
+                    <Card.Title
+                        titleStyle={styles.title}
+                        subtitleStyle={styles.subtitle}
+                        title={I18n.t('Login.NewUser.title')}
+                        subtitle={I18n.t('Login.NewUser.subtitle')}
+                        left={() => <Avatar.Icon style={styles.icon} size={55} icon="rabbit" />}
+                    />
                 </Box>
                 <TextInput
                     style={styles.input}
-                    label={I18n.t('Login.NewUser.userName')}
-                    onChangeText={name => setuserName(name)}
+                    label={I18n.t('Login.NewUser.name')}
+                    onChangeText={name => setName(name)}
                     underlineColor={colors.syghtingGreen}
                     activeUnderlineColor={colors.syghtingDarkGreen}
                     left={<TextInput.Icon color={colors.gray} name="account" />}
-                    error={isFieldInError('username') && !touchedForm}
+                    error={isFieldInError('name') && !touchedForm}
                     onFocus={() => setTouchedForm(true)}
                 />
-                {isFieldInError('username') && !touchedForm &&
-                    getErrorsInField('username').map((errorMessage: any, index: any) => (
+                {isFieldInError('name') && !touchedForm &&
+                    getErrorsInField('name').map((errorMessage: any, index: any) => (
+                        <Text style={styles.error} key={index}>{errorMessage}</Text>
+                    ))}
+
+                <TextInput
+                    style={styles.input}
+                    label={I18n.t('Login.NewUser.lastName')}
+                    onChangeText={lastName => setlastName(lastName)}
+                    underlineColor={colors.syghtingGreen}
+                    activeUnderlineColor={colors.syghtingDarkGreen}
+                    left={<TextInput.Icon color={colors.gray} name="account" />}
+                    error={isFieldInError('lastName') && !touchedForm}
+                    onFocus={() => setTouchedForm(true)}
+                />
+                {isFieldInError('lastName') && !touchedForm &&
+                    getErrorsInField('lastName').map((errorMessage: any, index: any) => (
                         <Text style={styles.error} key={index}>{errorMessage}</Text>
                     ))}
 

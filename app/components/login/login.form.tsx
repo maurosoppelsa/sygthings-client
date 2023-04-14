@@ -8,9 +8,9 @@ import I18n from '../../../i18n/i18n';
 
 export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { handleLogin: any, loadingUser: boolean, goToRegister: any }) {
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const isButtonEnabled = () => {
-    return !password || !username || loadingUser;
+    return !password || !email || loadingUser;
   };
   return (
     <Box>
@@ -20,12 +20,12 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { 
       <Box>
         <TextInput
           style={styles.input}
-          label={I18n.t('Login.user')}
-          onChangeText={name => setUsername(name)}
-          autoComplete="username"
+          label={I18n.t('Login.email')}
+          onChangeText={email => setEmail(email)}
+          autoComplete="email"
           underlineColor={colors.syghtingGreen}
           activeUnderlineColor={colors.syghtingDarkGreen}
-          left={<TextInput.Icon color={colors.gray} name="account" />}
+          left={<TextInput.Icon color={colors.gray} name="email" />}
           disabled={loadingUser}
         />
         <TextInput
@@ -43,7 +43,7 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { 
           <Text style={styles.forgotPasswordLegend}>{I18n.t('Login.forgotPassword')}</Text>
         </TouchableOpacity>
       </Box>
-      <Button title={I18n.t('Login.signIn')} onPress={() => handleLogin(username, password)} disabled={isButtonEnabled()} style={styles.loginButton} />
+      <Button title={I18n.t('Login.signIn')} onPress={() => handleLogin(email, password)} disabled={isButtonEnabled()} style={styles.loginButton} />
       <TouchableOpacity onPress={() => goToRegister()}>
         <Text style={styles.registerlink}>
           {I18n.t('Login.notRegistered')}

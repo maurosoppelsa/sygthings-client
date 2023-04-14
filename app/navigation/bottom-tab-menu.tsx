@@ -75,7 +75,7 @@ export default function TabNavigator() {
                 headerRight(props) {
                     const currentUser: User = useSelector((state: any) => state.authentication.user);
                     return <TouchableOpacity style={styles.profileBt} onPress={() => navigation.navigate('Profile')}>
-                        <PersonCircleComponent fullname={currentUser?.username}></PersonCircleComponent>
+                        <PersonCircleComponent fullname={`${currentUser?.name} ${currentUser?.lastName}`}></PersonCircleComponent>
                     </TouchableOpacity>
                 },
                 tabBarIcon: ({ focused }) => {
