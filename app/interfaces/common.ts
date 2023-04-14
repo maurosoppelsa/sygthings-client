@@ -27,6 +27,32 @@ export type Sight = {
     userId: string | undefined;
 } | null
 
+export type SightWithUser= {
+    animal: string;
+    province: string;
+    picture: {
+        height: number,
+        uri: string,
+        with: number,
+    },
+    condition: string;
+    placeName: string;
+    location: {
+        latitude: string;
+        longitude: string;
+    },
+    description: string;
+    createdAt: string;
+    userId: string | undefined;
+    user: [
+        {
+            name: string,
+            lastName: string,
+            occupation: string,  
+        }
+    ]
+} | null
+
 export type Picture = {
     height: number;
     width: number;

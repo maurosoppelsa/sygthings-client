@@ -33,7 +33,8 @@
     "Sight": {
         "placeName": "Lugar",
         "condition": "Condición",
-        "button": "ver avistamiento"
+        "button": "ver avistamiento",
+        "createdBy": "Creado por"
     },
     "NewSight": {
         "button": "Crear nuevo avistamiento"
