@@ -34,7 +34,8 @@
         "placeName": "Lugar",
         "condition": "Condición",
         "button": "ver avistamiento",
-        "createdBy": "Creado por"
+        "createdBy": "Creado por",
+        "createdAt": "Creado"
     },
     "NewSight": {
         "button": "Crear nuevo avistamiento"

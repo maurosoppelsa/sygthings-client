@@ -35,7 +35,8 @@
         "condition": "Condition",
         "placeName": "Place",
         "button": "see this sight",
-        "createdBy": "Created by"
+        "createdBy": "Created by",
+        "createdAt": "Created"
     },
     "NewSight": {
         "button": "Create new Sighting"

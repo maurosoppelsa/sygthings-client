@@ -64,7 +64,7 @@ export default function NewSight() {
         placeName: animalInfo.placeName,
         location: currentCoordinates,
         description: animalInfo.description,
-        createdAt: JSON.stringify(new Date(Date.now())),
+        createdAt: new Date(Date.now()).toISOString(),
         province: locationInfo.region,
         userId: currentUser?.id,
       }

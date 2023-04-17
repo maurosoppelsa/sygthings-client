@@ -1,3 +1,10 @@
+import moment from 'moment';
+import I18n from '../../i18n/i18n';
+import { defaultLanguage } from '../config/language';
+import 'moment/locale/es'; 
+
+moment.locale(defaultLanguage);
+
 export const hasEmptyProperties = (obj: any) => Object.values(obj).every(x => (x === null || x === ''));
 
 export const getInitials = function (fullname: string) {
@@ -15,4 +22,18 @@ export const capitalizeText = function (text: string = '') {
         return;
     }
     return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+export const getFormattedDate = function (date: string) {
+    return moment(date).format('DD/MM/YYYY:HH:mm');
+}
+
+export const getDateFromNow = function (date: string) {
+    return moment(date).fromNow();
+  }  
+
+export const getCreatedByLegend = function (firstName: string = '', lastName: string = '', createdAt: string | undefined) {
+    if (!createdAt) return;
+    if (!firstName || !lastName) return `${I18n.t('Sight.createdAt')} ${getDateFromNow(createdAt)}`;
+    return `${I18n.t('Sight.createdBy')} ${capitalizeText(firstName)} ${capitalizeText(lastName)} ${getDateFromNow(createdAt)}`;
 }

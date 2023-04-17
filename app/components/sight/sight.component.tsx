@@ -2,11 +2,12 @@ import React from "react";
 import { Image, Text, StyleSheet } from "react-native";
 import { Box, Button } from "@react-native-material/core";
 import colors from '../../config/colors';
-import { SightWithUser } from "../../interfaces/common";
+import { Sight } from "../../interfaces/common";
 import I18n from '../../../i18n/i18n';
-import { capitalizeText } from '../../utils/common';
+import { getCreatedByLegend } from '../../utils/common';
 
-export default function SightComponent({ sight, getDetails }: { sight: SightWithUser, getDetails: any }) {
+export default function SightComponent({ sight, getDetails }: { sight: Sight, getDetails: any }) {
+    const { name, lastName } = sight?.user ?? {};
     return (
         <Box style={styles.container}>
             <Box style={styles.leftContent}>
@@ -19,10 +20,9 @@ export default function SightComponent({ sight, getDetails }: { sight: SightWith
                 <Box style={styles.sightInfoTitleBox}>
                     <Text numberOfLines={1} ellipsizeMode='tail' style={styles.sightInfoTitleText}>{I18n.t('Sight.placeName')}: <Text>{sight?.placeName}</Text></Text>
                     <Text style={styles.sightInfoTitleText}>{I18n.t('Sight.condition')}: {sight?.condition}</Text>
-                    {sight?.user &&
-                        <Text style={styles.sightAuthor}>{I18n.t('Sight.createdBy')} {capitalizeText(sight?.user[0]?.name) + ' '}
-                            {capitalizeText(sight?.user[0]?.lastName)}</Text>
-                    }
+                    <Text style={styles.sightAuthor}>
+                        {getCreatedByLegend(name, lastName, sight?.createdAt)}
+                    </Text>
                 </Box>
                 <Button title={I18n.t('Sight.button')} style={styles.sightBt} onPress={() => getDetails(sight)}></Button>
             </Box>

@@ -4,10 +4,11 @@ import { StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import colors from '../../config/colors';
 import { Sight } from '../../interfaces/common';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { capitalizeText } from '../../utils/common';
+import { capitalizeText, getCreatedByLegend } from '../../utils/common';
 
 
 export default function SightDetailsComponent({ sight, onClose }: { sight: Sight, onClose: any }) {
+    const { name, lastName } = sight?.user ?? {};
     return (
         <Box style={styles.container}>
             <Image style={styles.sightImage} source={{ uri: sight?.picture.uri }} />
@@ -25,7 +26,9 @@ export default function SightDetailsComponent({ sight, onClose }: { sight: Sight
             <Box style={styles.detailsContainer}>
                 <Text>Condition: {capitalizeText(sight?.condition)}</Text>
                 <Text>Description: <Text style={styles.description}>{sight?.description}</Text></Text>
-                <Text style={styles.createdText}>Created by Emma Phillips, Biologist, at {sight?.createdAt}</Text>
+                <Text style={styles.createdText}>
+                    {getCreatedByLegend(name, lastName, sight?.createdAt)}
+                </Text>
             </Box>
         </Box>
     );
