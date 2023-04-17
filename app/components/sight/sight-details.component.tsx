@@ -8,7 +8,7 @@ import { capitalizeText, getCreatedByLegend } from '../../utils/common';
 
 
 export default function SightDetailsComponent({ sight, onClose }: { sight: Sight, onClose: any }) {
-    const { name, lastName } = sight?.user ?? {};
+    const { name, lastName, occupation } = sight?.user ?? {};
     return (
         <Box style={styles.container}>
             <Image style={styles.sightImage} source={{ uri: sight?.picture.uri }} />
@@ -27,7 +27,7 @@ export default function SightDetailsComponent({ sight, onClose }: { sight: Sight
                 <Text>Condition: {capitalizeText(sight?.condition)}</Text>
                 <Text>Description: <Text style={styles.description}>{sight?.description}</Text></Text>
                 <Text style={styles.createdText}>
-                    {getCreatedByLegend(name, lastName, sight?.createdAt)}
+                    {getCreatedByLegend(name, lastName, occupation, sight?.createdAt)}
                 </Text>
             </Box>
         </Box>

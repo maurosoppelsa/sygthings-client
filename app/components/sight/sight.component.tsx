@@ -21,7 +21,7 @@ export default function SightComponent({ sight, getDetails }: { sight: Sight, ge
                     <Text numberOfLines={1} ellipsizeMode='tail' style={styles.sightInfoTitleText}>{I18n.t('Sight.placeName')}: <Text>{sight?.placeName}</Text></Text>
                     <Text style={styles.sightInfoTitleText}>{I18n.t('Sight.condition')}: {sight?.condition}</Text>
                     <Text style={styles.sightAuthor}>
-                        {getCreatedByLegend(name, lastName, sight?.createdAt)}
+                        {getCreatedByLegend(name, lastName,'',sight?.createdAt)}
                     </Text>
                 </Box>
                 <Button title={I18n.t('Sight.button')} style={styles.sightBt} onPress={() => getDetails(sight)}></Button>

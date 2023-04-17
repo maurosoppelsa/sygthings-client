@@ -32,8 +32,14 @@ export const getDateFromNow = function (date: string) {
     return moment(date).fromNow();
   }  
 
-export const getCreatedByLegend = function (firstName: string = '', lastName: string = '', createdAt: string | undefined) {
+  export const getCreatedByLegend = function (firstName: string = '', lastName: string = '', occupation: string = '', createdAt: string = '') {
     if (!createdAt) return;
     if (!firstName || !lastName) return `${I18n.t('Sight.createdAt')} ${getDateFromNow(createdAt)}`;
-    return `${I18n.t('Sight.createdBy')} ${capitalizeText(firstName)} ${capitalizeText(lastName)} ${getDateFromNow(createdAt)}`;
+    return (
+        `${I18n.t('Sight.createdBy')} ` +
+        `${capitalizeText(firstName)} ${capitalizeText(lastName)} ` +
+        `${occupation ? ', ' + capitalizeText(occupation) + ', ' : ''} ` +
+        `${getDateFromNow(createdAt)}`
+    );
 }
+
