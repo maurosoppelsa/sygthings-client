@@ -6,10 +6,13 @@ import colors from "../../../config/colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import I18n from '../../../../i18n/i18n';
 
-export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo }: { imageUrl: { uri: string }, onSubmit: any, locationInfo: string }) {
+export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo, onClose }: { imageUrl: { uri: string }, onSubmit: any, locationInfo: string, onClose: any }) {
     const [animalName, onChangeAnimalName] = React.useState("");
     const [description, onChangeDescription] = React.useState("");
-    const [checked, setChecked] = React.useState('Alive');
+    const alive = I18n.t('NewSightForm.alive');
+    const wounded = I18n.t('NewSightForm.wounded');
+    const dead = I18n.t('NewSightForm.dead');
+    const [checked, setChecked] = React.useState(alive);
     return (
         <View style={styles.modalForm}>
             <Image source={imageUrl} style={styles.sightImg}></Image>
@@ -26,40 +29,48 @@ export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo
                 placeholder={I18n.t('NewSightForm.description')}
             />
             <Box style={styles.radioContainer}>
-                <Text style={styles.radioTitle}>Alive</Text>
+                <Text style={styles.radioTitle}>{alive}</Text>
                 <RadioButton
-                    value="Alive"
-                    status={checked === 'Alive' ? 'checked' : 'unchecked'}
-                    onPress={() => setChecked('Alive')}
+                    value={alive}
+                    status={checked === alive ? 'checked' : 'unchecked'}
+                    onPress={() => setChecked(alive)}
                 />
             </Box>
             <Box style={styles.radioContainer}>
-                <Text style={styles.radioTitle}>Wounded</Text>
+                <Text style={styles.radioTitle}>{wounded}</Text>
                 <RadioButton
-                    value="Wounded"
-                    status={checked === 'Wounded' ? 'checked' : 'unchecked'}
-                    onPress={() => setChecked('Wounded')}
+                    value={wounded}
+                    status={checked === wounded ? 'checked' : 'unchecked'}
+                    onPress={() => setChecked(wounded)}
                 />
             </Box>
             <Box style={styles.radioContainer}>
-                <Text style={styles.radioTitle}>Dead</Text>
+                <Text style={styles.radioTitle}>{dead}</Text>
                 <RadioButton
-                    value="Dead"
-                    status={checked === 'Dead' ? 'checked' : 'unchecked'}
-                    onPress={() => setChecked('Dead')}
+                    value={dead}
+                    status={checked === dead ? 'checked' : 'unchecked'}
+                    onPress={() => setChecked(dead)}
                 />
             </Box>
             <Box style={styles.locationLegend}>
                 <MaterialCommunityIcons name="map-marker" size={30} style={styles.locationIcon} />
                 <Text style={styles.locationTxt}>{locationInfo}</Text>
             </Box>
-            <Pressable
-                disabled={!animalName}
-                style={[styles.buttonSubmit, !animalName ? styles.buttonDisabled : styles.buttonEnabled]}
-                onPress={() => onSubmit({ animalName, description, condition: checked, placeName: locationInfo })}
-            >
-                <Text style={styles.textStyle}>{I18n.t('NewSightForm.button')}</Text>
-            </Pressable>
+            <Box style={styles.buttonContainer}>
+                <Pressable
+                    disabled={!animalName}
+                    style={[styles.buttonSubmit, !animalName ? styles.buttonDisabled : styles.buttonEnabled]}
+                    onPress={() => onSubmit({ animalName, description, condition: checked, placeName: locationInfo })}
+                >
+                    <Text style={styles.textStyle}>{I18n.t('NewSightForm.button')}</Text>
+                </Pressable>
+                <Pressable
+                    style={[styles.buttonSubmit, styles.buttonEnabled]}
+                    onPress={() => { onClose() }}
+                >
+                    <Text style={styles.textStyle}>{I18n.t('NewSightForm.cancel')}</Text>
+                </Pressable>
+            </Box>
         </View>
     );
 }
@@ -85,6 +96,7 @@ const styles = StyleSheet.create({
         minWidth: 120,
         elevation: 2,
         alignSelf: "center",
+        margin: 10,
 
     },
     buttonDisabled: {
@@ -133,4 +145,9 @@ const styles = StyleSheet.create({
         color: 'red',
         marginTop: 5,
     },
+    buttonContainer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        width: '100%',
+    }
 });

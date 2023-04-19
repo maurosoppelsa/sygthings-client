@@ -12,7 +12,7 @@ const NewSightModalComponent = ({ modalFormStatus, imageUrl, showModal, onSubmit
     if (showLocationModal) {
       return <MapComponent onUpdatelocation={onUpdateLocation} onClose={onCloseLocationModal} location={location} />;
     } else if (modalFormStatus === SIGHT_MODAL_STATUS.NEW) {
-      return <NewSightFormComponent imageUrl={{ uri: imageUrl }} onSubmit={onSubmit} locationInfo={locationInfo} />
+      return <NewSightFormComponent imageUrl={{ uri: imageUrl }} onSubmit={onSubmit} locationInfo={locationInfo} onClose={onClose}/>
     } else {
       return <NewSightLegendStatus status={modalFormStatus} onClose={onClose} />
     }

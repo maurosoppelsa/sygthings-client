@@ -53,9 +53,10 @@
         "condition": "Condición",
         "description": "Descripción",
         "button": "Enviar",
-        "alive": "Vivo",
-        "dead": "Muerto",
-        "wounded": "Herido",
+        "alive": "vivo",
+        "dead": "muerto",
+        "wounded": "herido",
+        "cancel": "Cancelar",
         "statusModal": {
             "success": {
                 "title": "Cargado con éxito",

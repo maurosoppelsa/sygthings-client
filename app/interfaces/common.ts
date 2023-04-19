@@ -25,11 +25,11 @@ export type Sight = {
     description: string;
     createdAt: string;
     userId: string | undefined;
-    user: {
+    user?: {
         name: string,
         lastName: string,
         occupation: string,
-    } | undefined
+    }
 } | null;
 
 export type Picture = {

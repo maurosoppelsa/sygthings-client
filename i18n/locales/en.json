@@ -54,9 +54,10 @@
         "condition": "Condition",
         "description": "Description",
         "button": "Submit",
-        "alive": "Alive",
-        "dead": "Dead",
-        "wounded": "Wounded",
+        "alive": "alive",
+        "dead": "dead",
+        "wounded": "wounded",
+        "cancel": "Cancel",
         "statusModal": {
             "success": {
                 "title": "Success!",
