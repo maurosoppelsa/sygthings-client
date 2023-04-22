@@ -7,6 +7,7 @@ export const spanishErrorMessages = {
         maxlength: 'El campo debe ser menor a {1} caracteres',
         required: 'campo requerido',
         equalPassword: 'Las contraseñas no coinciden',
+        passwordsNotEmpty: 'si desea cambiar la contraseña debe llenar todos los campos',
     },
 };
 
@@ -50,5 +51,22 @@ export const customRules = {
             return true;
         }
         return false;
-    }
-};
+    },
+    passwordsNotEmpty(fields: any) {
+        const { password, newPassword, confirmNewPassword } = fields;
+        
+        // Check if all fields are empty
+        if (!password && !newPassword && !confirmNewPassword ) {
+          return true;
+        }
+        
+        // Check if some of the fields are non-empty
+        if (password || newPassword || confirmNewPassword) {
+          if (!password || !newPassword || !confirmNewPassword) {
+            return false;
+          }
+        }
+        
+        return true;
+      }
+}

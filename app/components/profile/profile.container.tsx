@@ -1,4 +1,4 @@
-import { Box, Flex } from '@react-native-material/core';
+import { Box } from '@react-native-material/core';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../../config/colors';
@@ -6,10 +6,12 @@ import PersonCircleComponent from '../common/profile-circle.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TotalSightsComponent from './total-sights.component';
 import { useAppDispatch } from '../../redux/store';
-import { logoutUser } from '../../redux/auth-slice';
+import { logoutUser, toggleUserUpdate } from '../../redux/auth-slice';
 import { Sight, User } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import I18n from '../../../i18n/i18n';
+import UserUpdateForm from './user-update-form.component';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Profile() {
 
@@ -17,12 +19,38 @@ export default function Profile() {
     const logout = () => dispatch(logoutUser());
     const mySights: Array<Sight> = useSelector((state: any) => state.sight.mySights);
     const currentUser: User = useSelector((state: any) => state.authentication.user);
+    const isUpdatingUser = useSelector((state: any) => state.authentication.isUpdatingUser);
     const fullName = `${currentUser?.name} ${currentUser?.lastName}`;
+    const toggleUserUpdateForm = () => dispatch(toggleUserUpdate());
+
+    const onCancelUpdateUser = () => {
+        toggleUserUpdateForm();
+    };
+
+    const onUpdateUser = (user: User) => {
+        console.log(user);
+    };
+
+    useFocusEffect(
+        React.useCallback(() => {
+          return () => toggleUserUpdateForm();
+        }, [])
+      );
+
+    if (isUpdatingUser) {
+        return (
+            <View>
+                <UserUpdateForm user={currentUser} onCancel={onCancelUpdateUser} onUpdate={onUpdateUser}></UserUpdateForm>
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>
             <Box style={styles.profileContent}>
-                <MaterialCommunityIcons style={styles.editBt} name="border-color" size={20} onPress={() => () => { }} />
+                <TouchableOpacity onPress={() => toggleUserUpdateForm()}>
+                    <MaterialCommunityIcons style={styles.editBt} name="border-color" size={20} />
+                </TouchableOpacity>
                 <Box style={styles.personContent}>
                     <PersonCircleComponent fullname={fullName}></PersonCircleComponent>
                     <Box style={styles.personDescription}>

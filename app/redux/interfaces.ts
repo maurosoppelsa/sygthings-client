@@ -14,6 +14,7 @@ export type AppState = {
     error: boolean | undefined;
     message: string;
     isVerifyingEmail: boolean;
+    isUpdatingUser: boolean;
 };
 
 export type newSightState = {

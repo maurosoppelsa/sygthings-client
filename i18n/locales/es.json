@@ -80,6 +80,11 @@
     "Profile": {
         "sightsLegend": "Gracias por tu ayuda, los animales del mundo apreciarán tu esfuerzo.",
         "totalSights": "Total de avistamientos",
-        "logout": "Cerrar sesión"
+        "logout": "Cerrar sesión",
+        "cancel": "Cancelar",
+        "update": "Actualizar",
+        "currentPassword": "Contraseña actual (opcional)",
+        "newPassword": "Nueva contraseña (opcional)",
+        "confirmNewPassword": "Confirmar nueva contraseña (opcional)"
     }
 }

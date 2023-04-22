@@ -16,6 +16,7 @@ const initialState: AppState = {
   error: false,
   message: "",
   isVerifyingEmail: false,
+  isUpdatingUser: false,
 };
 
 const authService: AuthService = AuthService.getInstance();
@@ -76,6 +77,9 @@ const authSlice = createSlice({
       state.error = false;
       state.message = "";
     },
+    toggleUserUpdate: (state: any) => {
+      state.isUpdatingUser = !state.isUpdatingUser;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -126,5 +130,5 @@ const authSlice = createSlice({
       });
   },
 });
-export const { toggleRegister, cleanupErrors } = authSlice.actions;
+export const { toggleRegister, cleanupErrors, toggleUserUpdate } = authSlice.actions;
 export default authSlice.reducer;

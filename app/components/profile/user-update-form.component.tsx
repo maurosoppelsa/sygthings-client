@@ -1,67 +1,74 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import colors from '../../config/colors';
-import { Button, Box } from "@react-native-material/core";
-import { Avatar, Card, Checkbox, TextInput } from 'react-native-paper';
-import { customRules, spanishErrorMessages } from '../../utils/customInputValidation';
-import { User } from '../../interfaces/common';
 import I18n from '../../../i18n/i18n';
+import { TextInput } from 'react-native-paper';
+import { customRules, spanishErrorMessages } from '../../utils/customInputValidation';
+import { Box, Button } from '@react-native-material/core';
+import { User } from '../../interfaces/common';
 
 const { useValidation } = require('react-native-form-validator')
 
-type onCreateUser = (user: User) => void;
-
-export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreateUser, onCancel: any }) {
+export default function UserUpdateForm({ user, onCancel, onUpdate }: { user: User, onCancel: any, onUpdate: any }) {
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [name, setName] = useState('');
-    const [lastName, setlastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [occupation, setOccupation] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmNewPassword, setconfirmNewPassword] = useState('');
+    const [name, setName] = useState(user?.name);
+    const [lastName, setlastName] = useState(user?.lastName);
+    const [email, setEmail] = useState(user?.email);
+    const [occupation, setOccupation] = useState(user?.occupation);
     const [touchedForm, setTouchedForm] = useState(false);
-    const [termsChecked, setChecked] = useState(false);
 
     const { validate, isFieldInError, getErrorsInField, getErrorMessages } =
         useValidation({
-            state: { name, lastName, email, password, confirmPassword, occupation },
+            state: { name, lastName, email, password, confirmNewPassword, occupation },
             deviceLocale: 'es',
             messages: spanishErrorMessages,
             rules: customRules
         });
 
     const formIsNotEmpty = () => {
-        return name && lastName && email && password && confirmPassword && occupation;
+        return name && lastName && email && occupation;
     };
 
-    const createUser = () => {
+    const updateUser = () => {
         validate({
-            name: { minlength: 3, maxlength: 7, required: true },
-            lastName: { minlength: 3, maxlength: 7, required: true },
+            name: { minlength: 3, maxlength: 10, required: true },
+            lastName: { minlength: 3, maxlength: 10, required: true },
             email: { email: true, required: true },
-            password: { minlength: 3, maxlength: 7, required: true },
-            confirmPassword: { equalPassword: password, required: true },
-            occupation: { minlength: 3, maxlength: 10, required: true },
+            password: { minlength: 3, maxlength: 7, required: false, passwordsNotEmpty: { password, newPassword, confirmNewPassword } },
+            newPassword: { minlength: 3, maxlength: 7, required: false, passwordsNotEmpty: { newPassword, password, confirmNewPassword } },
+            confirmNewPassword: { equalPassword: newPassword, required: false, passwordsNotEmpty: { confirmNewPassword, password, newPassword } },
+            occupation: { minlength: 3, maxlength: 25, required: true },
         });
         setTouchedForm(false);
-        if (getErrorMessages().length === 0 && formIsNotEmpty()) {
-            onCreate({ name, lastName, password, email, occupation });
+        if (getErrorMessages().length === 0 && formIsNotEmpty() && arePasswordsFieldsValid(newPassword, confirmNewPassword, password)) {
+            onUpdate({ name, lastName, password, newPassword, confirmNewPassword, email, occupation });
         }
+        return user;
     };
 
+    function arePasswordsFieldsValid(newPassword: any, confirmNewPassword: any, password: any): boolean {
+        const isPasswordEmpty = !password || password.trim().length === 0;
+        const isNewPasswordEmpty = !newPassword || newPassword.trim().length === 0;
+        const isConfirmNewPasswordEmpty = !confirmNewPassword || confirmNewPassword.trim().length === 0;
+
+        if ((isPasswordEmpty && isNewPasswordEmpty && isConfirmNewPasswordEmpty) ||
+            (isPasswordEmpty || isNewPasswordEmpty || isConfirmNewPasswordEmpty)) {
+            return true;
+        }
+        if (!isNewPasswordEmpty && !isConfirmNewPasswordEmpty && newPassword === confirmNewPassword) {
+            return true;
+        }
+        return false;
+    }
+
     return (
-        <Box>
-            <Box>
-                <Box style={styles.headerContent}>
-                    <Card.Title
-                        titleStyle={styles.title}
-                        subtitleStyle={styles.subtitle}
-                        title={I18n.t('Login.NewUser.title')}
-                        subtitle={I18n.t('Login.NewUser.subtitle')}
-                        left={() => <Avatar.Icon style={styles.icon} size={55} icon="rabbit" />}
-                    />
-                </Box>
+        <View>
+            <Box style={styles.container}>
                 <TextInput
                     autoComplete="off"
+                    value={name}
                     style={styles.input}
                     label={I18n.t('Login.NewUser.name')}
                     onChangeText={name => setName(name)}
@@ -78,6 +85,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
 
                 <TextInput
                     autoComplete="off"
+                    value={lastName}
                     style={styles.input}
                     label={I18n.t('Login.NewUser.lastName')}
                     onChangeText={lastName => setlastName(lastName)}
@@ -94,6 +102,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
 
                 <TextInput
                     autoComplete="off"
+                    value={email}
                     style={styles.input}
                     label={I18n.t('Login.NewUser.email')}
                     onChangeText={email => setEmail(email)}
@@ -110,8 +119,9 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
 
                 <TextInput
                     autoComplete="off"
+                    value={password}
                     style={styles.input}
-                    label={I18n.t('Login.password')}
+                    label={I18n.t('Profile.currentPassword')}
                     onChangeText={pass => setPassword(pass)}
                     secureTextEntry={true}
                     underlineColor={colors.syghtingGreen}
@@ -128,22 +138,36 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                 <TextInput
                     autoComplete="off"
                     style={styles.input}
-                    label={I18n.t('Login.NewUser.confirmPassword')}
-                    onChangeText={pass => setConfirmPassword(pass)}
+                    label={I18n.t('Profile.newPassword')}
+                    onChangeText={pass => setNewPassword(pass)}
                     secureTextEntry={true}
                     underlineColor={colors.syghtingGreen}
                     activeUnderlineColor={colors.syghtingDarkGreen}
                     left={<TextInput.Icon color={colors.gray} name="key" />}
-                    error={isFieldInError('confirmPassword') && !touchedForm}
+                    error={isFieldInError('newPassword') && !touchedForm}
                     onFocus={() => setTouchedForm(true)}
                 />
-                {isFieldInError('confirmPassword') && !touchedForm &&
-                    getErrorsInField('confirmPassword').map((errorMessage: any, index: any) => (
+
+                <TextInput
+                    autoComplete="off"
+                    style={styles.input}
+                    label={I18n.t('Profile.confirmNewPassword')}
+                    onChangeText={pass => setconfirmNewPassword(pass)}
+                    secureTextEntry={true}
+                    underlineColor={colors.syghtingGreen}
+                    activeUnderlineColor={colors.syghtingDarkGreen}
+                    left={<TextInput.Icon color={colors.gray} name="key" />}
+                    error={isFieldInError('confirmNewPassword') && !touchedForm}
+                    onFocus={() => setTouchedForm(true)}
+                />
+                {isFieldInError('confirmNewPassword') && !touchedForm &&
+                    getErrorsInField('confirmNewPassword').map((errorMessage: any, index: any) => (
                         <Text style={styles.error} key={index}>{errorMessage}</Text>
                     ))}
 
                 <TextInput
                     autoComplete="off"
+                    value={occupation}
                     style={styles.input}
                     label={I18n.t('Login.NewUser.ocuppation')}
                     onChangeText={occupation => setOccupation(occupation)}
@@ -157,49 +181,27 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                     getErrorsInField('occupation').map((errorMessage: any, index: any) => (
                         <Text style={styles.error} key={index}>{errorMessage}</Text>
                     ))}
-                <Box style={styles.termsContent}>
-                    <Checkbox
-                        color={colors.syghtingGreen}
-                        status={termsChecked ? 'checked' : 'unchecked'}
-                        onPress={() => {
-                            setChecked(!termsChecked);
-                        }}
-                    />
-                    <Text>{I18n.t('Login.NewUser.agreement')} </Text>
-                    <TouchableOpacity onPress={() => console.log('terms and conditions')}>
-                        <Text style={styles.termsLink}>{I18n.t('Login.NewUser.terms')}</Text>
-                    </TouchableOpacity>
+                <Box style={styles.buttonContainer}>
+                    <Button title={I18n.t('Profile.update')} style={styles.formButton} onPress={() => { updateUser() }} />
+                    <Button title={I18n.t('Profile.cancel')} style={styles.formButton} onPress={() => onCancel()} />
                 </Box>
             </Box>
-            <Box style={styles.buttonContainer}>
-                <Button disabled={!termsChecked} title={I18n.t('Login.NewUser.createAccount')} style={styles.formButton} onPress={() => { createUser() }} />
-                <Button title={I18n.t('Login.NewUser.cancel')} style={styles.formButton} onPress={() => onCancel()} />
-            </Box>
-        </Box>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    headerContent: {
-        marginBottom: 25,
-    },
-    title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: colors.syghtingGreen,
-        marginLeft: 15
-    },
-    subtitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: colors.syghtingGreen,
-        marginLeft: 15
-    },
-    icon: {
-        backgroundColor: colors.syghtingGreen,
+    container: {
+        backgroundColor: colors.white,
+        width: '100%',
+        height: '100%',
+        padding: 20,
     },
     input: {
         backgroundColor: colors.white,
+    },
+    error: {
+        color: colors.red,
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -210,22 +212,7 @@ const styles = StyleSheet.create({
     formButton: {
         width: '45%',
         backgroundColor: colors.syghtingGreen,
-        marginTop: 20,
+        marginTop: 30,
         height: 40
-    },
-    error: {
-        color: colors.red,
-    },
-    termsContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        alignSelf: 'center',
-        marginTop: 25
-    },
-    termsTxt: {
-        alignSelf: 'center',
-    },
-    termsLink: {
-        color: colors.blue,
     },
 });

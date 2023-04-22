@@ -1,9 +1,9 @@
 import { Box } from '@react-native-material/core';
 import MapboxGL, { Logger } from '@rnmapbox/maps';
 import React, { useState } from 'react';
-import { Text, StyleSheet, Pressable, View } from 'react-native';
+import { Text, StyleSheet, Pressable } from 'react-native';
 import colors from '../../../config/colors';
-import { mapbox_token, map_style, map_zoom_level } from "../../../config/map-settings";
+import { mapbox_token, map_zoom_level } from "../../../config/map-settings";
 import { Location } from '../../../interfaces/common';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 

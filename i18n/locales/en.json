@@ -81,6 +81,11 @@
     "Profile": {
         "sightsLegend": "Thanks for your help! Animals around the world will appreciate your effort.",
         "totalSights": "Total Sights",
-        "logout": "Logout"
+        "logout": "Logout",
+        "cancel": "Cancel",
+        "update": "Update",
+        "currentPassword": "Current password (optional)",
+        "newPassword": "New password (optional)",
+        "confirmNewPassword": "Confirm new password (optional)"
     }
 }
