@@ -21,7 +21,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
     const [touchedForm, setTouchedForm] = useState(false);
     const [termsChecked, setChecked] = useState(false);
 
-    const { validate, isFieldInError, getErrorsInField, getErrorMessages } =
+    const { validate, isFieldInError, getErrorsInField } =
         useValidation({
             state: { name, lastName, email, password, confirmPassword, occupation },
             deviceLocale: 'es',
@@ -33,17 +33,17 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
         return name && lastName && email && password && confirmPassword && occupation;
     };
 
-    const createUser = () => {
-        validate({
+    const createUser = async () => {
+        const isValid = validate({
             name: { minlength: 3, maxlength: 7, required: true },
             lastName: { minlength: 3, maxlength: 7, required: true },
             email: { email: true, required: true },
             password: { minlength: 3, maxlength: 7, required: true },
             confirmPassword: { equalPassword: password, required: true },
-            occupation: { minlength: 3, maxlength: 10, required: true },
+            occupation: { minlength: 3, maxlength: 25, required: true },
         });
         setTouchedForm(false);
-        if (getErrorMessages().length === 0 && formIsNotEmpty()) {
+        if (isValid && formIsNotEmpty()) {
             onCreate({ name, lastName, password, email, occupation });
         }
     };

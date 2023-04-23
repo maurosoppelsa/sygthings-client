@@ -19,7 +19,7 @@ export default function UserUpdateForm({ user, onCancel, onUpdate }: { user: Use
     const [occupation, setOccupation] = useState(user?.occupation);
     const [touchedForm, setTouchedForm] = useState(false);
 
-    const { validate, isFieldInError, getErrorsInField, getErrorMessages } =
+    const { validate, isFieldInError, getErrorsInField } =
         useValidation({
             state: { name, lastName, email, password, confirmNewPassword, occupation },
             deviceLocale: 'es',
@@ -31,8 +31,8 @@ export default function UserUpdateForm({ user, onCancel, onUpdate }: { user: Use
         return name && lastName && email && occupation;
     };
 
-    const updateUser = () => {
-        validate({
+    const updateUser = async () => {
+        const isValid = await validate({
             name: { minlength: 3, maxlength: 10, required: true },
             lastName: { minlength: 3, maxlength: 10, required: true },
             email: { email: true, required: true },
@@ -42,26 +42,11 @@ export default function UserUpdateForm({ user, onCancel, onUpdate }: { user: Use
             occupation: { minlength: 3, maxlength: 25, required: true },
         });
         setTouchedForm(false);
-        if (getErrorMessages().length === 0 && formIsNotEmpty() && arePasswordsFieldsValid(newPassword, confirmNewPassword, password)) {
+        if (isValid && formIsNotEmpty()) {
             onUpdate({ name, lastName, password, newPassword, confirmNewPassword, email, occupation });
         }
         return user;
     };
-
-    function arePasswordsFieldsValid(newPassword: any, confirmNewPassword: any, password: any): boolean {
-        const isPasswordEmpty = !password || password.trim().length === 0;
-        const isNewPasswordEmpty = !newPassword || newPassword.trim().length === 0;
-        const isConfirmNewPasswordEmpty = !confirmNewPassword || confirmNewPassword.trim().length === 0;
-
-        if ((isPasswordEmpty && isNewPasswordEmpty && isConfirmNewPasswordEmpty) ||
-            (isPasswordEmpty || isNewPasswordEmpty || isConfirmNewPasswordEmpty)) {
-            return true;
-        }
-        if (!isNewPasswordEmpty && !isConfirmNewPasswordEmpty && newPassword === confirmNewPassword) {
-            return true;
-        }
-        return false;
-    }
 
     return (
         <View>
@@ -147,6 +132,10 @@ export default function UserUpdateForm({ user, onCancel, onUpdate }: { user: Use
                     error={isFieldInError('newPassword') && !touchedForm}
                     onFocus={() => setTouchedForm(true)}
                 />
+                {isFieldInError('newPassword') && !touchedForm &&
+                    getErrorsInField('newPassword').map((errorMessage: any, index: any) => (
+                        <Text style={styles.error} key={index}>{errorMessage}</Text>
+                    ))}
 
                 <TextInput
                     autoComplete="off"
