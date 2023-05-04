@@ -43,7 +43,7 @@ export default function UserUpdateForm({ user, onCancel, onUpdate }: { user: Use
         });
         setTouchedForm(false);
         if (isValid && formIsNotEmpty()) {
-            onUpdate({ name, lastName, password, newPassword, confirmNewPassword, email, occupation });
+            onUpdate({ id: user?.id, name, lastName, password, newPassword, email, occupation });
         }
         return user;
     };

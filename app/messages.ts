@@ -9,6 +9,7 @@ export const authErrorMessages: Messages = {
     "auth/login-error": "Login failed! username or password invalid.",
     "auth/logout-error": "Error logging out.",
     "auth/error-creating-user": "Error creating user.",
+    "auth/error-updating-user": "Error updating user.",
 };
 
 export const authSuccessMessages: Messages = {

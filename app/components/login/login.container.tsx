@@ -58,7 +58,10 @@ export default function Login() {
       </View>
       {authentication.loading &&
         <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />}
-      <Text style={styles.errorMessage}>{authentication.message}</Text>
+      {
+        authentication.error &&
+        <Text style={styles.errorMessage}>{authentication.message}</Text>
+      }
       <StatusBar style="auto" />
     </View>
   );

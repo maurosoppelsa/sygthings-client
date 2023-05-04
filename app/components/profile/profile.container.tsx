@@ -6,8 +6,8 @@ import PersonCircleComponent from '../common/profile-circle.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TotalSightsComponent from './total-sights.component';
 import { useAppDispatch } from '../../redux/store';
-import { logoutUser, toggleUserUpdate } from '../../redux/auth-slice';
-import { Sight, User } from '../../interfaces/common';
+import { logoutUser, toggleUserUpdate, updateUser } from '../../redux/auth-slice';
+import { Sight, User, UserToUpdate } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import I18n from '../../../i18n/i18n';
 import UserUpdateForm from './user-update-form.component';
@@ -18,24 +18,28 @@ export default function Profile() {
     const dispatch = useAppDispatch();
     const logout = () => dispatch(logoutUser());
     const mySights: Array<Sight> = useSelector((state: any) => state.sight.mySights);
-    const currentUser: User = useSelector((state: any) => state.authentication.user);
-    const isUpdatingUser = useSelector((state: any) => state.authentication.isUpdatingUser);
+    const authentication = useSelector((state: any) => state.authentication);
+    const currentUser: User = authentication.user;
+    const isUpdatingUser = authentication.isUpdatingUser;
     const fullName = `${currentUser?.name} ${currentUser?.lastName}`;
+    const message = authentication.message;
+    const error = authentication.error;
     const toggleUserUpdateForm = () => dispatch(toggleUserUpdate());
 
     const onCancelUpdateUser = () => {
         toggleUserUpdateForm();
     };
 
-    const onUpdateUser = (user: User) => {
-        console.log(user);
+    const onUpdateUser = (user: UserToUpdate) => {
+        dispatch(updateUser(user));
+        toggleUserUpdateForm();
     };
 
     useFocusEffect(
         React.useCallback(() => {
-          return () => toggleUserUpdateForm();
+            return () => toggleUserUpdateForm();
         }, [])
-      );
+    );
 
     if (isUpdatingUser) {
         return (
@@ -71,6 +75,10 @@ export default function Profile() {
                     <Text style={styles.logoutTxt}>{I18n.t('Profile.logout')}</Text>
                 </TouchableOpacity>
             </Box>
+            {
+                message !== '' &&
+                <Text style={[styles.message, error ? styles.errorMessage : styles.successMessage]}>{message}</Text>
+            }
         </View>
     );
 }
@@ -140,5 +148,17 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginTop: 10,
         textAlign: 'center',
+    },
+    message: {
+        fontSize: 18,
+        alignSelf: 'center',
+        marginTop: 20,
+        color: colors.red,
+    },
+    successMessage: {
+        color: colors.officeGreen,
+    },
+    errorMessage: {
+        color: colors.red,
     },
 });

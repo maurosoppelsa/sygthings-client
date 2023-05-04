@@ -2,10 +2,12 @@ export type User = {
     id?: string;
     name?: string;
     lastName?: string;
-    password: string;
+    password?: string;
     occupation?: string;
-    email: string;
+    email?: string;
 } | null;
+
+export type UserToUpdate = User & { newPassword?: string };
 
 
 export type Sight = {

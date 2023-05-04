@@ -1,5 +1,5 @@
 import { SERVER_URL } from "../config/authentication";
-import { User } from "../interfaces/common";
+import { User, UserToUpdate } from "../interfaces/common";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export default class AuthService {
     private static _instance: AuthService = new AuthService();
@@ -69,6 +69,29 @@ export default class AuthService {
                 email: user?.email,
                 occupation: user?.occupation,
                 password: user?.password,
+            })
+        }).then((response) => response.json())
+            .then((json) => {
+                return json;
+            })
+    }
+
+    public update = (user: UserToUpdate) => {
+        const cookie = AsyncStorage.getItem('cookie');
+        return fetch(`${SERVER_URL}/users/${user.id}`, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `${cookie}`,
+            },
+            body: JSON.stringify({
+                name: user?.name,
+                lastName: user?.lastName,
+                email: user?.email,
+                occupation: user?.occupation,
+                password: user?.password,
+                newPassword: user?.newPassword,
             })
         }).then((response) => response.json())
             .then((json) => {

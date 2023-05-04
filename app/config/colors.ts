@@ -9,4 +9,5 @@ export default {
     white: '#FFFDFA',
     blue: '#4E78FF',
     red: '#ff0000',
+    officeGreen: '#008000',
 }

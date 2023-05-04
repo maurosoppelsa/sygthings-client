@@ -1,12 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { User } from "../interfaces/common";
+import { User, UserToUpdate } from "../interfaces/common";
 import AuthService from "../services/auth.service";
 import { AppState } from "./interfaces";
 import { authErrorMessages } from "../messages";
 import { resetSights } from "./sight-slice";
 import { resetGeoLocation } from "./geolocation-slice";
-
-let errorMessage = "";
 
 const initialState: AppState = {
   user: null,
@@ -14,7 +12,7 @@ const initialState: AppState = {
   loading: false,
   isRegistering: false,
   error: false,
-  message: "",
+  message: '',
   isVerifyingEmail: false,
   isUpdatingUser: false,
 };
@@ -22,7 +20,7 @@ const initialState: AppState = {
 const authService: AuthService = AuthService.getInstance();
 
 export const loginUser = createAsyncThunk<{ user: User }, { user: User }>(
-  "loginUser",
+  'loginUser',
   async ({ user }) => {
     const response = await authService.login(user);
     if (response.success) {
@@ -30,16 +28,15 @@ export const loginUser = createAsyncThunk<{ user: User }, { user: User }>(
         user: response.user ?? [],
       };
     } else {
-      errorMessage = response.message;
-      throw "Error login user";
+      throw 'Error login user';
     }
   }
 );
 
 export const logoutUser = createAsyncThunk<{}>(
-  "logoutUser",
+  'logoutUser',
   async (_, { dispatch }) => {
-    
+
     dispatch(resetSights());
     dispatch(resetGeoLocation());
 
@@ -47,27 +44,38 @@ export const logoutUser = createAsyncThunk<{}>(
     if (response.success) {
       return;
     } else {
-      const errorMessage = response.message;
-      throw new Error(`Error logout: ${errorMessage}`);
+      throw new Error('Error logging out');
     }
   }
 );
 
 export const createUser = createAsyncThunk<{ user: User }, { user: User }>(
-  "createUser",
+  'createUser',
   async ({ user }) => {
     const response = await authService.register(user);
     if (response.success) {
       return response;
     } else {
-      errorMessage = response.message;
-      throw "Error creating user";
+      throw 'Error creating user';
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk<{ user: UserToUpdate }, UserToUpdate>(
+  'updateUser',
+  async (user) => {
+    const response = await authService.update(user);
+    if (response.success) {
+      return response;
+    } else {
+      console.log(response)
+      throw 'Error updating user';
     }
   }
 );
 
 const authSlice = createSlice({
-  name: "authSlice",
+  name: 'authSlice',
   initialState,
   reducers: {
     toggleRegister: (state: any) => {
@@ -75,7 +83,7 @@ const authSlice = createSlice({
     },
     cleanupErrors: (state: any) => {
       state.error = false;
-      state.message = "";
+      state.message = '';
     },
     toggleUserUpdate: (state: any) => {
       state.isUpdatingUser = !state.isUpdatingUser;
@@ -85,7 +93,7 @@ const authSlice = createSlice({
     builder
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
-        state.error = undefined;
+        state.error = false;
         state.loggedIn = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
@@ -97,10 +105,10 @@ const authSlice = createSlice({
         state.error = true;
         state.loading = false;
         state.loggedIn = false;
-        state.message = errorMessage || authErrorMessages["auth/login-error"];
+        state.message = authErrorMessages['auth/login-error'];
       })
       .addCase(logoutUser.pending, (state) => {
-        state.error = undefined;
+        state.error = false;
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
@@ -109,11 +117,11 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.rejected, (state) => {
         state.error = true;
-        state.message = errorMessage || authErrorMessages["auth/logout-error"];
+        state.message = authErrorMessages['auth/logout-error'];
       })
       .addCase(createUser.pending, (state) => {
         state.loading = true;
-        state.error = undefined;
+        state.error = false;
         state.loggedIn = false;
       })
       .addCase(createUser.fulfilled, (state, action) => {
@@ -126,7 +134,30 @@ const authSlice = createSlice({
         state.error = true;
         state.loading = false;
         state.loggedIn = false;
-        state.message = errorMessage || authErrorMessages["auth/error-creating-user"];
+        state.message = authErrorMessages['auth/error-creating-user'];
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        const { lastName, name, email, occupation } = action.payload.user;
+        state.loading = false;
+        state.isUpdatingUser = false;
+        state.message = 'User updated successfully';
+        const updatedUser = {
+          ...(state.user || {}),
+          ...(lastName ? { lastName } : {}),
+          ...(name ? { name } : {}),
+          ...(email ? { email } : {}),
+          ...(occupation ? { occupation } : {})
+        };
+        state.user = updatedUser;
+      })
+      .addCase(updateUser.rejected, (state) => {
+        state.error = true;
+        state.loading = false;
+        state.message = authErrorMessages['auth/error-updating-user'];
       });
   },
 });
