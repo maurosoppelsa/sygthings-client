@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginForm from './login.form';
 import { useAppDispatch } from '../../redux/store'
-import { loginUser, toggleRegister, createUser, cleanupErrors } from '../../redux/auth-slice';
+import { loginUser, toggleRegister, createUser, cleanupMessages } from '../../redux/auth-slice';
 import { User } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import NewUserForm from './new-user-form';
@@ -20,20 +20,21 @@ export default function Login() {
       password,
     };
     dispatch(loginUser({ user }));
+    dispatch(cleanupMessages());
   }
 
   const goToRegister = () => {
-    dispatch(cleanupErrors())
+    dispatch(cleanupMessages());
     dispatch(toggleRegister());
   }
 
   const registerUser = (user: User) => {
-    dispatch(cleanupErrors())
+    dispatch(cleanupMessages());
     dispatch(createUser({ user }));
   }
 
   const goToLogin = () => {
-    dispatch(cleanupErrors())
+    dispatch(cleanupMessages());
     dispatch(toggleRegister());
   }
 

@@ -1,17 +1,18 @@
 import { Box } from '@react-native-material/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../../config/colors';
 import PersonCircleComponent from '../common/profile-circle.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TotalSightsComponent from './total-sights.component';
 import { useAppDispatch } from '../../redux/store';
-import { logoutUser, toggleUserUpdate, updateUser } from '../../redux/auth-slice';
+import { logoutUser, updateUser, openUserUpdate, closeUserUpdate, cleanupMessages, setError } from '../../redux/auth-slice';
 import { Sight, User, UserToUpdate } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import I18n from '../../../i18n/i18n';
 import UserUpdateForm from './user-update-form.component';
 import { useFocusEffect } from '@react-navigation/native';
+import { getSightsByUser } from '../../redux/sight-slice';
 
 export default function Profile() {
 
@@ -24,20 +25,48 @@ export default function Profile() {
     const fullName = `${currentUser?.name} ${currentUser?.lastName}`;
     const message = authentication.message;
     const error = authentication.error;
-    const toggleUserUpdateForm = () => dispatch(toggleUserUpdate());
+    const closeUserUpdateForm = () => dispatch(closeUserUpdate());
+    const resetMessages = () => dispatch(cleanupMessages());
 
     const onCancelUpdateUser = () => {
-        toggleUserUpdateForm();
+        closeUserUpdateForm();
+    };
+
+    const onUserUpdate = () => {
+        dispatch(openUserUpdate());
+        resetMessages();
+    };
+
+    const hasUserChanged = (user: User, currentUser: User) => {
+        return (
+            user?.name !== currentUser?.name ||
+            user?.lastName !== currentUser?.lastName ||
+            user?.email !== currentUser?.email ||
+            user?.occupation !== currentUser?.occupation
+        );
     };
 
     const onUpdateUser = (user: UserToUpdate) => {
-        dispatch(updateUser(user));
-        toggleUserUpdateForm();
+        if (!hasUserChanged(user, currentUser) && !user.newPassword) {
+            dispatch(setError(I18n.t('Profile.noDiffereces')));
+        } else {
+            dispatch(updateUser(user));
+        }
+        closeUserUpdateForm();
     };
+
+    useEffect(() => {
+        if (mySights.length === 0 && currentUser?.id) {
+            dispatch(getSightsByUser(currentUser.id));
+        }
+    }, []);
 
     useFocusEffect(
         React.useCallback(() => {
-            return () => toggleUserUpdateForm();
+            return () => {
+                closeUserUpdateForm();
+                resetMessages();
+            };
         }, [])
     );
 
@@ -52,7 +81,7 @@ export default function Profile() {
     return (
         <View style={styles.container}>
             <Box style={styles.profileContent}>
-                <TouchableOpacity onPress={() => toggleUserUpdateForm()}>
+                <TouchableOpacity onPress={() => onUserUpdate()}>
                     <MaterialCommunityIcons style={styles.editBt} name="border-color" size={20} />
                 </TouchableOpacity>
                 <Box style={styles.personContent}>

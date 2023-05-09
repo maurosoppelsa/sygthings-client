@@ -43,7 +43,7 @@
     "MySights": {
         "legend": "Que has visto...",
         "noSights": "No has realizado ningún avistamiento"
-      },
+    },
     "LocationDetails": {
         "yourLocation": "Tu ubicación",
         "noLocationLegend": "No hemos podido encontrar la ubicación, pero puedes hacerlo manualmente"
@@ -85,6 +85,21 @@
         "update": "Actualizar",
         "currentPassword": "Contraseña actual (opcional)",
         "newPassword": "Nueva contraseña (opcional)",
-        "confirmNewPassword": "Confirmar nueva contraseña (opcional)"
+        "confirmNewPassword": "Confirmar nueva contraseña (opcional)",
+        "noDiffereces": "Los valores a actualizar son iguales a los actuales"
+    },
+    "Auth": {
+        "errors": {
+            "userNotFound": "Usuario no encontrado.",
+            "emailInUse": "El correo electrónico ya está en uso.",
+            "loginError": "Usuario o contraseña incorrectos.",
+            "logoutError": "Error al cerrar sesión.",
+            "errorCreatingUser": "Error al crear usuario.",
+            "errorUpdatingUser": "Error al actualizar usuario."
+        },
+        "success": {
+            "userCreated": "Usuario creado exitosamente, por favor chequea tu correo electrónico para completar el registro.",
+            "userUpdated": "Usuario actualizado exitosamente."
+        }
     }
 }

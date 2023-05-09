@@ -1,19 +1,19 @@
+import I18n from '../i18n/i18n';
+
 type Messages = {
     [key: string]: string;
 };
 
 export const authErrorMessages: Messages = {
-    "auth/user-disabled": "User account has been disabled.",
-    "auth/user-not-found": "User not found.",
-    "auth/email-already-in-use": "Email already in use.",
-    "auth/login-error": "Login failed! username or password invalid.",
-    "auth/logout-error": "Error logging out.",
-    "auth/error-creating-user": "Error creating user.",
-    "auth/error-updating-user": "Error updating user.",
+    "auth/user-not-found": I18n.t('Auth.errors.userNotFound'),
+    "auth/email-already-in-use": I18n.t('Auth.errors.emailInUse'),
+    "auth/login-error": I18n.t('Auth.errors.loginError'),
+    "auth/logout-error": I18n.t('Auth.errors.logoutError'),
+    "auth/error-creating-user": I18n.t('Auth.errors.errorCreatingUser'),
+    "auth/error-updating-user": I18n.t('Auth.errors.errorUpdatingUser'),
 };
 
 export const authSuccessMessages: Messages = {
-    "auth/user-created": "User created successfully, please check your email to complete verification.",
-    "auth/user-logged-in": "User logged in successfully.",
-    "auth/user-logged-out": "User logged out successfully.",
+    "auth/user-created": I18n.t('Auth.success.userCreated'),
+    "auth/user-updated": I18n.t('Auth.success.userUpdated'),
 };

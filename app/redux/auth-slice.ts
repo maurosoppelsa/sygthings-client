@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { User, UserToUpdate } from "../interfaces/common";
 import AuthService from "../services/auth.service";
 import { AppState } from "./interfaces";
-import { authErrorMessages } from "../messages";
+import { authErrorMessages, authSuccessMessages } from "../messages";
 import { resetSights } from "./sight-slice";
 import { resetGeoLocation } from "./geolocation-slice";
 
@@ -81,12 +81,19 @@ const authSlice = createSlice({
     toggleRegister: (state: any) => {
       state.isRegistering = !state.isRegistering;
     },
-    cleanupErrors: (state: any) => {
+    cleanupMessages: (state: any) => {
       state.error = false;
       state.message = '';
     },
-    toggleUserUpdate: (state: any) => {
-      state.isUpdatingUser = !state.isUpdatingUser;
+    openUserUpdate: (state: any) => {
+      state.isUpdatingUser = true;
+    },
+    closeUserUpdate: (state: any) => {
+      state.isUpdatingUser = false;
+    },
+    setError: (state: any, action: any) => {
+      state.error = true;
+      state.message = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -144,7 +151,7 @@ const authSlice = createSlice({
         const { lastName, name, email, occupation } = action.payload.user;
         state.loading = false;
         state.isUpdatingUser = false;
-        state.message = 'User updated successfully';
+        state.message = authSuccessMessages['auth/user-updated'];
         const updatedUser = {
           ...(state.user || {}),
           ...(lastName ? { lastName } : {}),
@@ -161,5 +168,5 @@ const authSlice = createSlice({
       });
   },
 });
-export const { toggleRegister, cleanupErrors, toggleUserUpdate } = authSlice.actions;
+export const { toggleRegister, cleanupMessages, openUserUpdate, closeUserUpdate, setError } = authSlice.actions;
 export default authSlice.reducer;

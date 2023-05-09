@@ -86,6 +86,21 @@
         "update": "Update",
         "currentPassword": "Current password (optional)",
         "newPassword": "New password (optional)",
-        "confirmNewPassword": "Confirm new password (optional)"
+        "confirmNewPassword": "Confirm new password (optional)",
+        "noDiffereces": "There are no changes to update."
+    },
+    "Auth": {
+        "errors": {
+            "userNotFound": "User not found.",
+            "emailInUse": "Email already in use.",
+            "loginError": "Login failed! username or password invalid.",
+            "logoutError": "Error logging out.",
+            "errorCreatingUser": "Error creating user.",
+            "errorUpdatingUser": "Error updating user."
+        },
+        "success": {
+            "userCreated": "User created successfully, please check your email to complete verification.",
+            "userUpdated": "User updated successfully."
+        }
     }
 }
