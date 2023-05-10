@@ -55,6 +55,10 @@ export default function Profile() {
         closeUserUpdateForm();
     };
 
+    const onUserDelete = () => {
+        console.log('delete user');
+    }
+
     useEffect(() => {
         if (mySights.length === 0 && currentUser?.id) {
             dispatch(getSightsByUser(currentUser.id));
@@ -73,7 +77,7 @@ export default function Profile() {
     if (isUpdatingUser) {
         return (
             <View>
-                <UserUpdateForm user={currentUser} onCancel={onCancelUpdateUser} onUpdate={onUpdateUser}></UserUpdateForm>
+                <UserUpdateForm user={currentUser} onCancel={onCancelUpdateUser} onUpdate={onUpdateUser} onDelete={onUserDelete}></UserUpdateForm>
             </View>
         );
     }

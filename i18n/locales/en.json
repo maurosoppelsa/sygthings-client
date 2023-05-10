@@ -87,7 +87,12 @@
         "currentPassword": "Current password (optional)",
         "newPassword": "New password (optional)",
         "confirmNewPassword": "Confirm new password (optional)",
-        "noDiffereces": "There are no changes to update."
+        "noDiffereces": "There are no changes to update.",
+        "UpdateUserForm": {
+            "deleteAccount": "I want to delete my account",
+            "deleteTitle": "Are you sure you want to delete your account?",
+            "deleteSubtitle": "This action cannot be undone."
+        }
     },
     "Auth": {
         "errors": {

@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
         minWidth: 70
     },
     sightInfoTitleText: {
-        fontWeight: "100",
         lineHeight: 25,
     },
     sightInfoValue: {
@@ -95,6 +94,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: colors.gray,
         fontStyle: "italic",
+        fontWeight: "bold",
         marginTop: 10,
     }
 });

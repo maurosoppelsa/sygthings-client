@@ -86,7 +86,12 @@
         "currentPassword": "Contraseña actual (opcional)",
         "newPassword": "Nueva contraseña (opcional)",
         "confirmNewPassword": "Confirmar nueva contraseña (opcional)",
-        "noDiffereces": "Los valores a actualizar son iguales a los actuales"
+        "noDiffereces": "Los valores a actualizar son iguales a los actuales",
+        "UpdateUserForm": {
+            "deleteAccount": "Deseo eliminar mi cuenta",
+            "deleteTitle": "¿Estas seguro de que quieres eliminar tu cuenta?",
+            "deleteSubtitle": "Esta acción no se puede deshacer."
+        }
     },
     "Auth": {
         "errors": {

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../../config/colors';
 import I18n from '../../../i18n/i18n';
 import { TextInput } from 'react-native-paper';
 import { customRules, spanishErrorMessages } from '../../utils/customInputValidation';
 import { Box, Button } from '@react-native-material/core';
 import { User } from '../../interfaces/common';
+import ProfileModalComponent from './profile-modal.component';
 
 const { useValidation } = require('react-native-form-validator')
 
-export default function UserUpdateForm({ user, onCancel, onUpdate }: { user: User, onCancel: any, onUpdate: any }) {
+export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: { user: User, onCancel: any, onUpdate: any, onDelete: any }) {
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setconfirmNewPassword] = useState('');
@@ -18,6 +19,8 @@ export default function UserUpdateForm({ user, onCancel, onUpdate }: { user: Use
     const [email, setEmail] = useState(user?.email);
     const [occupation, setOccupation] = useState(user?.occupation);
     const [touchedForm, setTouchedForm] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [modalType, setModalType] = useState('');
 
     const { validate, isFieldInError, getErrorsInField } =
         useValidation({
@@ -47,6 +50,15 @@ export default function UserUpdateForm({ user, onCancel, onUpdate }: { user: Use
         }
         return user;
     };
+
+    const deleteUser = () => {
+        onDelete();
+        setModalType('');
+        setTimeout(() => {
+            setShowModal(false);
+        }
+            , 1000);
+    }
 
     return (
         <View>
@@ -174,6 +186,14 @@ export default function UserUpdateForm({ user, onCancel, onUpdate }: { user: Use
                     <Button title={I18n.t('Profile.update')} style={styles.formButton} onPress={() => { updateUser() }} />
                     <Button title={I18n.t('Profile.cancel')} style={styles.formButton} onPress={() => onCancel()} />
                 </Box>
+                <TouchableOpacity onPress={() => {
+                    setModalType('delete');
+                    setShowModal(true)
+                }
+                }>
+                    <Text style={styles.deleteAccount}>{I18n.t('Profile.UpdateUserForm.deleteAccount')}</Text>
+                </TouchableOpacity>
+                <ProfileModalComponent showModal={showModal} type={modalType} actionCancel={() => setShowModal(false)} actionProceed={() => deleteUser()}></ProfileModalComponent>
             </Box>
         </View>
     );
@@ -203,5 +223,17 @@ const styles = StyleSheet.create({
         backgroundColor: colors.syghtingGreen,
         marginTop: 30,
         height: 40
+    },
+    deleteAccount: {
+        color: colors.gray,
+        alignSelf: 'center',
+        marginTop: 30,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 200,
+        height: 200,
     },
 });
