@@ -7,6 +7,7 @@ export const spanishErrorMessages = {
         maxlength: 'El campo debe ser menor a {1} caracteres',
         required: 'campo requerido',
         equalPassword: 'Las contraseñas no coinciden',
+        notEqualPassword: 'La nueva contraseña no puede ser igual a la anterior',
         passwordsNotEmpty: 'si desea cambiar la contraseña debe llenar todos los campos',
     },
 };
@@ -42,6 +43,9 @@ export const customRules = {
     },
     equalPassword(dataToCompare: any, value: any) {
         return dataToCompare === value || value.length === 0;
+    },
+    notEqualPassword(dataToCompare: any, value: any) {
+        return dataToCompare !== value || value.length === 0;
     },
     email(length: number | undefined, value: string | any[]) {
         const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

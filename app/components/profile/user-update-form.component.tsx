@@ -36,7 +36,7 @@ export default function UserUpdateForm({ user, onCancel, onUpdate }: { user: Use
             name: { minlength: 3, maxlength: 10, required: true },
             lastName: { minlength: 3, maxlength: 10, required: true },
             email: { email: true, required: true },
-            password: { minlength: 3, maxlength: 7, required: false, passwordsNotEmpty: { password, newPassword, confirmNewPassword } },
+            password: { minlength: 3, maxlength: 7, required: false, passwordsNotEmpty: { password, newPassword, confirmNewPassword }, notEqualPassword: newPassword },
             newPassword: { minlength: 3, maxlength: 7, required: false, passwordsNotEmpty: { newPassword, password, confirmNewPassword } },
             confirmNewPassword: { equalPassword: newPassword, required: false, passwordsNotEmpty: { confirmNewPassword, password, newPassword } },
             occupation: { minlength: 3, maxlength: 25, required: true },

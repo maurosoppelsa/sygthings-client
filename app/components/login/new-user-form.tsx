@@ -34,7 +34,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
     };
 
     const createUser = async () => {
-        const isValid = validate({
+        const isValid = await validate({
             name: { minlength: 3, maxlength: 7, required: true },
             lastName: { minlength: 3, maxlength: 7, required: true },
             email: { email: true, required: true },
