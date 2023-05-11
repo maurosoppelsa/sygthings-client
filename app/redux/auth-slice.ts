@@ -74,6 +74,21 @@ export const updateUser = createAsyncThunk<{ user: UserToUpdate }, UserToUpdate>
   }
 );
 
+export const deleteUser = createAsyncThunk<{ user: User }, string | undefined>(
+  'deleteUser',
+  async (userId) => {
+    if (!userId) {
+      throw 'Error could not find user';
+    }
+    const response = await authService.deleteUser(userId);
+    if (response.success) {
+      return response;
+    } else {
+      throw 'Error deleting user';
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: 'authSlice',
   initialState,
@@ -165,6 +180,21 @@ const authSlice = createSlice({
         state.error = true;
         state.loading = false;
         state.message = authErrorMessages['auth/error-updating-user'];
+      })
+      .addCase(deleteUser.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = authSuccessMessages['auth/user-deleted'];
+        state.user = null;
+        state.loggedIn = false;
+      })
+      .addCase(deleteUser.rejected, (state) => {
+        state.error = true;
+        state.loading = false;
+        state.message = authErrorMessages['auth/error-deleting-user'];
       });
   },
 });

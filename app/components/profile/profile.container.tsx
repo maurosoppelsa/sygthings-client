@@ -6,7 +6,7 @@ import PersonCircleComponent from '../common/profile-circle.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TotalSightsComponent from './total-sights.component';
 import { useAppDispatch } from '../../redux/store';
-import { logoutUser, updateUser, openUserUpdate, closeUserUpdate, cleanupMessages, setError } from '../../redux/auth-slice';
+import { logoutUser, updateUser, openUserUpdate, closeUserUpdate, cleanupMessages, setError, deleteUser } from '../../redux/auth-slice';
 import { Sight, User, UserToUpdate } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import I18n from '../../../i18n/i18n';
@@ -56,7 +56,7 @@ export default function Profile() {
     };
 
     const onUserDelete = () => {
-        console.log('delete user');
+        dispatch(deleteUser(currentUser?.id));
     }
 
     useEffect(() => {

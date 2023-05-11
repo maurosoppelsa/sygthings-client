@@ -7,6 +7,7 @@ import { customRules, spanishErrorMessages } from '../../utils/customInputValida
 import { Box, Button } from '@react-native-material/core';
 import { User } from '../../interfaces/common';
 import ProfileModalComponent from './profile-modal.component';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const { useValidation } = require('react-native-form-validator')
 
@@ -54,10 +55,7 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
     const deleteUser = () => {
         onDelete();
         setModalType('');
-        setTimeout(() => {
-            setShowModal(false);
-        }
-            , 1000);
+        setShowModal(false);
     }
 
     return (
@@ -191,7 +189,10 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
                     setShowModal(true)
                 }
                 }>
-                    <Text style={styles.deleteAccount}>{I18n.t('Profile.UpdateUserForm.deleteAccount')}</Text>
+                    <Box style={styles.deleteAccountContainer}>
+                        <MaterialCommunityIcons style={styles.userDeleteIcon} name="account-off" size={18} />
+                        <Text style={styles.deleteAccount}>{I18n.t('Profile.UpdateUserForm.deleteAccount')}</Text>
+                    </Box>
                 </TouchableOpacity>
                 <ProfileModalComponent showModal={showModal} type={modalType} actionCancel={() => setShowModal(false)} actionProceed={() => deleteUser()}></ProfileModalComponent>
             </Box>
@@ -226,8 +227,7 @@ const styles = StyleSheet.create({
     },
     deleteAccount: {
         color: colors.gray,
-        alignSelf: 'center',
-        marginTop: 30,
+
     },
     modalContainer: {
         flex: 1,
@@ -236,4 +236,14 @@ const styles = StyleSheet.create({
         width: 200,
         height: 200,
     },
+    userDeleteIcon: {
+        alignSelf: 'center',
+        color: colors.gray,
+        marginRight: 5,
+    },
+    deleteAccountContainer: {
+        flexDirection: 'row',
+        alignSelf: 'center',
+        marginTop: 35,
+    }
 });

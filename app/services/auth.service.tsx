@@ -95,6 +95,22 @@ export default class AuthService {
             })
         }).then((response) => response.json())
             .then((json) => {
+                AsyncStorage.clear();
+                return json;
+            })
+    }
+
+    public deleteUser = (userId: string) => {
+        const cookie = AsyncStorage.getItem('cookie');
+        return fetch(`${SERVER_URL}/users/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `${cookie}`,
+            },
+        }).then((response) => response.json())
+            .then((json) => {
                 return json;
             })
     }

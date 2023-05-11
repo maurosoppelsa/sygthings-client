@@ -100,7 +100,8 @@
             "loginError": "Usuario o contraseña incorrectos.",
             "logoutError": "Error al cerrar sesión.",
             "errorCreatingUser": "Error al crear usuario.",
-            "errorUpdatingUser": "Error al actualizar usuario."
+            "errorUpdatingUser": "Error al actualizar usuario.",
+            "errorDeletingUser": "Error al eliminar usuario."
         },
         "success": {
             "userCreated": "Usuario creado exitosamente, por favor chequea tu correo electrónico para completar el registro.",
