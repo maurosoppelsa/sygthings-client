@@ -23,7 +23,7 @@ export const createSight = createAsyncThunk<{ sight: Sight }, { sight: Sight }>(
     const response = await sightService.createSight(sight);
     if (response) {
       return {
-        sight,
+        sight: response.data,
       };
     } else {
       throw "Error creating sight";
@@ -103,7 +103,7 @@ const sightSlice = createSlice({
       .addCase(createSight.fulfilled, (state, action) => {
         state.newSight = action.payload.sight;
         state.modalStatus = SIGHT_MODAL_STATUS.SUCCESS;
-        state.mySights = [...state.mySights, action.payload.sight];
+        state.mySights = [action.payload.sight, ...state.mySights];
       })
       .addCase(createSight.rejected, (state) => {
         state.error = true;
