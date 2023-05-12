@@ -23,6 +23,7 @@ export type newSightState = {
     currentSights: Sight[],
     showSightModal: boolean,
     error: boolean | undefined,
+    loading: boolean,
     modalStatus: SIGHT_MODAL_STATUS,
 };
 

@@ -5,20 +5,21 @@ import colors from '../../config/colors';
 import { Button } from 'react-native-paper';
 import I18n from '../../../i18n/i18n';
 
-export default function ProfileModalComponent({ type, showModal, actionCancel, actionProceed } : { type: string, showModal: boolean, actionCancel: any, actionProceed: any }) {
+export default function ActionModalComponent({ title, subtitle, actionBtText, showModal, actionCancel, actionProceed }: { title: string, subtitle: string, actionBtText: string, showModal: boolean, actionCancel: any, actionProceed: any }) {
     const ModalContent = () => {
+        const [type, setType] = React.useState('proceed');
         return (
             <Box style={styles.modalContainer}>
                 {
-                    type === 'delete' ?
+                    type === 'proceed' ?
                         <Box>
                             <Box style={styles.deleteTextContainer}>
-                                <Text>{I18n.t('Profile.UpdateUserForm.deleteTitle')}</Text>
-                                <Text>{I18n.t('Profile.UpdateUserForm.deleteSubtitle')}</Text>
+                                <Text>{title}</Text>
+                                <Text>{subtitle}</Text>
                             </Box>
                             <Box style={styles.deleteButtonsContainer}>
-                                <Button style={styles.deleteBt} mode="contained" onPress={() => actionProceed()}>Eliminar</Button>
-                                <Button style={styles.deleteBt} mode="contained" onPress={() => actionCancel()}>Cancelar</Button>
+                                <Button style={styles.deleteBt} mode="contained" onPress={() => actionProceed()}>{actionBtText}</Button>
+                                <Button style={styles.deleteBt} mode="contained" onPress={() => actionCancel()}>{I18n.t('Common.cancel')}</Button>
                             </Box>
                         </Box>
                         :

@@ -35,7 +35,9 @@
         "condition": "Condición",
         "button": "ver avistamiento",
         "createdBy": "Creado por",
-        "createdAt": "Creado"
+        "createdAt": "Creado",
+        "deleteTitle": "¿Estas seguro de que quieres eliminar este avistamiento?",
+        "deleteSubtitle": "Esta acción no se puede deshacer."
     },
     "NewSight": {
         "button": "Crear nuevo avistamiento"
@@ -107,5 +109,9 @@
             "userCreated": "Usuario creado exitosamente, por favor chequea tu correo electrónico para completar el registro.",
             "userUpdated": "Usuario actualizado exitosamente."
         }
+    },
+    "Common": {
+        "delete": "Eliminar",
+        "cancel": "Cancelar"
     }
 }

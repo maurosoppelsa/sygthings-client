@@ -8,6 +8,7 @@ import { newSightState } from "./interfaces";
 const initialState: newSightState = {
   showSightModal: false,
   error: false,
+  loading: false,
   newSight: null,
   mySights: [],
   modalStatus: SIGHT_MODAL_STATUS.NEW,
@@ -57,6 +58,24 @@ export const getSightsByUser = createAsyncThunk<{ sights: Sight[] }, string>(
     }
   }
 );
+
+export const deleteSight = createAsyncThunk<{ sight: Sight }, string | undefined>(
+  "deleteSight",
+  async (sightId) => {
+
+    if (!sightId) {
+      throw "could't find sight";
+    }
+
+    const response = await sightService.deleteSight(sightId);
+    if (response.success) {
+      return {
+        sight: response.data,
+      };
+    } else {
+      throw "Error deleting sight";
+    }
+  });
 
 export const resetSights = createAsyncThunk("resetSights", async () => {
   return;
@@ -113,6 +132,17 @@ const sightSlice = createSlice({
       .addCase(resetSights.fulfilled, (state) => {
         state.currentSights = [];
         state.mySights = [];
+      })
+      .addCase(deleteSight.pending, (state) => {
+        state.error = false;
+        state.loading = true;
+      })
+      .addCase(deleteSight.fulfilled, (state, action) => {
+        state.error = false;
+        state.mySights = state.mySights.filter((sight: Sight) => sight?.id !== action.payload.sight?.id);
+      })
+      .addCase(deleteSight.rejected, (state) => {
+        state.error = true;
       });
   },
 });

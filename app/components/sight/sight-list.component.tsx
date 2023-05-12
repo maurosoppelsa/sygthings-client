@@ -7,7 +7,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import TitleComponent from "../common/title-component";
 import SightComponent from "./sight.component";
 
-export default function SightListComponent({ sightList, listTitle }: { sightList: Array<Sight>, listTitle: string }) {
+export default function SightListComponent({ sightList, listTitle, allowDeletion, onDeleteSight, onUpdateSight }: { sightList: Array<Sight>, listTitle: string, allowDeletion?: boolean, onDeleteSight?: any, onUpdateSight?: any }) {
     const [showDetail, setShowDetail] = useState(false);
     const [currentSight, setCurrentSight] = useState(null);
 
@@ -26,10 +26,15 @@ export default function SightListComponent({ sightList, listTitle }: { sightList
         setShowDetail(false);
     }
 
+    const deleteSight = (sight: Sight) => {
+        setShowDetail(false);
+        onDeleteSight(sight);
+    }
+
     const ShowSightContent = () => {
         {
             if (showDetail) {
-                return <SightDetailsComponent onClose={closeDetails} sight={currentSight} />;
+                return <SightDetailsComponent onClose={closeDetails} sight={currentSight} allowDelete={allowDeletion} onDelete={() => { deleteSight(currentSight) }} onUpdate={()=> { onUpdateSight(currentSight)} } />;
             } else {
                 return <ScrollView>
                     <TitleComponent title={listTitle} />

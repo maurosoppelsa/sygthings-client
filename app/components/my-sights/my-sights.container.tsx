@@ -7,19 +7,27 @@ import SightListComponent from '../sight/sight-list.component';
 import I18n from '../../../i18n/i18n';
 import colors from '../../config/colors';
 import { useAppDispatch } from '../../redux/store'
-import { getSightsByUser } from '../../redux/sight-slice';
+import { deleteSight, getSightsByUser } from '../../redux/sight-slice';
 
 
 export default function MySights() {
     const dispatch = useAppDispatch();
     const currentUser: User = useSelector((state: any) => state.authentication.user);
     const mySights: Array<Sight> = useSelector((state: any) => state.sight.mySights);
-    
+
+    const onDeleteSight = (sight: Sight) => {
+        dispatch(deleteSight(sight?.id));
+    }
+
+    const updateSight = (sight: Sight) => {
+        console.log('edit sight', sight);
+    }
+
     useEffect(() => {
-        if(mySights.length === 0 && currentUser?.id) {
+        if (mySights.length === 0 && currentUser?.id) {
             dispatch(getSightsByUser(currentUser.id));
         }
-      }, []);
+    }, []);
 
     if (mySights.length === 0) {
         return (
@@ -30,7 +38,7 @@ export default function MySights() {
             </Box>);
     }
     return (
-        <SightListComponent sightList={mySights} listTitle={I18n.t('MySights.legend')} />
+        <SightListComponent sightList={mySights} listTitle={I18n.t('MySights.legend')} allowDeletion={true} onDeleteSight={onDeleteSight} onUpdateSight={updateSight} />
     );
 }
 

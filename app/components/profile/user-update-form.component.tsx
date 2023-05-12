@@ -6,8 +6,8 @@ import { TextInput } from 'react-native-paper';
 import { customRules, spanishErrorMessages } from '../../utils/customInputValidation';
 import { Box, Button } from '@react-native-material/core';
 import { User } from '../../interfaces/common';
-import ProfileModalComponent from './profile-modal.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import ActionModalComponent from '../common/action-modal.component';
 
 const { useValidation } = require('react-native-form-validator')
 
@@ -21,7 +21,6 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
     const [occupation, setOccupation] = useState(user?.occupation);
     const [touchedForm, setTouchedForm] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [modalType, setModalType] = useState('');
 
     const { validate, isFieldInError, getErrorsInField } =
         useValidation({
@@ -54,7 +53,6 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
 
     const deleteUser = () => {
         onDelete();
-        setModalType('');
         setShowModal(false);
     }
 
@@ -185,7 +183,6 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
                     <Button title={I18n.t('Profile.cancel')} style={styles.formButton} onPress={() => onCancel()} />
                 </Box>
                 <TouchableOpacity onPress={() => {
-                    setModalType('delete');
                     setShowModal(true)
                 }
                 }>
@@ -194,7 +191,13 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
                         <Text style={styles.deleteAccount}>{I18n.t('Profile.UpdateUserForm.deleteAccount')}</Text>
                     </Box>
                 </TouchableOpacity>
-                <ProfileModalComponent showModal={showModal} type={modalType} actionCancel={() => setShowModal(false)} actionProceed={() => deleteUser()}></ProfileModalComponent>
+                <ActionModalComponent
+                    showModal={showModal}
+                    actionBtText={I18n.t('Common.delete')} 
+                    actionCancel={() => setShowModal(false)}
+                    actionProceed={() => deleteUser()}
+                    title={I18n.t('Profile.UpdateUserForm.deleteTitle')}
+                    subtitle={I18n.t('Profile.UpdateUserForm.deleteSubtitle')} />
             </Box>
         </View>
     );

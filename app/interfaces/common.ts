@@ -11,6 +11,7 @@ export type UserToUpdate = User & { newPassword?: string };
 
 
 export type Sight = {
+    id?: string;
     animal: string;
     province: string;
     picture: {

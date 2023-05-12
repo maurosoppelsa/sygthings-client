@@ -71,4 +71,27 @@ export default class SightService {
             })
             .catch((error) => console.error(error))
     }
+
+    public deleteSight(sightId: string) {
+        const cookie = AsyncStorage.getItem('cookie');
+        return fetch(`${SERVER_URL}/sight/${sightId}`, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `${cookie}`,
+            },
+        })
+            .then((response) => {
+                if (response.status === 200 || response.status === 201) {
+                    return response.json();
+                } else {
+                    return;
+                }
+            })
+            .then((json) => {
+                return json;
+            })
+            .catch((error) => console.error(error))
+    }
 }

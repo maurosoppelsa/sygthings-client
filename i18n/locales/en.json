@@ -36,7 +36,9 @@
         "placeName": "Place",
         "button": "see this sight",
         "createdBy": "Created by",
-        "createdAt": "Created"
+        "createdAt": "Created",
+        "deleteTitle": "Are you sure you want to delete this sight?",
+        "deleteSubtitle": "This action cannot be undone."
     },
     "NewSight": {
         "button": "Create new Sighting"
@@ -108,5 +110,9 @@
             "userCreated": "User created successfully, please check your email to complete verification.",
             "userUpdated": "User updated successfully."
         }
+    },
+    "Common": {
+        "delete": "Delete",
+        "cancel": "Cancel"
     }
 }

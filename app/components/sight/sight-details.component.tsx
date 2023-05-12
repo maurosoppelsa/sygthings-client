@@ -5,16 +5,30 @@ import colors from '../../config/colors';
 import { Sight } from '../../interfaces/common';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { capitalizeText, getCreatedByLegend } from '../../utils/common';
+import ActionModalComponent from '../common/action-modal.component';
+import I18n from '../../../i18n/i18n';
 
 
-export default function SightDetailsComponent({ sight, onClose }: { sight: Sight, onClose: any }) {
+export default function SightDetailsComponent({ sight, onClose, allowDelete = false, onDelete, onUpdate }: { sight: Sight, onClose: any, allowDelete?: boolean, onDelete?: any, onUpdate?: any }) {
     const { name, lastName, occupation } = sight?.user ?? {};
+    const [showModal, setShowModal] = React.useState(false);
     return (
         <Box style={styles.container}>
             <Image style={styles.sightImage} source={{ uri: sight?.picture.uri }} />
-            <TouchableOpacity style={styles.touchableBackBtWrapper} onPress={() => { onClose() }}>
-                <MaterialCommunityIcons name="arrow-left" size={40} style={styles.backButton} />
+            <TouchableOpacity style={[styles.touchableHeader, styles.touchableBackBtWrapper]} onPress={() => { onClose() }}>
+                <MaterialCommunityIcons name="arrow-left" size={40} style={styles.headerButton} />
             </TouchableOpacity>
+            {
+                allowDelete &&
+                <Box style={[styles.touchableActionContainer, styles.touchableHeader]}>
+                    <TouchableOpacity onPress={() => { setShowModal(true) }}>
+                        <MaterialCommunityIcons name="trash-can-outline" size={30} style={[styles.headerButton, styles.actionButton]} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { onUpdate() }}>
+                        <MaterialCommunityIcons name="border-color" size={30} style={[styles.headerButton, styles.actionButton]} />
+                    </TouchableOpacity>
+                </Box>
+            }
             <Box style={styles.headerContainer}>
                 <Text style={styles.sightName}>{sight?.animal}</Text>
                 <Box style={styles.locationContainer}>
@@ -30,6 +44,13 @@ export default function SightDetailsComponent({ sight, onClose }: { sight: Sight
                     {getCreatedByLegend(name, lastName, occupation, sight?.createdAt)}
                 </Text>
             </Box>
+            <ActionModalComponent
+                    showModal={showModal}
+                    actionBtText={I18n.t('Common.delete')} 
+                    actionCancel={() => setShowModal(false)}
+                    actionProceed={() => onDelete()}
+                    title={I18n.t('Sight.deleteTitle')}
+                    subtitle={I18n.t('Sight.deleteSubtitle')} />
         </Box>
     );
 }
@@ -75,13 +96,26 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         color: colors.black,
     },
-    touchableBackBtWrapper: {
+    touchableHeader: {
         position: 'absolute',
-        alignSelf: 'flex-start',
         margin: 10,
     },
-    backButton: {
+    touchableBackBtWrapper: {
+        alignSelf: 'flex-start',
+    },
+    touchableActionContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignSelf: 'flex-end',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+    },
+    headerButton: {
         color: colors.white,
+    },
+    actionButton: {
+        paddingVertical: 5,
     },
     divider: {
         marginTop: 15,
