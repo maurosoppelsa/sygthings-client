@@ -75,6 +75,13 @@
             "close": "Cerrar"
         }
     },
+    "EditSight": {
+        "title": "Editar avistamiento",
+        "animalName": "Nombre del animal:",
+        "condition": "Condición:",
+        "description": "Descripción:",
+        "updatePicture": "Actualizar foto"
+    },
     "Camera": {
         "loading": "Cargando foto por favor espere...",
         "noAccessCamera": "No hay acceso a la cámara"
@@ -112,6 +119,7 @@
     },
     "Common": {
         "delete": "Eliminar",
+        "edit": "Editar",
         "cancel": "Cancelar"
     }
 }

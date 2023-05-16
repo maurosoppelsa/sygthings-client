@@ -76,6 +76,13 @@
             "close": "Close"
         }
     },
+    "EditSight": {
+        "title": "Edit Sight",
+        "animalName": "Animal name:",
+        "condition": "Condition:",
+        "description": "Description:",
+        "updatePicture": "Update picture"
+    },
     "Camera": {
         "loading": "Loading Picture please wait...",
         "noAccessCamera": "No camera access"
