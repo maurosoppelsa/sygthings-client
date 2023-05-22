@@ -62,11 +62,9 @@ export const getSightsByUser = createAsyncThunk<{ sights: Sight[] }, string>(
 export const deleteSight = createAsyncThunk<{ sight: Sight }, string | undefined>(
   "deleteSight",
   async (sightId) => {
-
     if (!sightId) {
       throw "could't find sight";
     }
-
     const response = await sightService.deleteSight(sightId);
     if (response.success) {
       return {
@@ -76,6 +74,20 @@ export const deleteSight = createAsyncThunk<{ sight: Sight }, string | undefined
       throw "Error deleting sight";
     }
   });
+
+  export const editSight = createAsyncThunk<{ sight: Sight }, Sight>(
+    "editSight",
+    async (sight) => {
+        const response = await sightService.updateSight(sight);
+        if (response) {
+          console.log(response);
+            return {
+                sight: response.data,
+            };
+        } else {
+            throw "Error updating sight";
+        }
+    });
 
 export const resetSights = createAsyncThunk("resetSights", async () => {
   return;
@@ -142,6 +154,20 @@ const sightSlice = createSlice({
         state.mySights = state.mySights.filter((sight: Sight) => sight?.id !== action.payload.sight?.id);
       })
       .addCase(deleteSight.rejected, (state) => {
+        state.error = true;
+      })
+      .addCase(editSight.pending, (state) => {
+        state.error = false;
+        state.loading = true;
+      })
+      .addCase(editSight.fulfilled, (state, action) => {
+        state.error = false;
+        state.loading = false;
+        state.mySights = state.mySights.map((sight) =>
+          sight?.id === action.payload.sight?.id ? action.payload.sight : sight
+        );
+      })      
+      .addCase(editSight.rejected, (state) => {
         state.error = true;
       });
   },

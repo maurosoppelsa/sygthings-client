@@ -1,5 +1,6 @@
 import { SERVER_URL } from "../config/authentication";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Sight } from "../interfaces/common";
 
 
 export default class SightService {
@@ -81,6 +82,30 @@ export default class SightService {
                 'Content-Type': 'application/json',
                 'Authorization': `${cookie}`,
             },
+        })
+            .then((response) => {
+                if (response.status === 200 || response.status === 201) {
+                    return response.json();
+                } else {
+                    return;
+                }
+            })
+            .then((json) => {
+                return json;
+            })
+            .catch((error) => console.error(error))
+    }
+
+    public updateSight(sight: Sight) {
+        const cookie = AsyncStorage.getItem('cookie');
+        return fetch(`${SERVER_URL}/sight/${sight?.id}`, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `${cookie}`,
+            },
+            body: JSON.stringify(sight),
         })
             .then((response) => {
                 if (response.status === 200 || response.status === 201) {

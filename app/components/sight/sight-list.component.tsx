@@ -31,10 +31,15 @@ export default function SightListComponent({ sightList, listTitle, allowDeletion
         onDeleteSight(sight);
     }
 
+    const updateSight = (sight: Sight) => {
+        setShowDetail(false);
+        onUpdateSight(sight);
+    }
+
     const ShowSightContent = () => {
         {
             if (showDetail) {
-                return <SightDetailsComponent onClose={closeDetails} sight={currentSight} allowDelete={allowDeletion} onDelete={() => { deleteSight(currentSight) }} onUpdate={()=> { onUpdateSight(currentSight)} } />;
+                return <SightDetailsComponent onClose={closeDetails} sight={currentSight} allowDelete={allowDeletion} onDelete={() => { deleteSight(currentSight) }} onUpdate={updateSight} />;
             } else {
                 return <ScrollView>
                     <TitleComponent title={listTitle} />

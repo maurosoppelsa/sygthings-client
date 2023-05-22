@@ -7,13 +7,24 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { RadioButton } from 'react-native-paper';
 import I18n from '../../../i18n/i18n';
 
-export default function EditSightComponent({ sight, onCancelUpdate, onUpdateSight }: { sight: Sight, onCancelUpdate: any, onUpdateSight: any }) {
+export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSight }: { sight: Sight, onCancelUpdate: any, onUpdateSight: any }) {
     const [animalName, setAnimalName] = useState(sight?.animal);
     const [description, setDescription] = useState(sight?.description);
     const alive = I18n.t('NewSightForm.alive');
     const wounded = I18n.t('NewSightForm.wounded');
     const dead = I18n.t('NewSightForm.dead');
     const [checked, setChecked] = React.useState(sight?.condition);
+    
+    const editSight = (sight: Sight) => {
+        if(!sight) return;
+        const editedSight: Sight = {
+            ...sight,
+            animal: animalName || sight?.animal,
+            description: description || sight?.description,
+            condition: checked || sight?.condition,
+          };          
+        onUpdateSight(editedSight);
+    }
 
     return (
         <Box style={styles.container}>
@@ -59,8 +70,8 @@ export default function EditSightComponent({ sight, onCancelUpdate, onUpdateSigh
                 </Box>
             </Box>
             <Box style={styles.actionButtonContainer}>
-                <Button title={I18n.t('Common.edit')} style={[styles.button, styles.actionBT]} onPress={() => onCancelUpdate()} />
-                <Button title={I18n.t('Common.cancel')} style={[styles.button, styles.actionBT]} onPress={() => onUpdateSight()} />
+                <Button title={I18n.t('Common.edit')} style={[styles.button, styles.actionBT]} onPress={() => editSight(sight)} disabled={!animalName || !description}/>
+                <Button title={I18n.t('Common.cancel')} style={[styles.button, styles.actionBT]} onPress={() => onCancelUpdate()}/>
             </Box>
         </Box>
     );

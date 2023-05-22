@@ -7,7 +7,7 @@ import SightListComponent from '../sight/sight-list.component';
 import I18n from '../../../i18n/i18n';
 import colors from '../../config/colors';
 import { useAppDispatch } from '../../redux/store'
-import { deleteSight, getSightsByUser } from '../../redux/sight-slice';
+import { deleteSight, getSightsByUser, editSight } from '../../redux/sight-slice';
 
 
 export default function MySights() {
@@ -20,7 +20,7 @@ export default function MySights() {
     }
 
     const updateSight = (sight: Sight) => {
-        console.log('edit sight', sight);
+        dispatch(editSight(sight));
     }
 
     useEffect(() => {
