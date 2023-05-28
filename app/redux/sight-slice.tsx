@@ -80,7 +80,6 @@ export const deleteSight = createAsyncThunk<{ sight: Sight }, string | undefined
     async (sight) => {
         const response = await sightService.updateSight(sight);
         if (response) {
-          console.log(response);
             return {
                 sight: response.data,
             };

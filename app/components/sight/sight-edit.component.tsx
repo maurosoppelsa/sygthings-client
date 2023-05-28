@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, Image, TextInput } from "react-native";
 import { Box, Button } from "@react-native-material/core";
-import { Sight } from "../../interfaces/common";
+import { Picture, Sight } from "../../interfaces/common";
 import colors from "../../config/colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { RadioButton } from 'react-native-paper';
 import I18n from '../../../i18n/i18n';
+import * as ImagePicker from "react-native-image-picker"
+import { MediaType } from "react-native-image-picker";
 
 export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSight }: { sight: Sight, onCancelUpdate: any, onUpdateSight: any }) {
     const [animalName, setAnimalName] = useState(sight?.animal);
@@ -13,17 +15,52 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
     const alive = I18n.t('NewSightForm.alive');
     const wounded = I18n.t('NewSightForm.wounded');
     const dead = I18n.t('NewSightForm.dead');
-    const [checked, setChecked] = React.useState(sight?.condition);
-    
+    const [checked, setChecked] = useState(sight?.condition);
+    const [picture, setPicture] = useState(sight?.picture);
+
     const editSight = (sight: Sight) => {
-        if(!sight) return;
+        if (!sight) return;
         const editedSight: Sight = {
             ...sight,
             animal: animalName || sight?.animal,
             description: description || sight?.description,
             condition: checked || sight?.condition,
-          };          
+            picture: picture ?? sight.picture
+        };
         onUpdateSight(editedSight);
+    }
+
+    const openImageinFileSystem = async () => {
+        const options = {
+            title: 'Select Sight Picture',
+            mediaType: 'photo' as MediaType,
+            maxWidth: 300,
+            maxHeight: 300,
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        };
+       await ImagePicker.launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+                return;
+            } else if (response?.errorCode) {
+                console.log('ImagePicker Error: ', response.errorMessage);
+                return;
+            } else if (response.assets && response.assets.length > 0) {
+                const picture: Picture = {
+                    uri: '',
+                    width: 0,
+                    height: 0,
+                };
+                picture.uri = response.assets[0].uri ?? '';
+                picture.width = response.assets[0].width ?? 0;
+                picture.height = response.assets[0].height ?? 0;
+                setPicture(picture)
+            } else {
+                return;
+            }
+        });
     }
 
     return (
@@ -33,8 +70,8 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
                 <Text style={styles.title}>{I18n.t('EditSight.title')}</Text>
             </Box>
             <Box style={styles.imageContainer}>
-                <Image style={styles.image} source={{ uri: sight?.picture.uri }} />
-                <Button title={I18n.t('EditSight.updatePicture')} style={[styles.button, styles.updatePictureBT]} onPress={() => { }} />
+                <Image style={styles.image} source={{ uri: picture?.uri }} />
+                <Button title={I18n.t('EditSight.updatePicture')} style={[styles.button, styles.updatePictureBT]} onPress={() => { openImageinFileSystem() }} />
             </Box>
             <Box>
                 <Text style={styles.inputTitle}>{I18n.t('EditSight.animalName')}</Text>
@@ -70,8 +107,8 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
                 </Box>
             </Box>
             <Box style={styles.actionButtonContainer}>
-                <Button title={I18n.t('Common.edit')} style={[styles.button, styles.actionBT]} onPress={() => editSight(sight)} disabled={!animalName || !description}/>
-                <Button title={I18n.t('Common.cancel')} style={[styles.button, styles.actionBT]} onPress={() => onCancelUpdate()}/>
+                <Button title={I18n.t('Common.edit')} style={[styles.button, styles.actionBT]} onPress={() => editSight(sight)} disabled={!animalName || !description} />
+                <Button title={I18n.t('Common.cancel')} style={[styles.button, styles.actionBT]} onPress={() => onCancelUpdate()} />
             </Box>
         </Box>
     );

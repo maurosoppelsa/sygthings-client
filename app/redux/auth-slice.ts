@@ -68,7 +68,6 @@ export const updateUser = createAsyncThunk<{ user: UserToUpdate }, UserToUpdate>
     if (response.success) {
       return response;
     } else {
-      console.log(response)
       throw 'Error updating user';
     }
   }

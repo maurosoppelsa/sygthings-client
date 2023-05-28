@@ -9,16 +9,11 @@ export type User = {
 
 export type UserToUpdate = User & { newPassword?: string };
 
-
 export type Sight = {
     id?: string;
     animal: string;
     province: string;
-    picture: {
-        height: number,
-        uri: string,
-        with: number,
-    },
+    picture: Picture,
     condition: string;
     placeName: string;
     location: {
