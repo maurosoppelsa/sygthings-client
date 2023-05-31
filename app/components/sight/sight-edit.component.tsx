@@ -63,6 +63,14 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
         });
     }
 
+    const isSightUpdated = () => {
+        if (animalName !== sight?.animal) return true;
+        if (description !== sight?.description) return true;
+        if (checked !== sight?.condition) return true;
+        if (picture?.uri !== sight?.picture?.uri) return true;
+        return false;
+    }
+
     return (
         <Box style={styles.container}>
             <Box style={styles.header}>
@@ -107,7 +115,7 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
                 </Box>
             </Box>
             <Box style={styles.actionButtonContainer}>
-                <Button title={I18n.t('Common.edit')} style={[styles.button, styles.actionBT]} onPress={() => editSight(sight)} disabled={!animalName || !description} />
+                <Button title={I18n.t('Common.edit')} style={[styles.button, styles.actionBT]} onPress={() => editSight(sight)} disabled={!animalName || !description || !isSightUpdated()} />
                 <Button title={I18n.t('Common.cancel')} style={[styles.button, styles.actionBT]} onPress={() => onCancelUpdate()} />
             </Box>
         </Box>
