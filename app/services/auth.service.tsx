@@ -114,4 +114,17 @@ export default class AuthService {
                 return json;
             })
     }
+
+    public verifyEmail = (userId: string) => {
+        return fetch(`${SERVER_URL}/users/verify/${userId}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => response.json())
+            .then((json) => {
+                return json;
+            })
+    }
 }

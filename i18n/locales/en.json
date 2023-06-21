@@ -16,7 +16,13 @@
             "agreement": "Agree with",
             "terms": "Terms and Conditions",
             "createAccount": "Create Account",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "verifyEmail": {
+                "text1": "Confirm your email address",
+                "text2": "We have sent you an email with a link to confirm your email address.",
+                "text3": "Click on the link to confirm your email address",
+                "resend": "Resend email"            
+            }
         }
     },
     "Navigation": {

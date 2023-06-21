@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoginForm from './login.form';
 import { useAppDispatch } from '../../redux/store'
-import { loginUser, toggleRegister, createUser, cleanupMessages } from '../../redux/auth-slice';
+import { loginUser, toggleRegister, createUser, cleanupMessages, verifyUserRegistration } from '../../redux/auth-slice';
 import { User } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import NewUserForm from './new-user-form';
@@ -14,6 +14,18 @@ export default function Login() {
   const dispatch = useAppDispatch();
   //const navi = useNavigation<any>();
   const authentication = useSelector((state: any) => state.authentication);
+
+  useEffect(() => {
+    if (authentication.user && authentication.isVerifyingEmail) {
+      dispatch(verifyUserRegistration(authentication.user.id));
+    }
+    if (authentication.user && authentication.isUserVerified) {
+      console.log(authentication.user)
+      handleLogin(authentication.user.email, authentication.user.password);
+    }
+  }, [authentication.user, authentication.isUserVerified, authentication.isVerifyingEmail]);
+
+
   const handleLogin = (email: string, password: string) => {
     const user: User = {
       email,
@@ -28,7 +40,7 @@ export default function Login() {
     dispatch(toggleRegister());
   }
 
-  const registerUser = (user: User) => {
+  const registerUser = async (user: User) => {
     dispatch(cleanupMessages());
     dispatch(createUser({ user }));
   }

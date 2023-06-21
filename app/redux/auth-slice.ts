@@ -15,9 +15,12 @@ const initialState: AppState = {
   message: '',
   isVerifyingEmail: false,
   isUpdatingUser: false,
+  isUserVerified: false,
 };
 
 const authService: AuthService = AuthService.getInstance();
+
+const sleep = (ms: number | undefined) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const loginUser = createAsyncThunk<{ user: User }, { user: User }>(
   'loginUser',
@@ -88,6 +91,31 @@ export const deleteUser = createAsyncThunk<{ user: User }, string | undefined>(
   }
 );
 
+async function getVerificationStatus(userId: string) {
+  const response = await authService.verifyEmail(userId);
+  if (!response.verified) {
+    await sleep(5000);
+    return getVerificationStatus(userId);
+  } else {
+    return response;
+  }
+}
+
+export const verifyUserRegistration = createAsyncThunk<{ verified: boolean }, string | undefined>(
+  'verifyUserRegistration',
+  async (userId) => {
+    try {
+      if (!userId) {
+        throw 'Error could not find user';
+      }
+      const response = await getVerificationStatus(userId);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: 'authSlice',
   initialState,
@@ -119,6 +147,8 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload.user;
+        state.isVerifyingEmail = false;
+        state.isRegistering = false;
         state.loading = false;
         state.loggedIn = true;
       })
@@ -194,6 +224,20 @@ const authSlice = createSlice({
         state.error = true;
         state.loading = false;
         state.message = authErrorMessages['auth/error-deleting-user'];
+      })
+      .addCase(verifyUserRegistration.pending, (state) => {
+        state.isVerifyingEmail = true;
+        state.isUserVerified = false;
+      })
+      .addCase(verifyUserRegistration.fulfilled, (state, action) => {
+        state.isUserVerified = action.payload.verified;
+        state.isVerifyingEmail = action.payload.verified ? true : false;
+      })
+      .addCase(verifyUserRegistration.rejected, (state) => {
+        state.isUserVerified = false;
+        state.isVerifyingEmail = false;
+        state.error = true;
+        state.message = authErrorMessages['auth/error-verifying-user'];
       });
   },
 });

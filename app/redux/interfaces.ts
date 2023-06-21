@@ -15,6 +15,7 @@ export type AppState = {
     message: string;
     isVerifyingEmail: boolean;
     isUpdatingUser: boolean;
+    isUserVerified: boolean;
 };
 
 export type newSightState = {
