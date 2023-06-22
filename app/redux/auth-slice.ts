@@ -33,8 +33,7 @@ export const loginUser = createAsyncThunk<{ user: User }, { user: User }>(
     } else {
       throw 'Error login user';
     }
-  }
-);
+  });
 
 export const logoutUser = createAsyncThunk<{}>(
   'logoutUser',
@@ -49,8 +48,7 @@ export const logoutUser = createAsyncThunk<{}>(
     } else {
       throw new Error('Error logging out');
     }
-  }
-);
+  });
 
 export const createUser = createAsyncThunk<{ user: User }, { user: User }>(
   'createUser',
@@ -61,8 +59,7 @@ export const createUser = createAsyncThunk<{ user: User }, { user: User }>(
     } else {
       throw 'Error creating user';
     }
-  }
-);
+  });
 
 export const updateUser = createAsyncThunk<{ user: UserToUpdate }, UserToUpdate>(
   'updateUser',
@@ -73,8 +70,7 @@ export const updateUser = createAsyncThunk<{ user: UserToUpdate }, UserToUpdate>
     } else {
       throw 'Error updating user';
     }
-  }
-);
+  });
 
 export const deleteUser = createAsyncThunk<{ user: User }, string | undefined>(
   'deleteUser',
@@ -88,8 +84,7 @@ export const deleteUser = createAsyncThunk<{ user: User }, string | undefined>(
     } else {
       throw 'Error deleting user';
     }
-  }
-);
+  });
 
 async function getVerificationStatus(userId: string) {
   const response = await authService.verifyEmail(userId);
@@ -113,8 +108,21 @@ export const verifyUserRegistration = createAsyncThunk<{ verified: boolean }, st
     } catch (error) {
       console.log(error);
     }
-  }
-);
+  });
+
+export const resendEmailVerification = createAsyncThunk<{ verified: boolean }, string | undefined>(
+  'resendVerificationEmail',
+  async (userId) => {
+    try {
+      if (!userId) {
+        throw 'Error could not find user';
+      }
+      const response = await authService.resendEmail(userId);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
 const authSlice = createSlice({
   name: 'authSlice',
@@ -238,6 +246,18 @@ const authSlice = createSlice({
         state.isVerifyingEmail = false;
         state.error = true;
         state.message = authErrorMessages['auth/error-verifying-user'];
+      })
+      .addCase(resendEmailVerification.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(resendEmailVerification.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = authSuccessMessages['auth/email-sent'];
+      })
+      .addCase(resendEmailVerification.rejected, (state) => {
+        state.error = true;
+        state.loading = false;
+        state.message = authErrorMessages['auth/error-sending-email'];
       });
   },
 });

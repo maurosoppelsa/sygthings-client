@@ -127,4 +127,17 @@ export default class AuthService {
                 return json;
             })
     }
+
+    public resendEmail = (userId: string) => {
+        return fetch(`${SERVER_URL}/users/resend-verification/${userId}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => response.json())
+            .then((json) => {
+                return json;
+            })
+    }
 }

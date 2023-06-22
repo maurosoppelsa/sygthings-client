@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import LoginForm from './login.form';
 import { useAppDispatch } from '../../redux/store'
-import { loginUser, toggleRegister, createUser, cleanupMessages, verifyUserRegistration } from '../../redux/auth-slice';
+import { loginUser, toggleRegister, createUser, cleanupMessages, verifyUserRegistration, resendEmailVerification } from '../../redux/auth-slice';
 import { User } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import NewUserForm from './new-user-form';
@@ -20,7 +20,6 @@ export default function Login() {
       dispatch(verifyUserRegistration(authentication.user.id));
     }
     if (authentication.user && authentication.isUserVerified) {
-      console.log(authentication.user)
       handleLogin(authentication.user.email, authentication.user.password);
     }
   }, [authentication.user, authentication.isUserVerified, authentication.isVerifyingEmail]);
@@ -50,9 +49,13 @@ export default function Login() {
     dispatch(toggleRegister());
   }
 
+  const resendEmail = () => {
+    dispatch(resendEmailVerification(authentication.user.id));
+  }
+
   const getFormType = () => {
     if (authentication.isVerifyingEmail) {
-      return (<VerifyEmail></VerifyEmail>);
+      return (<VerifyEmail onResendEmail={() => resendEmail()}></VerifyEmail>);
     }
     if (authentication.isRegistering) {
       return <NewUserForm onCreate={(user: User) => registerUser(user)} onCancel={() => goToLogin()} />

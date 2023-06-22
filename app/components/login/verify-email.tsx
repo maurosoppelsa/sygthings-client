@@ -6,7 +6,7 @@ import colors from '../../config/colors';
 import I18n from '../../../i18n/i18n';
 
 
-export default function VerifyEmail() {
+export default function VerifyEmail({ onResendEmail }: { onResendEmail: any }) {
 
     return (
         <View>
@@ -15,7 +15,7 @@ export default function VerifyEmail() {
                 <Text style={styles.text1}>{I18n.t('Login.NewUser.verifyEmail.text1')}</Text>
                 <Text style={styles.text2}>{I18n.t('Login.NewUser.verifyEmail.text2')}</Text>
                 <Text style={styles.text3}>{I18n.t('Login.NewUser.verifyEmail.text3')}</Text>
-                <TouchableOpacity onPress={() => { }}>
+                <TouchableOpacity onPress={() => { onResendEmail() }}>
                     <Text style={styles.resendEmailBT}>{I18n.t('Login.NewUser.verifyEmail.resend')}</Text>
                 </TouchableOpacity>
             </Box>
