@@ -140,4 +140,60 @@ export default class AuthService {
                 return json;
             })
     }
+
+    public notifyResetPassword = (email: string) => {
+        return fetch(`${SERVER_URL}/users/forgot-password/${email}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => response.json())
+            .then((json) => {
+                return json;
+            })
+    }
+
+    public verifyResetPassword = (email: string) => {
+        return fetch(`${SERVER_URL}/users/auth-verify-allow-reset/${email}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => response.json())
+            .then((json) => {
+                return json;
+            })
+    }
+
+    public cancelResetPass = (email: string) => {
+        return fetch(`${SERVER_URL}/users/auth-cancel-reset-password/${email}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => response.json())
+            .then((json) => {
+                return json;
+            })
+    }
+
+    public updatePassword = (email: string, password: string) => {
+        return fetch(`${SERVER_URL}/users/auth-update-password`, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                password,
+                email,
+            })
+        }).then((response) => response.json())
+            .then((json) => {
+                return json;
+            })
+    }
 }

@@ -6,7 +6,7 @@ import { TextInput } from 'react-native-paper';
 import logo from '../../assets/syghtings_logo.png';
 import I18n from '../../../i18n/i18n';
 
-export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { handleLogin: any, loadingUser: boolean, goToRegister: any }) {
+export default function LoginForm({ handleLogin, loadingUser, goToRegister, goToForgot }: { handleLogin: any, loadingUser: boolean, goToRegister: any, goToForgot: any }) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const isButtonEnabled = () => {
@@ -39,7 +39,7 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister }: { 
           left={<TextInput.Icon color={colors.gray} name="key" />}
           disabled={loadingUser}
         />
-        <TouchableOpacity onPress={() => console.log("forgot!")}>
+        <TouchableOpacity onPress={() => goToForgot()}>
           <Text style={styles.forgotPasswordLegend}>{I18n.t('Login.forgotPassword')}</Text>
         </TouchableOpacity>
       </Box>

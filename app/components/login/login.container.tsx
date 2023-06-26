@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import LoginForm from './login.form';
 import { useAppDispatch } from '../../redux/store'
-import { loginUser, toggleRegister, createUser, cleanupMessages, verifyUserRegistration, resendEmailVerification } from '../../redux/auth-slice';
+import { loginUser, toggleRegister, createUser, cleanupMessages, verifyUserRegistration, resendEmailVerification, toggleResettingPassword, notifyUserResetPassword, verifyUserResetPassword, cancelResetPassword, updateUserPassword } from '../../redux/auth-slice';
 import { User } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import NewUserForm from './new-user-form';
@@ -9,6 +9,7 @@ import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import colors from '../../config/colors';
 import { StatusBar } from 'expo-status-bar';
 import VerifyEmail from './verify-email';
+import ForgotPassword from './forgot-password';
 
 export default function Login() {
   const dispatch = useAppDispatch();
@@ -53,16 +54,48 @@ export default function Login() {
     dispatch(resendEmailVerification(authentication.user.id));
   }
 
+  const goToForgotPassword = () => {
+    dispatch(toggleResettingPassword());
+  }
+
+  const closeForgotPassword = (email: string, step: number) => {
+    if(step === 2) {
+      dispatch(cancelResetPassword(email));
+    } else {
+      dispatch(toggleResettingPassword());
+    }
+  }
+
+  const sendResetPasswordEmail = (email: string) => {
+    dispatch(notifyUserResetPassword(email));
+    dispatch(verifyUserResetPassword(email));
+  }
+
+  const updatePassword = (email: string, password: string) => {
+    dispatch(updateUserPassword({ email, password }))
+  }
+
   const getFormType = () => {
     if (authentication.isVerifyingEmail) {
       return (<VerifyEmail onResendEmail={() => resendEmail()}></VerifyEmail>);
     }
-    if (authentication.isRegistering) {
+    else if (authentication.isRegistering) {
       return <NewUserForm onCreate={(user: User) => registerUser(user)} onCancel={() => goToLogin()} />
-    } else {
+    }
+    else if (authentication.isResettingPassword) {
+      return <ForgotPassword
+        onSendResetPasswordEmail={(email: string) => sendResetPasswordEmail(email)}
+        onCancel={(email: string, step: number) => closeForgotPassword(email, step)}
+        hasNotified={authentication.hasUserAskedPassReset}
+        isAllowReset={authentication.isUserAllowedReset}
+        onUpdatePassword={(email: string, password: string) => updatePassword(email, password)}
+      />
+    }
+    else {
       return <LoginForm
         handleLogin={(email: string, password: string) => handleLogin(email, password)}
-        loadingUser={authentication.loading} goToRegister={() => goToRegister()} />
+        loadingUser={authentication.loading} goToRegister={() => goToRegister()}
+        goToForgot={() => goToForgotPassword()} />
     }
   }
 

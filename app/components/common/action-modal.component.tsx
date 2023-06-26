@@ -5,28 +5,20 @@ import colors from '../../config/colors';
 import { Button } from 'react-native-paper';
 import I18n from '../../../i18n/i18n';
 
-export default function ActionModalComponent({ title, subtitle, actionBtText, showModal, actionCancel, actionProceed }: { title: string, subtitle: string, actionBtText: string, showModal: boolean, actionCancel: any, actionProceed: any }) {
+export default function ActionModalComponent({ title, subtitle, actionBtText, cancelBtText = I18n.t('Common.cancel'), showModal, actionCancel, actionProceed }: { title: string, subtitle: string, actionBtText: string, showModal: boolean, actionCancel: any, cancelBtText?: string, actionProceed: any }) {
     const ModalContent = () => {
-        const [type, setType] = React.useState('proceed');
         return (
             <Box style={styles.modalContainer}>
-                {
-                    type === 'proceed' ?
-                        <Box>
-                            <Box style={styles.deleteTextContainer}>
-                                <Text>{title}</Text>
-                                <Text>{subtitle}</Text>
-                            </Box>
-                            <Box style={styles.deleteButtonsContainer}>
-                                <Button style={styles.deleteBt} mode="contained" onPress={() => actionProceed()}>{actionBtText}</Button>
-                                <Button style={styles.deleteBt} mode="contained" onPress={() => actionCancel()}>{I18n.t('Common.cancel')}</Button>
-                            </Box>
-                        </Box>
-                        :
-                        <Box>
-                            <Text>Modal loading</Text>
-                        </Box>
-                }
+                <Box>
+                    <Box style={styles.deleteTextContainer}>
+                        <Text>{title}</Text>
+                        <Text>{subtitle}</Text>
+                    </Box>
+                    <Box style={styles.deleteButtonsContainer}>
+                        <Button style={styles.deleteBt} mode="contained" onPress={() => actionProceed()}>{actionBtText}</Button>
+                        <Button style={styles.deleteBt} mode="contained" onPress={() => actionCancel()}>{cancelBtText}</Button>
+                    </Box>
+                </Box>
             </Box>
         );
     };

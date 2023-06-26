@@ -16,6 +16,9 @@ const initialState: AppState = {
   isVerifyingEmail: false,
   isUpdatingUser: false,
   isUserVerified: false,
+  isResettingPassword: false,
+  hasUserAskedPassReset: false,
+  isUserAllowedReset: false,
 };
 
 const authService: AuthService = AuthService.getInstance();
@@ -124,6 +127,64 @@ export const resendEmailVerification = createAsyncThunk<{ verified: boolean }, s
     }
   });
 
+export const notifyUserResetPassword = createAsyncThunk<{ notified: boolean }, string>(
+  'notifyUserResetPassword',
+  async (email) => {
+    try {
+      const response = await authService.notifyResetPassword(email);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+async function getVerificationReset(email: string) {
+  const response = await authService.verifyResetPassword(email);
+  if (!response.allowed) {
+    await sleep(5000);
+    return getVerificationReset(email);
+  } else {
+    return response;
+  }
+}
+
+export const verifyUserResetPassword = createAsyncThunk<{ allowed: boolean }, string>(
+  'verifyUserResetPassword',
+  async (email) => {
+    try {
+      const response = await getVerificationReset(email);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+export const cancelResetPassword = createAsyncThunk<{ allowed: boolean }, string>(
+  'cancelResetPassword',
+  async (email) => {
+    try {
+      const response = await authService.cancelResetPass(email);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+export const updateUserPassword = createAsyncThunk<{ updated: boolean }, { email: string, password: string }>(
+  'updateUserPassword',
+  async ({ email, password }) => {
+    try {
+      const response = await authService.updatePassword(email, password);
+      if(response.success) {
+        return response;
+      } else {
+        throw new Error('Error updating password');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
 const authSlice = createSlice({
   name: 'authSlice',
   initialState,
@@ -144,7 +205,12 @@ const authSlice = createSlice({
     setError: (state: any, action: any) => {
       state.error = true;
       state.message = action.payload;
-    }
+    },
+    toggleResettingPassword: (state: any) => {
+      state.isResettingPassword = !state.isResettingPassword;
+      state.hasUserAskedPassReset = false;
+      state.isUserAllowedReset = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -258,8 +324,44 @@ const authSlice = createSlice({
         state.error = true;
         state.loading = false;
         state.message = authErrorMessages['auth/error-sending-email'];
+      })
+      .addCase(verifyUserResetPassword.pending, (state) => {
+        state.isResettingPassword = true;
+      })
+      .addCase(verifyUserResetPassword.fulfilled, (state, action) => {
+        state.isUserAllowedReset = action.payload.allowed;
+      })
+      .addCase(verifyUserResetPassword.rejected, (state) => {
+        state.error = true;
+        state.isResettingPassword = true;
+        state.message = authErrorMessages['auth/error-sending-email'];
+      })
+      .addCase(notifyUserResetPassword.fulfilled, (state) => {
+        state.hasUserAskedPassReset = true;
+      })
+      .addCase(notifyUserResetPassword.rejected, (state) => {
+        state.error = true;
+        state.message = authErrorMessages['auth/error-sending-email'];
+      })
+      .addCase(cancelResetPassword.fulfilled, (state) => {
+        state.isResettingPassword = false;
+        state.isUserAllowedReset = false;
+        state.hasUserAskedPassReset = false;
+      })
+      .addCase(cancelResetPassword.rejected, (state) => {
+        state.error = true;
+        state.message = authErrorMessages['auth/error-sending-email'];
+      })
+      .addCase(updateUserPassword.fulfilled, (state) => {
+        state.isResettingPassword = false;
+        state.isUserAllowedReset = false;
+        state.hasUserAskedPassReset = false;
+      })
+      .addCase(updateUserPassword.rejected, (state) => {
+        state.error = true;
+        state.message = authErrorMessages['auth/error-updating-password'];
       });
   },
 });
-export const { toggleRegister, cleanupMessages, openUserUpdate, closeUserUpdate, setError } = authSlice.actions;
+export const { toggleRegister, cleanupMessages, openUserUpdate, closeUserUpdate, setError, toggleResettingPassword } = authSlice.actions;
 export default authSlice.reducer;

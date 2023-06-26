@@ -16,6 +16,9 @@ export type AppState = {
     isVerifyingEmail: boolean;
     isUpdatingUser: boolean;
     isUserVerified: boolean;
+    isResettingPassword: boolean;
+    hasUserAskedPassReset: boolean;
+    isUserAllowedReset: boolean;
 };
 
 export type newSightState = {
