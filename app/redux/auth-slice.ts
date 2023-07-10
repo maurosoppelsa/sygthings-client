@@ -175,7 +175,7 @@ export const updateUserPassword = createAsyncThunk<{ updated: boolean }, { email
   async ({ email, password }) => {
     try {
       const response = await authService.updatePassword(email, password);
-      if(response.success) {
+      if (response.success) {
         return response;
       } else {
         throw new Error('Error updating password');

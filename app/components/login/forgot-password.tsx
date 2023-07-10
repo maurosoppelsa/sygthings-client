@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import I18n from '../../../i18n/i18n';
 import colors from '../../config/colors';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, Modal } from 'react-native';
 import { customRules, spanishErrorMessages } from '../../utils/customInputValidation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ActionModalComponent from '../common/action-modal.component';
@@ -16,7 +16,34 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [showCompleteModal, setShowCompleteModal] = useState(false);
     const currentStep = isAllowReset ? 2 : 1;
+
+    const onAccept = () => {
+        setShowCompleteModal(false);
+        onUpdatePassword(email, password);
+    }
+
+    const CompleteResetModal = () => {
+        return (
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={showCompleteModal}
+            >
+                <View style={styles.centeredView}>
+                        <Box style={styles.modalContainer}>
+                            <Box>
+                                <Text>{I18n.t('Login.resetPassword.modalResetTitle')}</Text>
+                            </Box>
+                            <Box>
+                                <Button style={styles.button} onPress={() => onAccept()} title={I18n.t('Common.accept')}></Button>
+                            </Box>
+                        </Box>
+                </View>
+            </Modal>
+        );
+    };
 
     const { validate, isFieldInError, getErrorsInField } =
         useValidation({
@@ -41,7 +68,7 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
             confirmPassword: { equalPassword: password, required: true },
         });
         if (isValid) {
-            onUpdatePassword(email, password);
+            setShowCompleteModal(true);
         }
     };
 
@@ -141,6 +168,7 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                     title={I18n.t('Login.resetPassword.cancelUpdatePassTitle')}
                     cancelBtText={I18n.t('Common.back')}
                     subtitle={I18n.t('Login.resetPassword.cancelUpdatePassSubtitle')} />
+                <CompleteResetModal />
             </Box>
         </View>
     );
@@ -185,5 +213,23 @@ const styles = StyleSheet.create({
     resetInputContainer: {
         marginTop: 20,
         marginBottom: 20,
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    modalContainer: {
+        backgroundColor: colors.white,
+        padding: 20,
+        borderRadius: 10,
+        elevation: 5,
+        shadowColor: colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+    },
 });

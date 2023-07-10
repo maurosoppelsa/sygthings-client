@@ -13,7 +13,8 @@
             "allowedToReset": "Done!, You are able to reset your password now.",
             "updatePassword": "Update",
             "cancelUpdatePassTitle": "Are you sure you want to cancel the password update?",
-            "cancelUpdatePassSubtitle": "Then you will have to start the process again."
+            "cancelUpdatePassSubtitle": "Then you will have to start the process again.",
+            "modalResetTitle": "You will be redirected to the login page."
         },
         "signIn": "Sign in",
         "NewUser": {
@@ -139,6 +140,7 @@
         "delete": "Delete",
         "cancel": "Cancel",
         "continue": "Continue",
-        "back": "Back"
+        "back": "Back",
+        "accept": "Accept"
     }
 }

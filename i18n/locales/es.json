@@ -13,7 +13,8 @@
             "allowedToReset": "¡Listo!, ya puedes reestablecer tu contraseña.",
             "updatePassword": "Actualizar",
             "cancelUpdatePassTitle": "¿Estas seguro de que quieres cancelar la actualización de tu contraseña?",
-            "cancelUpdatePassSubtitle": "Luego tendrás que realizar nuevamente todo el proceso."
+            "cancelUpdatePassSubtitle": "Luego tendrás que realizar nuevamente todo el proceso.",
+            "modalResetTitle": "Serás redirigido a la página de inicio de sesión."
         },
         "signIn": "Iniciar sesión",
         "NewUser": {
@@ -139,6 +140,7 @@
         "edit": "Editar",
         "cancel": "Cancelar",
         "continue": "Continuar",
-        "back": "Volver"
+        "back": "Volver",
+        "accept": "Aceptar"
     }
 }
