@@ -8,6 +8,7 @@ import { RadioButton } from 'react-native-paper';
 import I18n from '../../../i18n/i18n';
 import * as ImagePicker from "react-native-image-picker"
 import { MediaType } from "react-native-image-picker";
+import { getSightImageUri } from "../../utils/images";
 
 export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSight }: { sight: Sight, onCancelUpdate: any, onUpdateSight: any }) {
     const [animalName, setAnimalName] = useState(sight?.animal);
@@ -78,7 +79,7 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
                 <Text style={styles.title}>{I18n.t('EditSight.title')}</Text>
             </Box>
             <Box style={styles.imageContainer}>
-                <Image style={styles.image} source={{ uri: picture?.uri }} />
+                <Image style={styles.image} source={{ uri: picture ? picture.uri : getSightImageUri(sight?.imageId) }} />
                 <Button title={I18n.t('EditSight.updatePicture')} style={[styles.button, styles.updatePictureBT]} onPress={() => { openImageinFileSystem() }} />
             </Box>
             <Box>

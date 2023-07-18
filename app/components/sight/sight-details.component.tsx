@@ -8,6 +8,7 @@ import { capitalizeText, getCreatedByLegend } from '../../utils/common';
 import ActionModalComponent from '../common/action-modal.component';
 import I18n from '../../../i18n/i18n';
 import SightEditComponent from './sight-edit.component';
+import { getSightImageUri } from '../../utils/images';
 
 
 export default function SightDetailsComponent({ sight, onClose, allowDelete = false, onDelete, onUpdate }: { sight: Sight, onClose: any, allowDelete?: boolean, onDelete?: any, onUpdate?: any }) {
@@ -23,7 +24,7 @@ export default function SightDetailsComponent({ sight, onClose, allowDelete = fa
     const renderDetails = () => {
         return (
             <Box style={styles.container}>
-                <Image style={styles.sightImage} source={{ uri: sight?.picture.uri }} />
+                <Image style={styles.sightImage} source={{ uri: getSightImageUri(sight?.imageId) }} />
                 <TouchableOpacity style={[styles.touchableHeader, styles.touchableBackBtWrapper]} onPress={() => { onClose() }}>
                     <MaterialCommunityIcons name="arrow-left" size={40} style={styles.headerButton} />
                 </TouchableOpacity>

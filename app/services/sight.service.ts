@@ -1,7 +1,9 @@
 import { SERVER_URL } from "../config/authentication";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Sight } from "../interfaces/common";
-
+import RNFS from 'react-native-fs';
+import RNFetchBlob from "rn-fetch-blob";
+const { fs } = RNFetchBlob;
 
 export default class SightService {
     private static _instance: SightService = new SightService();
@@ -49,28 +51,35 @@ export default class SightService {
             .catch((error) => console.error(error))
     }
 
-    public createSight(sight: any) {
-        const cookie = AsyncStorage.getItem('cookie');
-        return fetch(`${SERVER_URL}/sight`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `${cookie}`,
-            },
-            body: JSON.stringify(sight),
-        })
-            .then((response) => {
-                if (response.status === 200 || response.status === 201) {
-                    return response.json();
-                } else {
-                    return;
-                }
-            })
-            .then((json) => {
+    public async createSight(sight: any) {
+        try {
+            const cookie = await AsyncStorage.getItem('cookie');
+            const picture = sight.picture;
+            delete sight.picture;
+            const formData = new FormData();
+            const imageBlob = await RNFS.readFile(picture.uri, 'base64');
+
+            formData.append('photo', imageBlob);
+            formData.append('sight', JSON.stringify(sight));
+
+            const serverResponse = await fetch(`${SERVER_URL}/sight`, {
+                method: 'POST',
+                headers: {
+                    "Content-type": "multipart/form-data",
+                    Authorization: `${cookie}`,
+                },
+                body: formData,
+            });
+
+            if (serverResponse.status === 200 || serverResponse.status === 201) {
+                const json = await serverResponse.json();
                 return json;
-            })
-            .catch((error) => console.error(error))
+            } else {
+                return;
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     public deleteSight(sightId: string) {
@@ -98,14 +107,24 @@ export default class SightService {
 
     public updateSight(sight: Sight) {
         const cookie = AsyncStorage.getItem('cookie');
+        const contentType = sight?.picture?.uri ? 'multipart/form-data' : 'application/json';
+        let body: BodyInit | null | undefined = null;
+        if (sight?.picture) {
+            const formData = new FormData();
+            formData.append('photo', RNFetchBlob.wrap(sight.picture.uri));
+            formData.append('sight', JSON.stringify(sight));
+            body = formData;
+        } else {
+            body = JSON.stringify(sight);
+        }
         return fetch(`${SERVER_URL}/sight/${sight?.id}`, {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
+                'Content-Type': contentType,
                 'Authorization': `${cookie}`,
             },
-            body: JSON.stringify(sight),
+            body,
         })
             .then((response) => {
                 if (response.status === 200 || response.status === 201) {

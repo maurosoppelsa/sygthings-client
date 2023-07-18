@@ -5,6 +5,7 @@ import colors from '../../config/colors';
 import { Sight } from "../../interfaces/common";
 import I18n from '../../../i18n/i18n';
 import { getCreatedByLegend } from '../../utils/common';
+import { getSightImageUri } from "../../utils/images";
 
 export default function SightComponent({ sight, getDetails }: { sight: Sight, getDetails: any }) {
     const { name, lastName } = sight?.user ?? {};
@@ -14,7 +15,7 @@ export default function SightComponent({ sight, getDetails }: { sight: Sight, ge
                 <Box style={styles.animalNameBox}>
                     <Text style={styles.animalName} numberOfLines={1} ellipsizeMode='tail'>{sight?.animal}</Text>
                 </Box>
-                <Image style={styles.animalImage} source={{ uri: sight?.picture?.uri }}></Image>
+                <Image style={styles.animalImage} source={{ uri: getSightImageUri(sight?.imageId)}}></Image>
             </Box>
             <Box style={styles.rightContent}>
                 <Box style={styles.sightInfoTitleBox}>

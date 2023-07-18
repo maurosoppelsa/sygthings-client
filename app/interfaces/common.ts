@@ -14,6 +14,7 @@ export type Sight = {
     animal: string;
     province: string;
     picture: Picture,
+    imageId?: string;
     condition: string;
     placeName: string;
     location: {
