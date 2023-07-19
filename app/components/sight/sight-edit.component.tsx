@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, Image, TextInput } from "react-native";
 import { Box, Button } from "@react-native-material/core";
 import { Picture, Sight } from "../../interfaces/common";
@@ -18,6 +18,13 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
     const dead = I18n.t('NewSightForm.dead');
     const [checked, setChecked] = useState(sight?.condition);
     const [picture, setPicture] = useState(sight?.picture);
+    const [imageSource, setImageSource] = useState(getSightImageUri(sight?.imageId));
+
+    useEffect(() => {
+        const updatedImageSource = picture ? picture.uri : getSightImageUri(sight?.imageId);
+        setImageSource(updatedImageSource);
+    }, [sight, picture]);
+
 
     const editSight = (sight: Sight) => {
         if (!sight) return;
@@ -79,7 +86,7 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
                 <Text style={styles.title}>{I18n.t('EditSight.title')}</Text>
             </Box>
             <Box style={styles.imageContainer}>
-                <Image style={styles.image} source={{ uri: picture ? picture.uri : getSightImageUri(sight?.imageId) }} />
+                <Image style={styles.image} source={{ uri: imageSource }} />
                 <Button title={I18n.t('EditSight.updatePicture')} style={[styles.button, styles.updatePictureBT]} onPress={() => { openImageinFileSystem() }} />
             </Box>
             <Box>

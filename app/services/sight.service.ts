@@ -105,13 +105,14 @@ export default class SightService {
             .catch((error) => console.error(error))
     }
 
-    public updateSight(sight: Sight) {
+    public async updateSight(sight: Sight) {
         const cookie = AsyncStorage.getItem('cookie');
         const contentType = sight?.picture?.uri ? 'multipart/form-data' : 'application/json';
         let body: BodyInit | null | undefined = null;
         if (sight?.picture) {
             const formData = new FormData();
-            formData.append('photo', RNFetchBlob.wrap(sight.picture.uri));
+            const imageBlob = await RNFS.readFile(sight.picture.uri, 'base64');
+            formData.append('photo', imageBlob);
             formData.append('sight', JSON.stringify(sight));
             body = formData;
         } else {
