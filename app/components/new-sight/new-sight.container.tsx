@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux/store'
-import { toggleCamera } from '../../redux/camera-slice';
-import { openModal, closeModal } from '../../redux/sight-slice';
+import { newPicture, toggleCamera } from '../../redux/camera-slice';
+import { openModal, closeModal, toggleImageOptionsModal } from '../../redux/sight-slice';
 import { createSight } from '../../redux/sight-slice';
 import { getMapUrl, getLocationInfo, setCurrentCoordinates, toggleLocationModal } from '../../redux/geolocation-slice';
 import Geolocation from '@react-native-community/geolocation';
@@ -17,8 +17,11 @@ import NewSightModalComponent from './new-sight-modal/new-sight-modal.component'
 import { Box, Button } from '@react-native-material/core';
 import BackgroundComponent from '../common/background.component';
 import I18n from '../../../i18n/i18n';
-import { User } from '../../interfaces/common';
+import { Picture, User } from '../../interfaces/common';
 import { location } from '../../redux/interfaces';
+import UploadImageOptionModal from './upload-image-option-modal/upload-image-option-modal';
+import * as ImagePicker from "react-native-image-picker"
+import { MediaType } from 'react-native-image-picker';
 
 export default function NewSight() {
   const dispatch = useAppDispatch();
@@ -31,6 +34,7 @@ export default function NewSight() {
   const locationInfo = useSelector((state: any) => state.geolocationInfo.locationInfo);
   const showChangeLocationModal = useSelector((state: any) => state.geolocationInfo.showLocationModal);
   const currentUser: User = useSelector((state: any) => state.authentication.user);
+  const showImageOptionsModal = useSelector((state: any) => state.sight.showImageOptionsModal);
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -48,9 +52,19 @@ export default function NewSight() {
 
   }, []);
 
-  const activateCamera = () => {
+  const onSelectCamera = () => {
     dispatch(toggleCamera({ cameraActive: true }));
+    dispatch(toggleImageOptionsModal());
   };
+
+  const onSelectGallery = async () => {
+    dispatch(toggleImageOptionsModal());
+    await openImageinFileSystem();
+  }
+
+  const toggleOptionsModal = () => {
+    dispatch(toggleImageOptionsModal());
+  }
 
   const onTakePicture = () => {
     dispatch(openModal());
@@ -101,6 +115,40 @@ export default function NewSight() {
     return location.latitude === "0" && location.longitude === "0"
   }
 
+  const openImageinFileSystem = async () => {
+    const options = {
+      title: 'Select Sight Picture',
+      mediaType: 'photo' as MediaType,
+      maxWidth: 300,
+      maxHeight: 300,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    await ImagePicker.launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        return;
+      } else if (response?.errorCode) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+        return;
+      } else if (response.assets && response.assets.length > 0) {
+        const picture: Picture = {
+          uri: '',
+          width: 0,
+          height: 0,
+        };
+        picture.uri = response.assets[0].uri ?? '';
+        picture.width = response.assets[0].width ?? 0;
+        picture.height = response.assets[0].height ?? 0;
+        dispatch(newPicture(picture));
+        dispatch(openModal());
+      } else {
+        return;
+      }
+    });
+  }
+
   if (!mapImageUrl) {
     return (<View>
     </View>);
@@ -119,6 +167,7 @@ export default function NewSight() {
           onUpdateLocation={onUpdateLocation}
           onCloseLocationModal={onCloseLocationModal}
           location={currentCoordinates} />
+        <UploadImageOptionModal onSelectCamera={onSelectCamera} onSelectGallery={onSelectGallery} showModal={showImageOptionsModal} onClose={toggleOptionsModal}/>
         <Box style={styles.locationDetailcontainer}>
           <Box style={styles.locationDetailContent}>
             <LocationDetailsComponent locationInfo={locationToLegend(locationInfo)} />
@@ -126,7 +175,7 @@ export default function NewSight() {
               disabled={hasEmptyCoordinates(currentCoordinates)}
               style={styles.newSightBt}
               title={I18n.t('NewSight.button')}
-              onPress={() => activateCamera()}></Button>
+              onPress={() => toggleOptionsModal()}></Button>
           </Box>
         </Box>
       </BackgroundComponent>

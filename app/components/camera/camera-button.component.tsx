@@ -11,7 +11,7 @@ export default function CameraButtonComponent({ onPressCameraBt, customStyles, d
 
 const styles = StyleSheet.create({
     cameraButton: {
-        width: 80,
-        height: 80,
+        width: 100,
+        height: 100,
     },
 });

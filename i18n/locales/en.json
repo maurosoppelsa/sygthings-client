@@ -92,6 +92,10 @@
                 "message": "Something went wrong, please try again."
             },
             "close": "Close"
+        },
+        "uploadImageModal": {
+            "uploadFromGallery": "Upload from gallery",
+            "takePicture": "Take picture"
         }
     },
     "EditSight": {

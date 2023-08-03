@@ -12,6 +12,7 @@ const initialState: newSightState = {
   newSight: null,
   mySights: [],
   modalStatus: SIGHT_MODAL_STATUS.NEW,
+  showImageOptionsModal: false,
   currentSights: [],
 };
 
@@ -104,6 +105,9 @@ const sightSlice = createSlice({
       state.showSightModal = false;
       state.modalStatus = SIGHT_MODAL_STATUS.NEW;
     },
+    toggleImageOptionsModal: (state: any) => {
+      state.showImageOptionsModal = !state.showImageOptionsModal;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -172,5 +176,5 @@ const sightSlice = createSlice({
   },
 });
 
-export const { openModal, closeModal } = sightSlice.actions;
+export const { openModal, closeModal, toggleImageOptionsModal } = sightSlice.actions;
 export default sightSlice.reducer;

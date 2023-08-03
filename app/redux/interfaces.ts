@@ -29,6 +29,7 @@ export type newSightState = {
     error: boolean | undefined,
     loading: boolean,
     modalStatus: SIGHT_MODAL_STATUS,
+    showImageOptionsModal: boolean,
 };
 
 export type picture = {
