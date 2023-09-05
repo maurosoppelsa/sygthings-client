@@ -115,8 +115,8 @@ export default class AuthService {
             })
     }
 
-    public verifyEmail = (userId: string) => {
-        return fetch(`${SERVER_URL}/users/verify/${userId}`, {
+    public verifyEmail = (userId: string, regCode: string) => {
+        return fetch(`${SERVER_URL}/users/verify/${userId}/${regCode}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -154,8 +154,8 @@ export default class AuthService {
             })
     }
 
-    public verifyResetPassword = (email: string) => {
-        return fetch(`${SERVER_URL}/users/auth-verify-allow-reset/${email}`, {
+    public verifyResetPassword = (email: string, code: string) => {
+        return fetch(`${SERVER_URL}/users/auth-verify-allow-reset/${email}/${code}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',

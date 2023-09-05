@@ -89,25 +89,16 @@ export const deleteUser = createAsyncThunk<{ user: User }, string | undefined>(
     }
   });
 
-async function getVerificationStatus(userId: string) {
-  const response = await authService.verifyEmail(userId);
-  if (!response.verified) {
-    await sleep(5000);
-    return getVerificationStatus(userId);
-  } else {
-    return response;
-  }
-}
-
-export const verifyUserRegistration = createAsyncThunk<{ verified: boolean }, string | undefined>(
+export const verifyUserRegistration = createAsyncThunk<{ verified: boolean }, { userId: string, regCode: string }>(
   'verifyUserRegistration',
-  async (userId) => {
+  async ({ userId, regCode }) => {
     try {
       if (!userId) {
-        throw 'Error could not find user';
+        throw 'Invalid user id';
+      } else {
+        const response = await authService.verifyEmail(userId, regCode);
+        return response;
       }
-      const response = await getVerificationStatus(userId);
-      return response;
     } catch (error) {
       console.log(error);
     }
@@ -138,26 +129,17 @@ export const notifyUserResetPassword = createAsyncThunk<{ notified: boolean }, s
     }
   });
 
-async function getVerificationReset(email: string) {
-  const response = await authService.verifyResetPassword(email);
-  if (!response.allowed) {
-    await sleep(5000);
-    return getVerificationReset(email);
-  } else {
-    return response;
-  }
-}
-
-export const verifyUserResetPassword = createAsyncThunk<{ allowed: boolean }, string>(
-  'verifyUserResetPassword',
-  async (email) => {
-    try {
-      const response = await getVerificationReset(email);
-      return response;
-    } catch (error) {
-      console.log(error);
+  export const verifyUserResetPassword = createAsyncThunk<{ allowed: boolean }, { email: string, code: string }>(
+    'verifyUserResetPassword',
+    async ({ email, code }) => {
+      try {
+        const response = await authService.verifyResetPassword(email, code);
+        return response;
+      } catch (error) {
+        console.log(error);
+      }
     }
-  });
+  );  
 
 export const cancelResetPassword = createAsyncThunk<{ allowed: boolean }, string>(
   'cancelResetPassword',
@@ -191,6 +173,7 @@ const authSlice = createSlice({
   reducers: {
     toggleRegister: (state: any) => {
       state.isRegistering = !state.isRegistering;
+      state.isVerifyingEmail = false;
     },
     cleanupMessages: (state: any) => {
       state.error = false;
@@ -305,7 +288,6 @@ const authSlice = createSlice({
       })
       .addCase(verifyUserRegistration.fulfilled, (state, action) => {
         state.isUserVerified = action.payload.verified;
-        state.isVerifyingEmail = action.payload.verified ? true : false;
       })
       .addCase(verifyUserRegistration.rejected, (state) => {
         state.isUserVerified = false;
@@ -329,7 +311,7 @@ const authSlice = createSlice({
         state.isResettingPassword = true;
       })
       .addCase(verifyUserResetPassword.fulfilled, (state, action) => {
-        state.isUserAllowedReset = action.payload.allowed;
+        state.isUserAllowedReset = action.payload?.allowed || false;
       })
       .addCase(verifyUserResetPassword.rejected, (state) => {
         state.error = true;

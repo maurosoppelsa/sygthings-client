@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import LoginForm from './login.form';
 import { useAppDispatch } from '../../redux/store'
 import { loginUser, toggleRegister, createUser, cleanupMessages, verifyUserRegistration, resendEmailVerification, toggleResettingPassword, notifyUserResetPassword, verifyUserResetPassword, cancelResetPassword, updateUserPassword } from '../../redux/auth-slice';
@@ -8,23 +8,13 @@ import NewUserForm from './new-user-form';
 import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import colors from '../../config/colors';
 import { StatusBar } from 'expo-status-bar';
-import VerifyEmail from './verify-email';
+import VerifyEmail from './email-verification/verify-email';
 import ForgotPassword from './forgot-password';
 
 export default function Login() {
   const dispatch = useAppDispatch();
   //const navi = useNavigation<any>();
   const authentication = useSelector((state: any) => state.authentication);
-
-  useEffect(() => {
-    if (authentication.user && authentication.isVerifyingEmail) {
-      dispatch(verifyUserRegistration(authentication.user.id));
-    }
-    if (authentication.user && authentication.isUserVerified) {
-      handleLogin(authentication.user.email, authentication.user.password);
-    }
-  }, [authentication.user, authentication.isUserVerified, authentication.isVerifyingEmail]);
-
 
   const handleLogin = (email: string, password: string) => {
     const user: User = {
@@ -59,7 +49,7 @@ export default function Login() {
   }
 
   const closeForgotPassword = (email: string, step: number) => {
-    if(step === 2) {
+    if (step === 2) {
       dispatch(cancelResetPassword(email));
     } else {
       dispatch(toggleResettingPassword());
@@ -68,22 +58,40 @@ export default function Login() {
 
   const sendResetPasswordEmail = (email: string) => {
     dispatch(notifyUserResetPassword(email));
-    dispatch(verifyUserResetPassword(email));
   }
 
   const updatePassword = (email: string, password: string) => {
     dispatch(updateUserPassword({ email, password }))
   }
 
+  const verifyUserEmail = async (code: string) => {
+    try {
+      const response = await dispatch(verifyUserRegistration({ userId: authentication?.user?.id, regCode: code }));
+      return response.payload.verified;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const verifyUserResetPass = async (email: string, code: string) => {
+    try {
+      const response = await dispatch(verifyUserResetPassword({ email, code }));
+      return response.payload.allowed;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const getFormType = () => {
     if (authentication.isVerifyingEmail) {
-      return (<VerifyEmail onResendEmail={() => resendEmail()}></VerifyEmail>);
+      return (<VerifyEmail onRedirect={goToLogin} onVerify={verifyUserEmail} onResendEmail={() => resendEmail()}></VerifyEmail>);
     }
     else if (authentication.isRegistering) {
       return <NewUserForm onCreate={(user: User) => registerUser(user)} onCancel={() => goToLogin()} />
     }
     else if (authentication.isResettingPassword) {
       return <ForgotPassword
+        verifyReset={verifyUserResetPass}
         onSendResetPasswordEmail={(email: string) => sendResetPasswordEmail(email)}
         onCancel={(email: string, step: number) => closeForgotPassword(email, step)}
         hasNotified={authentication.hasUserAskedPassReset}

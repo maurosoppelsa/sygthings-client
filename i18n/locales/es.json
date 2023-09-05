@@ -6,7 +6,7 @@
         "forgotPassword": "¿Olvidaste tu contraseña?",
         "resetPassword": {
             "title": "¿Olvidaste tu contraseña?",
-            "subtitle": "No te preocupes, ingresá tu correo electrónico y te enviaremos un link para que puedas restablecer tu contraseña.",
+            "subtitle": "No te preocupes, ingresá tu correo electrónico y te enviaremos un código para que puedas restablecer tu contraseña.",
             "send": "Enviar",
             "cancel": "Cancelar",
             "waitingEmailVerification": "Te enviamos un correo electrónico con un link de confirmación. Por favor confirma en tu correo electrónico que deseas reestablecer tu contraseña.",
@@ -31,9 +31,14 @@
             "cancel": "Cancelar",
             "verifyEmail": {
                 "text1": "Confirma tu correo electrónico",
-                "text2": "Te enviamos un correo electrónico con un link de confirmación.",
-                "text3": "Haz click en el link para confirmar tu correo electrónico.",
-                "resend": "Reenviar correo electrónico"           
+                "text2": "Te enviamos un código a tu correo electrónico",
+                "text3": "Por favor, ingresa el código a continuación.",
+                "resend": "Reenviar correo electrónico",
+                "verifyBtn": "Verificar",
+                "verificationCode": {
+                    "verifyModalSuccess": "Tu email ha sido verificado exitosamente. Serás redirigido a la página de login.",
+                    "verifyModalFail": "El código ingresado es incorrecto. Por favor, intenta nuevamente."
+                }           
             }
         }
     },

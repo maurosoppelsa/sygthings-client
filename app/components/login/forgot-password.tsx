@@ -6,12 +6,12 @@ import I18n from '../../../i18n/i18n';
 import colors from '../../config/colors';
 import { StyleSheet, Text, Modal } from 'react-native';
 import { customRules, spanishErrorMessages } from '../../utils/customInputValidation';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ActionModalComponent from '../common/action-modal.component';
+import VerifyEmail from './email-verification/verify-email';
 
 const { useValidation } = require('react-native-form-validator')
 
-export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, hasNotified, isAllowReset, onUpdatePassword }: { onSendResetPasswordEmail: any, onCancel: any, isAllowReset: boolean, hasNotified: boolean, onUpdatePassword: any }) {
+export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, hasNotified, isAllowReset, onUpdatePassword, verifyReset }: { onSendResetPasswordEmail: any, onCancel: any, isAllowReset: boolean, hasNotified: boolean, onUpdatePassword: any, verifyReset: any }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -22,6 +22,10 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
     const onAccept = () => {
         setShowCompleteModal(false);
         onUpdatePassword(email, password);
+    }
+
+    const onVerifyReset = async (code: string) => {
+        await verifyReset(email, code);
     }
 
     const CompleteResetModal = () => {
@@ -109,8 +113,7 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                 {
                     hasNotified && !isAllowReset &&
                     <Box style={styles.waitingForEmailContainer}>
-                        <MaterialCommunityIcons name="email-send-outline" size={80} color={colors.syghtingDarkGreen} />
-                        <Text>{I18n.t('Login.resetPassword.waitingEmailVerification')}</Text>
+                        <VerifyEmail onVerify={onVerifyReset} onResendEmail={() => onSendResetPasswordEmail(email)} />
                     </Box>
                 }
                 {
