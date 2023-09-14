@@ -11,6 +11,14 @@ export default class AuthService {
         AuthService._instance = this;
     }
 
+    private setToken = async (token: string) => {
+        await AsyncStorage.setItem('token', token);
+    }
+
+    private getToken = async () => {
+        return await AsyncStorage.getItem('token');
+    }
+
     public static getInstance(): AuthService {
         return AuthService._instance;
     }
@@ -28,25 +36,27 @@ export default class AuthService {
                 password: user?.password,
             })
         }).then((response: any) => {
-            if(response.headers.get('Set-cookie')) {
-                const cookie = response.headers.get('Content-Type');
-                AsyncStorage.setItem('cookie', cookie);
-            }
             return response.json();
         })
-            .then((json) => {
-                return json;
+            .then(async (json) => {
+                if(json.token) {
+                   await this.setToken(json.token);
+                }
+                return {
+                    user: json.user,
+                    success: json.success,
+                };
             })
     }
 
-    public logout = () => {
-        const cookie = AsyncStorage.getItem('cookie');
+    public logout = async () => {
+        const token = await this.getToken();
         return fetch(`${SERVER_URL}/logout`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `${cookie}`,
+                'Authorization': `Bearer ${token}`,
                 
             },
         }).then((response) => response.json())
@@ -76,14 +86,14 @@ export default class AuthService {
             })
     }
 
-    public update = (user: UserToUpdate) => {
-        const cookie = AsyncStorage.getItem('cookie');
+    public update = async (user: UserToUpdate) => {
+        const token = await this.getToken();
         return fetch(`${SERVER_URL}/users/${user.id}`, {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `${cookie}`,
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
                 name: user?.name,
@@ -100,14 +110,14 @@ export default class AuthService {
             })
     }
 
-    public deleteUser = (userId: string) => {
-        const cookie = AsyncStorage.getItem('cookie');
+    public deleteUser = async (userId: string) => {
+        const token = await this.getToken();
         return fetch(`${SERVER_URL}/users/${userId}`, {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `${cookie}`,
+                'Authorization': `Bearer ${token}`,
             },
         }).then((response) => response.json())
             .then((json) => {
@@ -115,7 +125,7 @@ export default class AuthService {
             })
     }
 
-    public verifyEmail = (userId: string, regCode: string) => {
+    public verifyEmail = async (userId: string, regCode: string) => {
         return fetch(`${SERVER_URL}/users/verify/${userId}/${regCode}`, {
             method: 'GET',
             headers: {

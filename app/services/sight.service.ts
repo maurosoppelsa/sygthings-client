@@ -19,13 +19,17 @@ export default class SightService {
         return SightService._instance;
     }
 
-    public getAllSights(userId: string) {
-        const cookie = AsyncStorage.getItem('cookie');
+    private getToken = async () => {
+        return await AsyncStorage.getItem('token');
+    }
+
+    public async getAllSights(userId: string) {
+        const token = await this.getToken();
         return fetch(`${SERVER_URL}/sight/exclude/${userId}`, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `${cookie}`,
+                'Authorization': `Bearer ${token}`,
             },
         })
             .then((response) => response.json())
@@ -35,13 +39,13 @@ export default class SightService {
             .catch((error) => console.error(error))
     }
 
-    public getSightsByUser(userId: string) {
-        const cookie = AsyncStorage.getItem('cookie');
+    public async getSightsByUser(userId: string) {
+        const token = await this.getToken();
         return fetch(`${SERVER_URL}/sight/${userId}`, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `${cookie}`,
+                'Authorization': `Bearer ${token}`,
             },
         })
             .then((response) => response.json())
@@ -53,7 +57,7 @@ export default class SightService {
 
     public async createSight(sight: any) {
         try {
-            const cookie = await AsyncStorage.getItem('cookie');
+            const token = await this.getToken();
             const picture = sight.picture;
             delete sight.picture;
             const formData = new FormData();
@@ -66,7 +70,7 @@ export default class SightService {
                 method: 'POST',
                 headers: {
                     "Content-type": "multipart/form-data",
-                    Authorization: `${cookie}`,
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: formData,
             });
@@ -82,14 +86,14 @@ export default class SightService {
         }
     }
 
-    public deleteSight(sightId: string) {
-        const cookie = AsyncStorage.getItem('cookie');
+    public async deleteSight(sightId: string) {
+        const token = await this.getToken();
         return fetch(`${SERVER_URL}/sight/${sightId}`, {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `${cookie}`,
+                'Authorization': `Bearer ${token}`,
             },
         })
             .then((response) => {
@@ -106,7 +110,7 @@ export default class SightService {
     }
 
     public async updateSight(sight: Sight) {
-        const cookie = AsyncStorage.getItem('cookie');
+        const token = await this.getToken();
         const contentType = sight?.picture?.uri ? 'multipart/form-data' : 'application/json';
         let body: BodyInit | null | undefined = null;
         if (sight?.picture) {
@@ -123,7 +127,7 @@ export default class SightService {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': contentType,
-                'Authorization': `${cookie}`,
+                'Authorization': `Bearer ${token}`,
             },
             body,
         })
