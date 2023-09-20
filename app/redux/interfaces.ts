@@ -8,12 +8,14 @@ export type UserState = {
 
 export type AppState = {
     user: User;
+    sessionToken: Object | null;
     loggedIn: boolean;
     loading: boolean;
     isRegistering: boolean;
     error: boolean | undefined;
     message: string;
     isVerifyingEmail: boolean;
+    expireEmailVerification: number | null;
     isUpdatingUser: boolean;
     isUserVerified: boolean;
     isResettingPassword: boolean;

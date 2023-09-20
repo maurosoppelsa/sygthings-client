@@ -5,8 +5,9 @@ import RNFS from 'react-native-fs';
 import RNFetchBlob from "rn-fetch-blob";
 const { fs } = RNFetchBlob;
 
-export default class SightService {
+export default class SightService implements Tokenizable {
     private static _instance: SightService = new SightService();
+    private token: string = '';
 
     constructor() {
         if (SightService._instance) {
@@ -19,17 +20,16 @@ export default class SightService {
         return SightService._instance;
     }
 
-    private getToken = async () => {
-        return await AsyncStorage.getItem('token');
+    public setSessionToken = async (token: string) => {
+        this.token = token;
     }
 
     public async getAllSights(userId: string) {
-        const token = await this.getToken();
         return fetch(`${SERVER_URL}/sight/exclude/${userId}`, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${this.token}`,
             },
         })
             .then((response) => response.json())
@@ -40,12 +40,11 @@ export default class SightService {
     }
 
     public async getSightsByUser(userId: string) {
-        const token = await this.getToken();
         return fetch(`${SERVER_URL}/sight/${userId}`, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${this.token}`,
             },
         })
             .then((response) => response.json())
@@ -57,7 +56,6 @@ export default class SightService {
 
     public async createSight(sight: any) {
         try {
-            const token = await this.getToken();
             const picture = sight.picture;
             delete sight.picture;
             const formData = new FormData();
@@ -70,7 +68,7 @@ export default class SightService {
                 method: 'POST',
                 headers: {
                     "Content-type": "multipart/form-data",
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${this.token}`,
                 },
                 body: formData,
             });
@@ -87,13 +85,12 @@ export default class SightService {
     }
 
     public async deleteSight(sightId: string) {
-        const token = await this.getToken();
         return fetch(`${SERVER_URL}/sight/${sightId}`, {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${this.token}`,
             },
         })
             .then((response) => {
@@ -110,7 +107,6 @@ export default class SightService {
     }
 
     public async updateSight(sight: Sight) {
-        const token = await this.getToken();
         const contentType = sight?.picture?.uri ? 'multipart/form-data' : 'application/json';
         let body: BodyInit | null | undefined = null;
         if (sight?.picture) {
@@ -127,7 +123,7 @@ export default class SightService {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': contentType,
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${this.token}`,
             },
             body,
         })

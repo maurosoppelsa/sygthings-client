@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import LoginForm from './login.form';
 import { useAppDispatch } from '../../redux/store'
-import { loginUser, toggleRegister, createUser, cleanupMessages, verifyUserRegistration, resendEmailVerification, toggleResettingPassword, notifyUserResetPassword, verifyUserResetPassword, cancelResetPassword, updateUserPassword } from '../../redux/auth-slice';
+import { loginUser, toggleRegister, createUser, cleanupMessages, verifyUserRegistration, resendEmailVerification, toggleResettingPassword, notifyUserResetPassword, verifyUserResetPassword, cancelResetPassword, updateUserPassword, expireEmailVerification } from '../../redux/auth-slice';
 import { User } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import NewUserForm from './new-user-form';
@@ -10,11 +10,26 @@ import colors from '../../config/colors';
 import { StatusBar } from 'expo-status-bar';
 import VerifyEmail from './email-verification/verify-email';
 import ForgotPassword from './forgot-password';
+import { hasDateExpired } from '../../utils/common';
 
 export default function Login() {
+
+  const ref = useRef(true);
+
   const dispatch = useAppDispatch();
-  //const navi = useNavigation<any>();
   const authentication = useSelector((state: any) => state.authentication);
+
+  useEffect(() => {
+    const firstRender = ref.current;
+
+    if (firstRender) {
+      if (authentication.isVerifyingEmail && hasDateExpired(authentication.expireEmailVerification)) {
+        dispatch(expireEmailVerification())
+      }
+      ref.current = false;
+      dispatch(cleanupMessages());
+    }
+  },[]);
 
   const handleLogin = (email: string, password: string) => {
     const user: User = {
@@ -84,7 +99,7 @@ export default function Login() {
 
   const getFormType = () => {
     if (authentication.isVerifyingEmail) {
-      return (<VerifyEmail onRedirect={goToLogin} onVerify={verifyUserEmail} onResendEmail={() => resendEmail()}></VerifyEmail>);
+      return (<VerifyEmail onRedirect={goToLogin} onVerify={verifyUserEmail} onResendEmail={() => resendEmail()} onCancel={goToLogin}></VerifyEmail>);
     }
     else if (authentication.isRegistering) {
       return <NewUserForm onCreate={(user: User) => registerUser(user)} onCancel={() => goToLogin()} />

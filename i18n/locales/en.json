@@ -35,6 +35,10 @@
                 "text3": "Please enter the code below to verify your email address.",
                 "resend": "Resend email",
                 "verifyBtn": "Verify",
+                "cancelBtn": "Cancel",
+                "cancelProcess": "Alright",
+                "actionModalTitle": "Are you sure you want to cancel the email verification?",
+                "actionModalSubtitle": "Then you will have to start the process again. You won't be able to register the same user for 24 hours.",
                 "verificationCode": {
                     "verifyModalSuccess": "Your email address has been verified successfully.",
                     "verifyModalFail": "The verification code is incorrect, please try again."
@@ -138,7 +142,8 @@
             "logoutError": "Error logging out.",
             "errorCreatingUser": "Error creating user.",
             "errorUpdatingUser": "Error updating user.",
-            "errorDeletingUser": "Error deleting user."
+            "errorDeletingUser": "Error deleting user.",
+            "errorVerifyingUser": "The user could not be verified"
         },
         "success": {
             "userCreated": "User created successfully, please check your email to complete verification.",

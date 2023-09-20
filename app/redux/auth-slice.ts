@@ -5,15 +5,21 @@ import { AppState } from "./interfaces";
 import { authErrorMessages, authSuccessMessages } from "../messages";
 import { resetSights } from "./sight-slice";
 import { resetGeoLocation } from "./geolocation-slice";
+import { getTomorrowDate } from "../utils/common";
 
 const initialState: AppState = {
   user: null,
+  sessionToken: {
+    token: '',
+    expiresIn: null,
+  },
   loggedIn: false,
   loading: false,
   isRegistering: false,
   error: false,
   message: '',
   isVerifyingEmail: false,
+  expireEmailVerification: null,
   isUpdatingUser: false,
   isUserVerified: false,
   isResettingPassword: false,
@@ -23,15 +29,20 @@ const initialState: AppState = {
 
 const authService: AuthService = AuthService.getInstance();
 
-const sleep = (ms: number | undefined) => new Promise((resolve) => setTimeout(resolve, ms));
+//TODO: remove this, it's just for testing redux persist
+//authService.getEverything();
 
-export const loginUser = createAsyncThunk<{ user: User }, { user: User }>(
+export const loginUser = createAsyncThunk<{ user: User, sessionToken: { token: string, expiresIn: number} }, { user: User }>(
   'loginUser',
   async ({ user }) => {
     const response = await authService.login(user);
     if (response.success) {
       return {
         user: response.user ?? [],
+        sessionToken: {
+          token: response.sessionToken.token,
+          expiresIn: response.sessionToken.expiresIn,
+        }
       };
     } else {
       throw 'Error login user';
@@ -41,16 +52,9 @@ export const loginUser = createAsyncThunk<{ user: User }, { user: User }>(
 export const logoutUser = createAsyncThunk<{}>(
   'logoutUser',
   async (_, { dispatch }) => {
-
     dispatch(resetSights());
     dispatch(resetGeoLocation());
-
-    const response = await authService.logout();
-    if (response.success) {
-      return;
-    } else {
-      throw new Error('Error logging out');
-    }
+    return initialState;
   });
 
 export const createUser = createAsyncThunk<{ user: User }, { user: User }>(
@@ -194,6 +198,9 @@ const authSlice = createSlice({
       state.hasUserAskedPassReset = false;
       state.isUserAllowedReset = false;
     },
+    expireEmailVerification: () => {
+      return initialState;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -204,6 +211,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload.user;
+        state.sessionToken = action.payload.sessionToken;
         state.isVerifyingEmail = false;
         state.isRegistering = false;
         state.loading = false;
@@ -211,17 +219,15 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state) => {
         state.error = true;
+        state.message = authErrorMessages['auth/login-error'];
         state.loading = false;
         state.loggedIn = false;
-        state.message = authErrorMessages['auth/login-error'];
-      })
-      .addCase(logoutUser.pending, (state) => {
-        state.error = false;
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.loggedIn = false;
         state.loading = false;
+        state.sessionToken = null
       })
       .addCase(logoutUser.rejected, (state) => {
         state.error = true;
@@ -237,6 +243,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.loggedIn = false;
         state.isVerifyingEmail = true;
+        state.expireEmailVerification = getTomorrowDate();
       })
       .addCase(createUser.rejected, (state) => {
         state.error = true;
@@ -300,6 +307,7 @@ const authSlice = createSlice({
       })
       .addCase(resendEmailVerification.fulfilled, (state, action) => {
         state.loading = false;
+        state.expireEmailVerification = getTomorrowDate();
         state.message = authSuccessMessages['auth/email-sent'];
       })
       .addCase(resendEmailVerification.rejected, (state) => {
@@ -345,5 +353,5 @@ const authSlice = createSlice({
       });
   },
 });
-export const { toggleRegister, cleanupMessages, openUserUpdate, closeUserUpdate, setError, toggleResettingPassword } = authSlice.actions;
+export const { toggleRegister, cleanupMessages, openUserUpdate, closeUserUpdate, setError, toggleResettingPassword, expireEmailVerification } = authSlice.actions;
 export default authSlice.reducer;

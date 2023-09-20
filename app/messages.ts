@@ -12,6 +12,7 @@ export const authErrorMessages: Messages = {
     "auth/error-creating-user": I18n.t('Auth.errors.errorCreatingUser'),
     "auth/error-updating-user": I18n.t('Auth.errors.errorUpdatingUser'),
     "auth/error-deleting-user": I18n.t('Auth.errors.errorDeletingUser'),
+    "auth/error-verifying-user": I18n.t('Auth.errors.errorVerifyingUser'),
 };
 
 export const authSuccessMessages: Messages = {

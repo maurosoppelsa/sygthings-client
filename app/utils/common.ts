@@ -1,7 +1,7 @@
 import moment from 'moment';
 import I18n from '../../i18n/i18n';
 import { defaultLanguage } from '../config/language';
-import 'moment/locale/es'; 
+import 'moment/locale/es';
 
 moment.locale(defaultLanguage);
 
@@ -30,9 +30,9 @@ export const getFormattedDate = function (date: string) {
 
 export const getDateFromNow = function (date: string) {
     return moment(date).fromNow();
-  }  
+}
 
-  export const getCreatedByLegend = function (firstName: string = '', lastName: string = '', occupation: string = '', createdAt: string = '') {
+export const getCreatedByLegend = function (firstName: string = '', lastName: string = '', occupation: string = '', createdAt: string = '') {
     if (!createdAt) return;
     if (!firstName || !lastName) return `${I18n.t('Sight.createdAt')} ${getDateFromNow(createdAt)}`;
     return (
@@ -43,3 +43,11 @@ export const getDateFromNow = function (date: string) {
     );
 }
 
+export const hasDateExpired = function (expiresIn: number) {
+    const now = moment().unix();
+    return now > expiresIn;
+}
+
+export const getTomorrowDate = function () {
+    return moment().add(1, 'days').unix();
+}

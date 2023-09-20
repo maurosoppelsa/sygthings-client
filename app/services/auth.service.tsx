@@ -1,8 +1,9 @@
 import { SERVER_URL } from "../config/authentication";
 import { User, UserToUpdate } from "../interfaces/common";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-export default class AuthService {
+export default class AuthService implements Tokenizable{
     private static _instance: AuthService = new AuthService();
+    private token: string = '';
 
     constructor() {
         if (AuthService._instance) {
@@ -10,21 +11,27 @@ export default class AuthService {
         }
         AuthService._instance = this;
     }
-
-    private setToken = async (token: string) => {
-        await AsyncStorage.setItem('token', token);
-    }
-
-    private getToken = async () => {
-        return await AsyncStorage.getItem('token');
-    }
+//TODO: remove this, it's just for testing redux persist
+/*     public getEverything = async () => { 
+        AsyncStorage.getAllKeys((err, keys) => {
+            AsyncStorage.multiGet(keys, (error, stores) => {
+              stores.map((result, i, store) => {
+                console.log({ [store[i][0]]: store[i][1] });
+                return true;
+              });
+            });
+          });
+        } */
 
     public static getInstance(): AuthService {
         return AuthService._instance;
     }
 
+    public setSessionToken = (token: string) => {
+        this.token = token;
+    }
+
     public login = (user: User) => {
-        AsyncStorage.clear();
         return fetch(`${SERVER_URL}/login`, {
             method: 'POST',
             headers: {
@@ -38,25 +45,24 @@ export default class AuthService {
         }).then((response: any) => {
             return response.json();
         })
-            .then(async (json) => {
-                if(json.token) {
-                   await this.setToken(json.token);
-                }
+            .then(async (data) => {
                 return {
-                    user: json.user,
-                    success: json.success,
+                    sessionToken: data.sessionToken,
+                    user: data.user,
+                    success: data.success,
+                    message: data.message,
+                    verified: !data.success ? data.verified : true,
                 };
             })
     }
 
     public logout = async () => {
-        const token = await this.getToken();
         return fetch(`${SERVER_URL}/logout`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${this.token}`,
                 
             },
         }).then((response) => response.json())
@@ -81,19 +87,19 @@ export default class AuthService {
                 password: user?.password,
             })
         }).then((response) => response.json())
-            .then((json) => {
-                return json;
+            .then((data) => {
+                AsyncStorage.setItem('currentUser', JSON.stringify(data.user));
+                return data;
             })
     }
 
     public update = async (user: UserToUpdate) => {
-        const token = await this.getToken();
         return fetch(`${SERVER_URL}/users/${user.id}`, {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${this.token}`,
             },
             body: JSON.stringify({
                 name: user?.name,
@@ -111,13 +117,12 @@ export default class AuthService {
     }
 
     public deleteUser = async (userId: string) => {
-        const token = await this.getToken();
         return fetch(`${SERVER_URL}/users/${userId}`, {
             method: 'DELETE',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${this.token}`,
             },
         }).then((response) => response.json())
             .then((json) => {

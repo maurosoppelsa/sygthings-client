@@ -35,6 +35,10 @@
                 "text3": "Por favor, ingresa el código a continuación.",
                 "resend": "Reenviar correo electrónico",
                 "verifyBtn": "Verificar",
+                "cancelBtn": "Cancelar",
+                "cancelProcess": "De acuerdo",
+                "actionModalTitle": "¿Estas seguro de que quieres cancelar la verificación de tu correo electrónico?",
+                "actionModalSubtitle": "Luego tendrás que realizar nuevamente todo el proceso. No podrás registrar el mismo usuario por 24 horas.",
                 "verificationCode": {
                     "verifyModalSuccess": "Tu email ha sido verificado exitosamente. Serás redirigido a la página de login.",
                     "verifyModalFail": "El código ingresado es incorrecto. Por favor, intenta nuevamente."
@@ -137,7 +141,8 @@
             "logoutError": "Error al cerrar sesión.",
             "errorCreatingUser": "Error al crear usuario.",
             "errorUpdatingUser": "Error al actualizar usuario.",
-            "errorDeletingUser": "Error al eliminar usuario."
+            "errorDeletingUser": "Error al eliminar usuario.",
+            "errorVerifyingUser": "El usuario no ha sido verificado"
         },
         "success": {
             "userCreated": "Usuario creado exitosamente, por favor chequea tu correo electrónico para completar el registro.",

@@ -5,6 +5,8 @@ export type User = {
     password?: string;
     occupation?: string;
     email?: string;
+    createdAt?: string;
+    verified?: boolean;
 } | null;
 
 export type UserToUpdate = User & { newPassword?: string };

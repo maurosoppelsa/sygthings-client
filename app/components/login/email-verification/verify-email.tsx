@@ -7,12 +7,17 @@ import I18n from '../../../../i18n/i18n';
 import CodeInput from '../../common/code-input';
 import { Button } from 'react-native-paper';
 import EmailVerificationModal from './email-verification-modal';
+import ActionModalComponent from '../../common/action-modal.component';
 
-export default function VerifyEmail({ onVerify, onResendEmail, onRedirect }: { onVerify: any, onResendEmail: any, onRedirect?: any }) {
+export default function VerifyEmail({ onVerify, onResendEmail, onRedirect, onCancel }: { onVerify: any, onResendEmail: any, onRedirect?: any, onCancel: any }) {
 
     const [authCode, setAuthCode] = useState('');
     const [showVerifyModal, setShowModal] = useState(false);
     const [verifySuccess, setVerifySuccess] = useState(false);
+    const [showActionModal, setShowActionModal] = useState(false);
+    const actionTitle = I18n.t('Login.NewUser.verifyEmail.actionModalTitle');
+    const actionSubtitle = I18n.t('Login.NewUser.verifyEmail.actionModalSubtitle');
+    const actionBtText = I18n.t('Login.NewUser.verifyEmail.cancelProcess');
 
     const getCode = (code: string) => {
         setAuthCode(code);
@@ -33,6 +38,15 @@ export default function VerifyEmail({ onVerify, onResendEmail, onRedirect }: { o
         setVerifySuccess(verificationResult);
     }
 
+    const onProceedCancelVerify = () => {
+        onCancel();
+        setShowActionModal(false);
+    }
+
+    const onCancelVerifyBt = () => {
+        setShowActionModal(true);
+    }
+
     return (
         <View>
             <Box style={styles.container}>
@@ -41,14 +55,26 @@ export default function VerifyEmail({ onVerify, onResendEmail, onRedirect }: { o
                 <Text style={styles.text2}>{I18n.t('Login.NewUser.verifyEmail.text2')}</Text>
                 <Text style={styles.text3}>{I18n.t('Login.NewUser.verifyEmail.text3')}</Text>
                 <CodeInput onChange={getCode} />
-                <Button disabled={authCode.length < 6} style={styles.verifyBt} mode="contained" onPress={() => verify()}>
-                    {I18n.t('Login.NewUser.verifyEmail.verifyBtn')}
-                </Button>
+                <Box style={styles.buttonContainer}>
+                    <Button disabled={authCode.length < 6} style={styles.verifyBt} mode="contained" onPress={() => verify()}>
+                        {I18n.t('Login.NewUser.verifyEmail.verifyBtn')}
+                    </Button>
+                    <Button style={styles.verifyBt} mode="contained" onPress={() => onCancelVerifyBt()}>
+                        {I18n.t('Login.NewUser.verifyEmail.cancelBtn')}
+                    </Button>
+                </Box>
                 <TouchableOpacity onPress={() => { onResendEmail() }}>
                     <Text style={styles.resendEmailBT}>{I18n.t('Login.NewUser.verifyEmail.resend')}</Text>
                 </TouchableOpacity>
             </Box>
             <EmailVerificationModal actionBt={handleModalAction} showModal={showVerifyModal} success={verifySuccess} />
+            <ActionModalComponent
+                actionBtText={actionBtText}
+                actionProceed={onProceedCancelVerify}
+                actionCancel={() => { setShowActionModal(false) }}
+                title={actionTitle}
+                subtitle={actionSubtitle}
+                showModal={showActionModal}></ActionModalComponent>
         </View>
     );
 }
@@ -83,5 +109,10 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 10,
         backgroundColor: colors.syghtingDarkGreen,
-    }
+    },
+    buttonContainer: {
+        width: '60%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
 });
