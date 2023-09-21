@@ -113,7 +113,7 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                 {
                     hasNotified && !isAllowReset &&
                     <Box style={styles.waitingForEmailContainer}>
-                        <VerifyEmail onVerify={onVerifyReset} onResendEmail={() => onSendResetPasswordEmail(email)} />
+                        <VerifyEmail onVerify={onVerifyReset} onResendEmail={() => onSendResetPasswordEmail(email)} onCancel={onCancel} />
                     </Box>
                 }
                 {
