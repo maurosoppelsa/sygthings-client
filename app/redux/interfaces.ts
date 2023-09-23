@@ -30,6 +30,7 @@ export type newSightState = {
     showSightModal: boolean,
     error: boolean | undefined,
     loading: boolean,
+    loadingMySights: boolean,
     modalStatus: SIGHT_MODAL_STATUS,
     showImageOptionsModal: boolean,
 };

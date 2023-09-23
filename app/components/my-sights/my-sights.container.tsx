@@ -1,5 +1,5 @@
 import { Box } from '@react-native-material/core';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Sight, User } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import { StyleSheet, Text } from 'react-native';
@@ -8,12 +8,15 @@ import I18n from '../../../i18n/i18n';
 import colors from '../../config/colors';
 import { useAppDispatch } from '../../redux/store'
 import { deleteSight, getSightsByUser, editSight } from '../../redux/sight-slice';
+import LoadingSpinnerComponent from '../common/loading-spiner.component';
 
 
 export default function MySights() {
     const dispatch = useAppDispatch();
     const currentUser: User = useSelector((state: any) => state.authentication.user);
     const mySights: Array<Sight> = useSelector((state: any) => state.sight.mySights);
+    const isLoadingSights = useSelector((state: any) => state.sight.loadingMySights);
+    const [showNoSightsMessage, setShowNoSightsMessage] = useState(false); // Add new state variable
 
     const onDeleteSight = (sight: Sight) => {
         dispatch(deleteSight(sight?.id));
@@ -25,11 +28,20 @@ export default function MySights() {
 
     useEffect(() => {
         if (mySights.length === 0 && currentUser?.id) {
+            console.log("getSightsByUser", currentUser?.id);
             dispatch(getSightsByUser(currentUser.id));
+            setShowNoSightsMessage(true);
         }
     }, []);
 
-    if (mySights.length === 0) {
+    if (isLoadingSights) {
+        return (
+            <Box style={styles.container}>
+                <LoadingSpinnerComponent/>
+            </Box>);
+    }
+
+    if (showNoSightsMessage && mySights.length === 0) {
         return (
             <Box style={styles.container}>
                 <Box style={styles.textContainer}>

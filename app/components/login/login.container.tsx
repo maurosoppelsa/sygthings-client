@@ -1,16 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import LoginForm from './login.form';
 import { useAppDispatch } from '../../redux/store'
-import { loginUser, toggleRegister, createUser, cleanupMessages, verifyUserRegistration, resendEmailVerification, toggleResettingPassword, notifyUserResetPassword, verifyUserResetPassword, cancelResetPassword, updateUserPassword, expireEmailVerification } from '../../redux/auth-slice';
+import { loginUser, toggleRegister, createUser, cleanupMessages, verifyUserRegistration, resendEmailVerification, toggleResettingPassword, notifyUserResetPassword, verifyUserResetPassword, cancelResetPassword, updateUserPassword, sanitizeLogin } from '../../redux/auth-slice';
 import { User } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import NewUserForm from './new-user-form';
-import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import colors from '../../config/colors';
 import { StatusBar } from 'expo-status-bar';
 import VerifyEmail from './email-verification/verify-email';
 import ForgotPassword from './forgot-password';
 import { hasDateExpired } from '../../utils/common';
+import LoadingSpinnerComponent from '../common/loading-spiner.component';
 
 export default function Login() {
 
@@ -23,22 +24,25 @@ export default function Login() {
     const firstRender = ref.current;
 
     if (firstRender) {
-      if (authentication.isVerifyingEmail && hasDateExpired(authentication.expireEmailVerification)) {
-        dispatch(expireEmailVerification())
+      if ((authentication.isVerifyingEmail && hasDateExpired(authentication.expireEmailVerification)) || authentication.loading) {
+        dispatch(sanitizeLogin())
       }
       ref.current = false;
       dispatch(cleanupMessages());
     }
   },[]);
 
-  const handleLogin = (email: string, password: string) => {
+  const handleLogin = async (email: string, password: string) => {
     const user: User = {
       email,
       password,
     };
-    dispatch(loginUser({ user }));
-    dispatch(cleanupMessages());
+    await Promise.all([
+      dispatch(loginUser({ user })),
+      dispatch(cleanupMessages())
+    ]);
   }
+  
 
   const goToRegister = () => {
     dispatch(cleanupMessages());
@@ -129,7 +133,7 @@ export default function Login() {
         {getFormType()}
       </View>
       {authentication.loading &&
-        <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />}
+        <LoadingSpinnerComponent />}
       {
         authentication.error &&
         <Text style={styles.errorMessage}>{authentication.message}</Text>
@@ -150,10 +154,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-  },
-  loadingSpinner: {
-    position: 'absolute',
-    alignSelf: 'center',
   },
   errorMessage: {
     fontSize: 18,

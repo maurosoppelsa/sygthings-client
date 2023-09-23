@@ -6,7 +6,7 @@ import { openModal, closeModal, toggleImageOptionsModal } from '../../redux/sigh
 import { createSight } from '../../redux/sight-slice';
 import { getMapUrl, getLocationInfo, setCurrentCoordinates, toggleLocationModal } from '../../redux/geolocation-slice';
 import Geolocation from '@react-native-community/geolocation';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { locationToLegend } from '../../utils/geolocation-helper';
 import { hasEmptyProperties } from '../../utils/common';
 import CameraHandler from '../camera/camera-handler.container';
@@ -22,6 +22,8 @@ import { location } from '../../redux/interfaces';
 import UploadImageOptionModal from './upload-image-option-modal/upload-image-option-modal';
 import * as ImagePicker from "react-native-image-picker"
 import { MediaType } from 'react-native-image-picker';
+import LoadingMapComponent from './loading-map.component';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function NewSight() {
   const dispatch = useAppDispatch();
@@ -35,22 +37,37 @@ export default function NewSight() {
   const showChangeLocationModal = useSelector((state: any) => state.geolocationInfo.showLocationModal);
   const currentUser: User = useSelector((state: any) => state.authentication.user);
   const showImageOptionsModal = useSelector((state: any) => state.sight.showImageOptionsModal);
+  const isLoadingMap = useSelector((state: any) => state.geolocationInfo.loading);
 
-  useEffect(() => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        dispatch(setCurrentCoordinates({
-          longitude: JSON.stringify(position.coords.longitude),
-          latitude: JSON.stringify(position.coords.latitude),
-        }));
-        dispatch(getMapUrl());
-        dispatch(getLocationInfo());
-      }, (error) => alert(error.message), {
-      enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
-    }
-    );
+  const coordinatesHaveChanged = (currentCoordinates: {longitude: string, latitude: string}, newLongitude: string, newLatitude: string) => {
+    return currentCoordinates.longitude !== newLongitude || currentCoordinates.latitude !== newLatitude;
+  }
+ 
+  useFocusEffect(
+    React.useCallback(() => {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          const newLongitude = JSON.stringify(position.coords.longitude);
+          const newLatitude = JSON.stringify(position.coords.latitude);
+          if (coordinatesHaveChanged(currentCoordinates, newLongitude, newLatitude)) {
+            dispatch(setCurrentCoordinates({
+              longitude: newLongitude,
+              latitude: newLatitude,
+            }));
+            dispatch(getMapUrl());
+            dispatch(getLocationInfo());
+          }
+        },
+        (error) => alert(error.message),
+        {
+          enableHighAccuracy: false,
+          timeout: 20000,
+          maximumAge: 1000
+        }
+      );
+    }, [currentCoordinates]) // Add currentCoordinates as a dependency for useCallback
+  );
 
-  }, []);
 
   const onSelectCamera = () => {
     dispatch(toggleCamera({ cameraActive: true }));
@@ -149,9 +166,10 @@ export default function NewSight() {
     });
   }
 
-  if (!mapImageUrl) {
-    return (<View>
-    </View>);
+  if (isLoadingMap) {
+    return (
+      <LoadingMapComponent />
+    );
   }
 
   return (
@@ -167,7 +185,7 @@ export default function NewSight() {
           onUpdateLocation={onUpdateLocation}
           onCloseLocationModal={onCloseLocationModal}
           location={currentCoordinates} />
-        <UploadImageOptionModal onSelectCamera={onSelectCamera} onSelectGallery={onSelectGallery} showModal={showImageOptionsModal} onClose={toggleOptionsModal}/>
+        <UploadImageOptionModal onSelectCamera={onSelectCamera} onSelectGallery={onSelectGallery} showModal={showImageOptionsModal} onClose={toggleOptionsModal} />
         <Box style={styles.locationDetailcontainer}>
           <Box style={styles.locationDetailContent}>
             <LocationDetailsComponent locationInfo={locationToLegend(locationInfo)} />

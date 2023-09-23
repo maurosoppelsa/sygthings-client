@@ -54,4 +54,5 @@ export type LocationDetails = {
     place: string;
     country: string;
     region: string;
+    neighborhood: string;
 }

@@ -1,9 +1,10 @@
-import { ActivityIndicator, Box } from '@react-native-material/core';
+import { Box } from '@react-native-material/core';
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
 import colors from '../../../config/colors';
 import { SIGHT_MODAL_STATUS } from '../../../constants';
 import I18n from '../../../../i18n/i18n';
+import LoadingSpinnerComponent from '../../common/loading-spiner.component';
 
 export default function NewSightLegendStatus({ status, onClose }: { status: string, onClose: any }) {
     let legendText: string = '';
@@ -31,7 +32,7 @@ export default function NewSightLegendStatus({ status, onClose }: { status: stri
             <Text style={[statusStyle,styles.leyendText]}>{legendText}</Text>
             <Text style={styles.textInfo}>{textInfo}</Text>
             {status === SIGHT_MODAL_STATUS.PENDING &&
-                <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />}
+                <LoadingSpinnerComponent />}
 
             {(status === (SIGHT_MODAL_STATUS.SUCCESS) || (status === SIGHT_MODAL_STATUS.FAILED)) &&
                 <Pressable
@@ -78,10 +79,6 @@ const styles = StyleSheet.create({
         fontSize: 10,
         textAlign: 'center',
         color: colors.gray,
-    },
-    loadingSpinner: {
-        alignSelf: 'center',
-        marginTop: 10,
     },
     closeButton: {
         borderRadius: 5,

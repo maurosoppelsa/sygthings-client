@@ -198,7 +198,7 @@ const authSlice = createSlice({
       state.hasUserAskedPassReset = false;
       state.isUserAllowedReset = false;
     },
-    expireEmailVerification: () => {
+    sanitizeLogin: () => {
       return initialState;
     }
   },
@@ -218,6 +218,7 @@ const authSlice = createSlice({
         state.loggedIn = true;
       })
       .addCase(loginUser.rejected, (state) => {
+        console.log('rejected');
         state.error = true;
         state.message = authErrorMessages['auth/login-error'];
         state.loading = false;
@@ -353,5 +354,5 @@ const authSlice = createSlice({
       });
   },
 });
-export const { toggleRegister, cleanupMessages, openUserUpdate, closeUserUpdate, setError, toggleResettingPassword, expireEmailVerification } = authSlice.actions;
+export const { toggleRegister, cleanupMessages, openUserUpdate, closeUserUpdate, setError, toggleResettingPassword, sanitizeLogin } = authSlice.actions;
 export default authSlice.reducer;

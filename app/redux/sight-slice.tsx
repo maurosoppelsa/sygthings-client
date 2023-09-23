@@ -9,6 +9,7 @@ const initialState: newSightState = {
   showSightModal: false,
   error: false,
   loading: false,
+  loadingMySights: false,
   newSight: null,
   mySights: [],
   modalStatus: SIGHT_MODAL_STATUS.NEW,
@@ -36,7 +37,7 @@ export const getCurrentSights = createAsyncThunk<{ sights: Sight[] }, string>(
   "getCurrentSights",
   async (userId) => {
     const response = await sightService.getAllSights(userId);
-    if (response.data.length !== 0) {
+    if (response.data) {
       return {
         sights: response.data,
       };
@@ -50,7 +51,7 @@ export const getSightsByUser = createAsyncThunk<{ sights: Sight[] }, string>(
   "getSightsByUser",
   async (userId) => {
     const response = await sightService.getSightsByUser(userId);
-    if (response.data.length !== 0) {
+    if (response.data) {
       return {
         sights: response.data,
       };
@@ -129,20 +130,25 @@ const sightSlice = createSlice({
       })
       .addCase(getCurrentSights.fulfilled, (state, action) => {
         state.error = false;
+        state.loading = false;
         state.currentSights = action.payload.sights;
       })
       .addCase(getCurrentSights.rejected, (state) => {
+        state.loading = false;
         state.error = true;
       })
       .addCase(getSightsByUser.pending, (state) => {
         state.error = false;
+        state.loadingMySights = true;
       })
       .addCase(getSightsByUser.fulfilled, (state, action) => {
         state.error = false;
         state.mySights = action.payload.sights;
+        state.loadingMySights = false;
       })
       .addCase(getSightsByUser.rejected, (state) => {
         state.error = true;
+        state.loadingMySights = false;
       })
       .addCase(resetSights.fulfilled, (state) => {
         state.currentSights = [];

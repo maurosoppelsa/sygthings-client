@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View, PermissionsAndroid } from 'react-native';
+import { StyleSheet, Text, View, PermissionsAndroid } from 'react-native';
 import { Camera } from 'expo-camera';
 import CameraButtonComponent from './camera-button.component';
 import { Picture } from '../../interfaces/common';
@@ -9,6 +9,7 @@ import { toggleCamera, newPicture } from '../../redux/camera-slice';
 import { useAppDispatch } from '../../redux/store';
 import { useFocusEffect } from '@react-navigation/native';
 import I18n from '../../../i18n/i18n';
+import LoadingSpinnerComponent from '../common/loading-spiner.component';
 
 export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
@@ -77,7 +78,7 @@ export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
           <Box style={styles.loadingBox}>
             <Box style={styles.loadingContent}>
               <Text style={styles.loadingLeyend}>{I18n.t('Camera.loading')}</Text>
-              <ActivityIndicator style={styles.loadingSpinner} size="large" color={colors.gray} />
+              <LoadingSpinnerComponent/>
             </Box>
           </Box>}
         <View style={styles.buttonContainer}>
@@ -110,10 +111,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     color: 'white',
-  },
-  loadingSpinner: {
-    alignSelf: 'center',
-    marginTop: 20,
   },
   loadingBox: {
     flex: 6,

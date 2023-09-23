@@ -3,6 +3,7 @@ import { LocationDetails } from '../interfaces/common';
 export const locationHandler = (locationDetails: any) => {
     let locationFormat: LocationDetails = {
         locality: '',
+        neighborhood: '',
         place: '',
         region: '',
         country: '',

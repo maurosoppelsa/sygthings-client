@@ -6,6 +6,7 @@ import SightDetailsComponent from "../sight/sight-details.component";
 import { useFocusEffect } from "@react-navigation/native";
 import TitleComponent from "../common/title-component";
 import SightComponent from "./sight.component";
+import colors from "../../config/colors";
 
 export default function SightListComponent({ sightList, listTitle, allowDeletion, onDeleteSight, onUpdateSight }: { sightList: Array<Sight>, listTitle: string, allowDeletion?: boolean, onDeleteSight?: any, onUpdateSight?: any }) {
     const [showDetail, setShowDetail] = useState(false);
@@ -63,5 +64,8 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: "row",
+        width: "100%",
+        height: "100%",
+        backgroundColor: colors.white,
     },
 });
