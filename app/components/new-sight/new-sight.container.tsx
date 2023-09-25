@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux/store'
 import { newPicture, toggleCamera } from '../../redux/camera-slice';
@@ -8,7 +8,7 @@ import { getMapUrl, getLocationInfo, setCurrentCoordinates, toggleLocationModal 
 import Geolocation from '@react-native-community/geolocation';
 import { StyleSheet } from 'react-native';
 import { locationToLegend } from '../../utils/geolocation-helper';
-import { hasEmptyProperties } from '../../utils/common';
+import { hasZeroCoordinates } from '../../utils/common';
 import CameraHandler from '../camera/camera-handler.container';
 import LocationDetailsComponent from './location-details.component';
 import colors from '../../config/colors';
@@ -46,27 +46,28 @@ export default function NewSight() {
   useFocusEffect(
     React.useCallback(() => {
       Geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           const newLongitude = JSON.stringify(position.coords.longitude);
           const newLatitude = JSON.stringify(position.coords.latitude);
           if (coordinatesHaveChanged(currentCoordinates, newLongitude, newLatitude)) {
-            dispatch(setCurrentCoordinates({
+            await dispatch(setCurrentCoordinates({
               longitude: newLongitude,
               latitude: newLatitude,
             }));
-            dispatch(getMapUrl());
-            dispatch(getLocationInfo());
+            await dispatch(getMapUrl());
+            await dispatch(getLocationInfo());
           }
         },
-        (error) => alert(error.message),
+        (error) => console.log(error.message),
         {
           enableHighAccuracy: false,
           timeout: 20000,
           maximumAge: 1000
         }
       );
-    }, [currentCoordinates]) // Add currentCoordinates as a dependency for useCallback
+    }, [dispatch, currentCoordinates])
   );
+  
 
 
   const onSelectCamera = () => {
@@ -174,7 +175,7 @@ export default function NewSight() {
 
   return (
     !isCameraActive ?
-      <BackgroundComponent imageUrl={mapImageUrl} enableDefault={hasEmptyProperties(currentCoordinates)}>
+      <BackgroundComponent imageUrl={mapImageUrl} enableDefaultBg={hasZeroCoordinates(currentCoordinates) || mapImageUrl === ''}>
         <MaterialCommunityIcons name="map-marker-plus" size={35} style={styles.markerBt} onPress={() => openUpdateLocationModal()} />
         <NewSightModalComponent
           modalFormStatus={modalStatus}

@@ -7,6 +7,8 @@ moment.locale(defaultLanguage);
 
 export const hasEmptyProperties = (obj: any) => Object.values(obj).every(x => (x === null || x === ''));
 
+export const hasZeroCoordinates = (coordinates: any) => coordinates.latitude === "0" && coordinates.longitude === "0";
+
 export const getInitials = function (fullname: string) {
     var names = fullname.split(' '),
         initials = names[0].substring(0, 1).toUpperCase();

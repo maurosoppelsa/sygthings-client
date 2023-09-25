@@ -28,7 +28,6 @@ export default function MySights() {
 
     useEffect(() => {
         if (mySights.length === 0 && currentUser?.id) {
-            console.log("getSightsByUser", currentUser?.id);
             dispatch(getSightsByUser(currentUser.id));
             setShowNoSightsMessage(true);
         }

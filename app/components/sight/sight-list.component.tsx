@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { Box } from "@react-native-material/core";
 import { Sight } from "../../interfaces/common";
@@ -11,9 +11,13 @@ import colors from "../../config/colors";
 export default function SightListComponent({ sightList, listTitle, allowDeletion, onDeleteSight, onUpdateSight }: { sightList: Array<Sight>, listTitle: string, allowDeletion?: boolean, onDeleteSight?: any, onUpdateSight?: any }) {
     const [showDetail, setShowDetail] = useState(false);
     const [currentSight, setCurrentSight] = useState(null);
+    const scrollViewRef = useRef<ScrollView>(null);
 
     useFocusEffect(
         React.useCallback(() => {
+            if (scrollViewRef.current) {
+                scrollViewRef.current.scrollTo({ y: 0, animated: true });
+            }
             return () => setShowDetail(false);
         }, [])
     );
@@ -42,7 +46,7 @@ export default function SightListComponent({ sightList, listTitle, allowDeletion
             if (showDetail) {
                 return <SightDetailsComponent onClose={closeDetails} sight={currentSight} allowDelete={allowDeletion} onDelete={() => { deleteSight(currentSight) }} onUpdate={updateSight} />;
             } else {
-                return <ScrollView>
+                return <ScrollView ref={scrollViewRef}>
                     <TitleComponent title={listTitle} />
                     {sightList.map((sight, key) => {
                         return (
