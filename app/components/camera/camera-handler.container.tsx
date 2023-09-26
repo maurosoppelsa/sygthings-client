@@ -19,7 +19,7 @@ export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
   const closeCamera = () => dispatch(toggleCamera({ cameraActive: false }));
 
   const camera = useRef(null);
-  const options = { quality: 0.5 };
+  const options = { quality: 0.5,  skipProcessing: true };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -77,7 +77,6 @@ export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
         {loadingPicture &&
           <Box style={styles.loadingBox}>
             <Box style={styles.loadingContent}>
-              <Text style={styles.loadingLeyend}>{I18n.t('Camera.loading')}</Text>
               <LoadingSpinnerComponent/>
             </Box>
           </Box>}
@@ -113,12 +112,17 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   loadingBox: {
-    flex: 6,
-    flexDirection: 'row',
+    width: '100%',
+    height: '100%',
+    backgroundColor: colors.white,
+    flexDirection: 'column',
     alignItems: 'center',
   },
   loadingContent: {
+    flex: 1,
     flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   loadingLeyend: {
     color: colors.gray,

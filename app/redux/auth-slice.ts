@@ -218,7 +218,6 @@ const authSlice = createSlice({
         state.loggedIn = true;
       })
       .addCase(loginUser.rejected, (state) => {
-        console.log('rejected');
         state.error = true;
         state.message = authErrorMessages['auth/login-error'];
         state.loading = false;
