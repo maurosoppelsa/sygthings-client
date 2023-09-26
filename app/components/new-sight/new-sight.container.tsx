@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux/store'
 import { newPicture, toggleCamera } from '../../redux/camera-slice';
@@ -23,7 +23,6 @@ import UploadImageOptionModal from './upload-image-option-modal/upload-image-opt
 import * as ImagePicker from "react-native-image-picker"
 import { MediaType } from 'react-native-image-picker';
 import LoadingMapComponent from './loading-map.component';
-import { useFocusEffect } from '@react-navigation/native';
 
 export default function NewSight() {
   const dispatch = useAppDispatch();
@@ -37,38 +36,29 @@ export default function NewSight() {
   const showChangeLocationModal = useSelector((state: any) => state.geolocationInfo.showLocationModal);
   const currentUser: User = useSelector((state: any) => state.authentication.user);
   const showImageOptionsModal = useSelector((state: any) => state.sight.showImageOptionsModal);
-  const isLoadingMap = useSelector((state: any) => state.geolocationInfo.loading);
+  const [loadingMap, setLoadingMap] = useState(true);
 
-  const coordinatesHaveChanged = (currentCoordinates: {longitude: string, latitude: string}, newLongitude: string, newLatitude: string) => {
-    return currentCoordinates.longitude !== newLongitude || currentCoordinates.latitude !== newLatitude;
-  }
- 
-  useFocusEffect(
-    React.useCallback(() => {
-      Geolocation.getCurrentPosition(
-        async (position) => {
-          const newLongitude = JSON.stringify(position.coords.longitude);
-          const newLatitude = JSON.stringify(position.coords.latitude);
-          if (coordinatesHaveChanged(currentCoordinates, newLongitude, newLatitude)) {
-            await dispatch(setCurrentCoordinates({
-              longitude: newLongitude,
-              latitude: newLatitude,
-            }));
-            await dispatch(getMapUrl());
-            await dispatch(getLocationInfo());
-          }
-        },
-        (error) => console.log(error.message),
-        {
-          enableHighAccuracy: false,
-          timeout: 20000,
-          maximumAge: 1000
-        }
-      );
-    }, [dispatch, currentCoordinates])
-  );
-  
-
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      async (position) => {
+        const newLongitude = JSON.stringify(position.coords.longitude);
+        const newLatitude = JSON.stringify(position.coords.latitude);
+        await dispatch(setCurrentCoordinates({
+          longitude: newLongitude,
+          latitude: newLatitude,
+        }));
+        await dispatch(getMapUrl());
+        await dispatch(getLocationInfo());
+        setLoadingMap(false);
+      },
+      (error) => console.log(error.message),
+      {
+        enableHighAccuracy: false,
+        timeout: 20000,
+        maximumAge: 1000
+      }
+    );
+  }, []);
 
   const onSelectCamera = () => {
     dispatch(toggleCamera({ cameraActive: true }));
@@ -167,7 +157,7 @@ export default function NewSight() {
     });
   }
 
-  if (isLoadingMap) {
+  if (loadingMap) {
     return (
       <LoadingMapComponent />
     );
