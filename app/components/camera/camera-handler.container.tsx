@@ -19,7 +19,7 @@ export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
   const closeCamera = () => dispatch(toggleCamera({ cameraActive: false }));
 
   const camera = useRef(null);
-  const options = { quality: 0.5,  skipProcessing: true };
+  const options = { quality: 0.5 };
 
   useFocusEffect(
     React.useCallback(() => {
