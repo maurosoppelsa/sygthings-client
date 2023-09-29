@@ -68,7 +68,8 @@
         "deleteSubtitle": "This action cannot be undone."
     },
     "NewSight": {
-        "button": "Create new Sighting"
+        "button": "Create new Sighting",
+        "loadingMap": "Cargando ubicación..."
     },
     "MySights": {
       "legend": "What you seen...",
@@ -115,7 +116,7 @@
         "updatePicture": "Update picture"
     },
     "Camera": {
-        "loading": "Loading Picture please wait...",
+        "loading": "Loading...",
         "noAccessCamera": "No camera access"
     },
     "Profile": {

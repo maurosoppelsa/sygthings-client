@@ -67,7 +67,8 @@
         "deleteSubtitle": "Esta acción no se puede deshacer."
     },
     "NewSight": {
-        "button": "Crear nuevo avistamiento"
+        "button": "Crear nuevo avistamiento",
+        "loadingMap": "Cargando ubicación..."
     },
     "MySights": {
         "legend": "Que has visto...",
@@ -114,7 +115,7 @@
         "updatePicture": "Actualizar foto"
     },
     "Camera": {
-        "loading": "Cargando foto por favor espere...",
+        "loading": "Cargando...",
         "noAccessCamera": "No hay acceso a la cámara"
     },
     "Profile": {

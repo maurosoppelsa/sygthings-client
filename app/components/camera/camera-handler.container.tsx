@@ -19,7 +19,7 @@ export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
   const closeCamera = () => dispatch(toggleCamera({ cameraActive: false }));
 
   const camera = useRef(null);
-  const options = { quality: 0.5 };
+  const options = { quality: 0.4, base64: true };
 
   useFocusEffect(
     React.useCallback(() => {
@@ -47,8 +47,6 @@ export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
   const takePicture = async (camera: any) => {
     try {
       setLoadingPicture(true);
-      /*     await camera.current.pausePreview(); 
-          await camera.current.resumePreview(); */
       const picture: Picture = await camera.current.takePictureAsync(options);
       const pictureTaked = {
         with: picture?.width,
@@ -78,6 +76,7 @@ export default function CameraHandler({onTakePicture}:{onTakePicture: any}) {
           <Box style={styles.loadingBox}>
             <Box style={styles.loadingContent}>
               <LoadingSpinnerComponent/>
+              <Text style={styles.loadingLeyend}>{I18n.t('Camera.loading')}</Text>
             </Box>
           </Box>}
         <View style={styles.buttonContainer}>
@@ -126,6 +125,8 @@ const styles = StyleSheet.create({
   },
   loadingLeyend: {
     color: colors.gray,
-    fontSize: 25,
+    marginTop: 10,
+    fontSize: 16,
+    alignSelf: 'center',
   },
 });

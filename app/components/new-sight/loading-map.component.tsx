@@ -9,8 +9,8 @@ export default function LoadingMapComponent() {
     return (
         <View style={styles.container}>
             <Box>
-                <Text style={styles.legend}>Estamos cargando tu ubicación, ésto puede demorar unos segundos.</Text>
                 <LoadingSpinnerComponent />
+                <Text style={styles.legend}>{I18n.t('NewSight.loadingMap')}</Text>
             </Box>
         </View>
     );
@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
     },
     legend: {
         color: colors.gray,
-        fontSize: 22,
+        fontSize: 16,
         textAlign: 'center',
+        marginTop: 10,
     },
 });

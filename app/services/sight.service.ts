@@ -1,5 +1,4 @@
 import { SERVER_URL } from "../config/authentication";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Sight } from "../interfaces/common";
 import RNFS from 'react-native-fs';
 import RNFetchBlob from "rn-fetch-blob";
