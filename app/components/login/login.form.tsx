@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import colors from '../../config/colors';
-import { Button, Box } from "@react-native-material/core";
+import { Box } from "@react-native-material/core";
+import { Button } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
-import logo from '../../assets/syghtings_logo.png';
+import logo from '../../assets/logo_name.png';
 import I18n from '../../../i18n/i18n';
 
 export default function LoginForm({ handleLogin, loadingUser, goToRegister, goToForgot }: { handleLogin: any, loadingUser: boolean, goToRegister: any, goToForgot: any }) {
@@ -13,8 +14,8 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister, goTo
     return !password || !email || loadingUser;
   };
   return (
-    <Box>
-      <Box>
+    <Box style={styles.loginForm}>
+      <Box style={styles.boxImg}>
         <Image source={logo} style={styles.logoImage}></Image>
       </Box>
       <Box>
@@ -23,9 +24,9 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister, goTo
           label={I18n.t('Login.email')}
           onChangeText={email => setEmail(email)}
           autoComplete="email"
-          underlineColor={colors.syghtingGreen}
-          activeUnderlineColor={colors.syghtingDarkGreen}
-          left={<TextInput.Icon color={colors.gray} name="email" />}
+          underlineColor={colors.mgray}
+          activeUnderlineColor={colors.mgray}
+          left={<TextInput.Icon color={colors.maranduGreen} name="email" />}
           disabled={loadingUser}
         />
         <TextInput
@@ -34,16 +35,16 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister, goTo
           onChangeText={pass => setPassword(pass)}
           secureTextEntry={true}
           autoComplete="password"
-          underlineColor={colors.syghtingGreen}
-          activeUnderlineColor={colors.syghtingDarkGreen}
-          left={<TextInput.Icon color={colors.gray} name="key" />}
+          underlineColor={colors.mgray}
+          activeUnderlineColor={colors.mgray}
+          left={<TextInput.Icon color={colors.maranduGreen} name="key" />}
           disabled={loadingUser}
         />
         <TouchableOpacity onPress={() => goToForgot()}>
           <Text style={styles.forgotPasswordLegend}>{I18n.t('Login.forgotPassword')}</Text>
         </TouchableOpacity>
       </Box>
-      <Button title={I18n.t('Login.signIn')} onPress={() => handleLogin(email, password)} disabled={isButtonEnabled()} style={styles.loginButton} />
+      <Button onPress={() => handleLogin(email, password)} disabled={isButtonEnabled()} style={styles.loginButton} color={colors.maranduYellow}>{I18n.t('Login.signIn')}</Button>
       <TouchableOpacity onPress={() => goToRegister()}>
         <Text style={styles.registerlink}>
           {I18n.t('Login.notRegistered')}
@@ -63,23 +64,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   loginButton: {
-    backgroundColor: colors.syghtingGreen,
-    marginTop: 20,
+    backgroundColor: colors.maranduGreen,
+    marginTop: 50,
     width: '100%',
-    height: 40
-  },
-  textButton: {
-    color: colors.white,
-    textAlign: 'center'
+    height: 40,
+    borderRadius: 10,
   },
   forgotPasswordLegend: {
     alignSelf: 'flex-end',
-    color: colors.gray
+    color: colors.gray,
+    marginTop: 5
   },
   registerlink: {
     alignSelf: 'center',
     marginTop: 30,
-    color: colors.blue,
+    color: colors.gray,
     fontSize: 18,
   },
   logoImage: {
@@ -87,5 +86,11 @@ const styles = StyleSheet.create({
     height: 300,
     resizeMode: 'contain',
     alignSelf: 'center',
+  },
+  boxImg: {
+    marginBottom: 80,
+  },
+  loginForm: {
+    padding: 20,
   },
 });

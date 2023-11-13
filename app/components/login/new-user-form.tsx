@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import colors from '../../config/colors';
-import { Button, Box } from "@react-native-material/core";
-import { Avatar, Card, Checkbox, TextInput } from 'react-native-paper';
+import { Box } from "@react-native-material/core";
+import { Button } from 'react-native-paper';
+import { Checkbox, TextInput } from 'react-native-paper';
 import { customRules, spanishErrorMessages } from '../../utils/customInputValidation';
 import { User } from '../../interfaces/common';
 import I18n from '../../../i18n/i18n';
+import logo from '../../assets/logo_new_user.png';
 
 const { useValidation } = require('react-native-form-validator')
 
@@ -49,25 +51,23 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
     };
 
     return (
-        <Box>
+        <Box style={styles.newUserForm}>
             <Box>
                 <Box style={styles.headerContent}>
-                    <Card.Title
-                        titleStyle={styles.title}
-                        subtitleStyle={styles.subtitle}
-                        title={I18n.t('Login.NewUser.title')}
-                        subtitle={I18n.t('Login.NewUser.subtitle')}
-                        left={() => <Avatar.Icon style={styles.icon} size={55} icon="rabbit" />}
-                    />
+                    <Image source={logo} style={styles.logoImage}></Image>
+                    <Box style={styles.headerText}>
+                        <Text style={styles.titles}>{I18n.t('Login.NewUser.title')}</Text>
+                        <Text style={styles.titles}>{I18n.t('Login.NewUser.subtitle')}</Text>
+                    </Box>
                 </Box>
                 <TextInput
                     autoComplete="off"
                     style={styles.input}
                     label={I18n.t('Login.NewUser.name')}
                     onChangeText={name => setName(name)}
-                    underlineColor={colors.syghtingGreen}
-                    activeUnderlineColor={colors.syghtingDarkGreen}
-                    left={<TextInput.Icon color={colors.gray} name="account" />}
+                    underlineColor={colors.mgray}
+                    activeUnderlineColor={colors.mgray}
+                    left={<TextInput.Icon color={colors.maranduGreen} name="account" />}
                     error={isFieldInError('name') && !touchedForm}
                     onFocus={() => setTouchedForm(true)}
                 />
@@ -81,9 +81,9 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                     style={styles.input}
                     label={I18n.t('Login.NewUser.lastName')}
                     onChangeText={lastName => setlastName(lastName)}
-                    underlineColor={colors.syghtingGreen}
-                    activeUnderlineColor={colors.syghtingDarkGreen}
-                    left={<TextInput.Icon color={colors.gray} name="account" />}
+                    underlineColor={colors.mgray}
+                    activeUnderlineColor={colors.mgray}
+                    left={<TextInput.Icon color={colors.maranduGreen} name="account" />}
                     error={isFieldInError('lastName') && !touchedForm}
                     onFocus={() => setTouchedForm(true)}
                 />
@@ -97,9 +97,9 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                     style={styles.input}
                     label={I18n.t('Login.NewUser.email')}
                     onChangeText={email => setEmail(email)}
-                    underlineColor={colors.syghtingGreen}
-                    activeUnderlineColor={colors.syghtingDarkGreen}
-                    left={<TextInput.Icon color={colors.gray} name="email" />}
+                    underlineColor={colors.mgray}
+                    activeUnderlineColor={colors.mgray}
+                    left={<TextInput.Icon color={colors.maranduGreen} name="email" />}
                     error={isFieldInError('email') && !touchedForm}
                     onFocus={() => setTouchedForm(true)}
                 />
@@ -114,9 +114,9 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                     label={I18n.t('Login.password')}
                     onChangeText={pass => setPassword(pass)}
                     secureTextEntry={true}
-                    underlineColor={colors.syghtingGreen}
-                    activeUnderlineColor={colors.syghtingDarkGreen}
-                    left={<TextInput.Icon color={colors.gray} name="key" />}
+                    underlineColor={colors.mgray}
+                    activeUnderlineColor={colors.mgray}
+                    left={<TextInput.Icon color={colors.maranduGreen} name="key" />}
                     error={isFieldInError('password') && !touchedForm}
                     onFocus={() => setTouchedForm(true)}
                 />
@@ -131,9 +131,9 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                     label={I18n.t('Login.NewUser.confirmPassword')}
                     onChangeText={pass => setConfirmPassword(pass)}
                     secureTextEntry={true}
-                    underlineColor={colors.syghtingGreen}
-                    activeUnderlineColor={colors.syghtingDarkGreen}
-                    left={<TextInput.Icon color={colors.gray} name="key" />}
+                    underlineColor={colors.mgray}
+                    activeUnderlineColor={colors.mgray}
+                    left={<TextInput.Icon color={colors.maranduGreen} name="key" />}
                     error={isFieldInError('confirmPassword') && !touchedForm}
                     onFocus={() => setTouchedForm(true)}
                 />
@@ -147,9 +147,9 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                     style={styles.input}
                     label={I18n.t('Login.NewUser.ocuppation')}
                     onChangeText={occupation => setOccupation(occupation)}
-                    underlineColor={colors.syghtingGreen}
-                    activeUnderlineColor={colors.syghtingDarkGreen}
-                    left={<TextInput.Icon color={colors.gray} name="briefcase" />}
+                    underlineColor={colors.mgray}
+                    activeUnderlineColor={colors.mgray}
+                    left={<TextInput.Icon color={colors.maranduGreen} name="briefcase" />}
                     error={isFieldInError('occupation') && !touchedForm}
                     onFocus={() => setTouchedForm(true)}
                 />
@@ -172,31 +172,28 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                 </Box>
             </Box>
             <Box style={styles.buttonContainer}>
-                <Button disabled={!termsChecked} title={I18n.t('Login.NewUser.createAccount')} style={styles.formButton} onPress={() => { createUser() }} />
-                <Button title={I18n.t('Login.NewUser.cancel')} style={styles.formButton} onPress={() => onCancel()} />
+                <Button color={colors.white} disabled={!termsChecked} style={styles.formButton} onPress={() => { createUser() }}>{I18n.t('Login.NewUser.createAccount')}</Button>
+                <Button color={colors.maranduYellow} style={styles.formButton} onPress={() => onCancel()}>{I18n.t('Login.NewUser.cancel')}</Button>
             </Box>
         </Box>
     );
 }
 
 const styles = StyleSheet.create({
+    newUserForm: {
+        padding: 20,
+    },
     headerContent: {
         marginBottom: 25,
     },
-    title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: colors.syghtingGreen,
-        marginLeft: 15
+    logoImage: {
+        alignSelf: 'center',
     },
-    subtitle: {
-        fontSize: 20,
+    titles: {
+        fontSize: 25,
         fontWeight: 'bold',
-        color: colors.syghtingGreen,
+        color: colors.maranduGreen,
         marginLeft: 15
-    },
-    icon: {
-        backgroundColor: colors.syghtingGreen,
     },
     input: {
         backgroundColor: colors.white,
@@ -209,9 +206,10 @@ const styles = StyleSheet.create({
     },
     formButton: {
         width: '45%',
-        backgroundColor: colors.syghtingGreen,
+        backgroundColor: colors.maranduGreen,
         marginTop: 20,
-        height: 40
+        height: 40,
+        borderRadius: 10,
     },
     error: {
         color: colors.red,
@@ -228,4 +226,8 @@ const styles = StyleSheet.create({
     termsLink: {
         color: colors.blue,
     },
+    headerText: {
+        marginTop: 10,
+        alignItems: 'center',
+    }
 });
