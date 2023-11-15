@@ -37,7 +37,7 @@ export default function App() {
   return (
     <PersistGate persistor={persistor}>
       <ReduxProvider store={store}>
-        <StatusBar backgroundColor={colors.syghtingDarkGreen
+        <StatusBar backgroundColor={colors.maranduGreen
         } />
         <Authentication></Authentication>
       </ReduxProvider>

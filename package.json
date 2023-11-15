@@ -33,6 +33,7 @@
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.2.1",
     "react-native-image-picker": "^5.4.0",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-material-textfield": "^0.16.1",
     "react-native-paper": "^4.12.1",
     "react-native-reanimated": "~2.8.0",

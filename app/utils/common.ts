@@ -38,7 +38,7 @@ export const getCreatedByLegend = function (firstName: string = '', lastName: st
     if (!createdAt) return;
     if (!firstName || !lastName) return `${I18n.t('Sight.createdAt')} ${getDateFromNow(createdAt)}`;
     return (
-        `${I18n.t('Sight.createdBy')} ` +
+        `${I18n.t('Sight.createdBy')}: ` +
         `${capitalizeText(firstName)} ${capitalizeText(lastName)} ` +
         `${occupation ? ', ' + capitalizeText(occupation) + ', ' : ''} ` +
         `${getDateFromNow(createdAt)}`

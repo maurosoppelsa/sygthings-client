@@ -51,11 +51,11 @@
             "dashboard": "Últimos avistamientos",
             "newSights": "Nuevo avistamiento",
             "mySights": "Mis avistamientos",
-            "profile": "Perfil"
+            "profile": "Mi Perfil"
         }
     },
     "Dashboard": {
-        "legend": "Que han visto las personas..."
+        "legend": "¿Qué han visto otros usuarios?"
     },
     "Sight": {
         "placeName": "Lugar",

@@ -4,6 +4,7 @@ import colors from '../../config/colors';
 import { Box } from "@react-native-material/core";
 import { Button } from 'react-native-paper';
 import { TextInput } from 'react-native-paper';
+// @ts-ignore
 import logo from '../../assets/logo_name.png';
 import I18n from '../../../i18n/i18n';
 

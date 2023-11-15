@@ -16,7 +16,7 @@ export default function MySights() {
     const currentUser: User = useSelector((state: any) => state.authentication.user);
     const mySights: Array<Sight> = useSelector((state: any) => state.sight.mySights);
     const isLoadingSights = useSelector((state: any) => state.sight.loadingMySights);
-    const [showNoSightsMessage, setShowNoSightsMessage] = useState(false); // Add new state variable
+    const [showNoSightsMessage, setShowNoSightsMessage] = useState(false);
 
     const onDeleteSight = (sight: Sight) => {
         dispatch(deleteSight(sight?.id));
@@ -49,7 +49,7 @@ export default function MySights() {
             </Box>);
     }
     return (
-        <SightListComponent sightList={mySights} listTitle={I18n.t('MySights.legend')} allowDeletion={true} onDeleteSight={onDeleteSight} onUpdateSight={updateSight} />
+        <SightListComponent sightList={mySights} listTitle={''} allowDeletion={true} onDeleteSight={onDeleteSight} onUpdateSight={updateSight} />
     );
 }
 

@@ -8,7 +8,6 @@ export default function TitleComponent({ title }: { title: string }) {
   return (
     <Box style={styles.container}>
         <Text style={styles.title}>{title}</Text>
-        <Divider style={styles.divider} trailingInset={32} color={colors.syghtingGreen}></Divider>
     </Box>
   );
 }
@@ -19,11 +18,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
     },
     title: {
-        fontSize: 18,
-        color: colors.black ,
-        fontWeight: "600"
-    }, 
-    divider: {
-        marginTop: 10,
-    }
+        fontSize: 20,
+        color: colors.darkGray,
+        fontWeight: "600",
+        marginTop: 20,
+        alignSelf: "center",
+    },
 });

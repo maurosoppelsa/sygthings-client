@@ -47,7 +47,7 @@ export default function SightListComponent({ sightList, listTitle, allowDeletion
                 return <SightDetailsComponent onClose={closeDetails} sight={currentSight} allowDelete={allowDeletion} onDelete={() => { deleteSight(currentSight) }} onUpdate={updateSight} />;
             } else {
                 return <ScrollView ref={scrollViewRef}>
-                    <TitleComponent title={listTitle} />
+                    {listTitle !== '' && <TitleComponent title={listTitle} />}
                     {sightList.map((sight, key) => {
                         return (
                             <SightComponent getDetails={getSightDetails} sight={sight} key={key} />
