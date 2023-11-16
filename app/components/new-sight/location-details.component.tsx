@@ -13,7 +13,6 @@ export default function LocationDetailsComponent({ locationInfo }: { locationInf
                 <MaterialCommunityIcons name="map-marker" size={40} style={styles.locationIcon} />
             </Box>
             <Box style={styles.legend}>
-                <Text style={styles.title}>{I18n.t('LocationDetails.yourLocation')}</Text>
                 <Text style={styles.details}>{locationInfo || noLocationLegend}</Text>
             </Box>
         </Box>
@@ -22,24 +21,26 @@ export default function LocationDetailsComponent({ locationInfo }: { locationInf
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.white,
+        backgroundColor: colors.maranduGreenShadow,
+        borderRadius: 10,
         padding: 10,
         flexDirection: 'row',
+        marginBottom: 20,
     },
     title: {
-        fontSize: 11,
+        fontSize: 12,
         marginBottom: 3,
     },
     legend: {
         alignSelf: 'center',
         marginLeft: 10,
-        maxWidth: 250,
     },
     details: {
-        fontWeight: '700'
+        color: colors.darkGray,
+        fontSize: 18,
     },
     locationIcon: {
-        color: 'red',
+        color: colors.maranduGreen,
         margin: 5,
     },
 });

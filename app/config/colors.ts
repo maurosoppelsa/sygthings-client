@@ -8,6 +8,7 @@ export default {
     syghtingGreen: '#089A0B',
     maranduGreen: '#55914A',
     maranduGreenShadow: '#DDE9DB',
+    maranduGreenShadow2: '#C2D7BE',
     maranduYellow: '#FAEA32',
     mgray: '#979797',
     syghtingDarkGreen: '#08890a',

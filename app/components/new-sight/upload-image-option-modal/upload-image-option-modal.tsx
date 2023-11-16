@@ -16,15 +16,15 @@ const UploadImageOptionModal = ({ showModal, onSelectCamera, onSelectGallery, on
                 <View style={styles.centeredView}>
                     <Box style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.closeBt} onPress={() => onClose()}>
-                            <MaterialCommunityIcons name="close-circle" size={25} />
+                            <MaterialCommunityIcons color={colors.maranduGreen} name="close-circle" size={25} />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button} onPress={() => onSelectGallery()}>
                             <MaterialCommunityIcons style={styles.icon} name="image-plus" size={60} />
-                            <Text>{I18n.t('NewSightForm.uploadImageModal.uploadFromGallery')}</Text>
+                            <Text style={styles.textOptions}>{I18n.t('NewSightForm.uploadImageModal.uploadFromGallery')}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button} onPress={() => onSelectCamera()}>
                             <MaterialCommunityIcons style={styles.icon} name="camera" size={60} />
-                            <Text>{I18n.t('NewSightForm.uploadImageModal.takePicture')}</Text>
+                            <Text style={styles.textOptions}>{I18n.t('NewSightForm.uploadImageModal.takePicture')}</Text>
                         </TouchableOpacity>
                     </Box>
                 </View>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     icon: {
-        color: colors.syghtingDarkGreen,
+        color: colors.maranduGreen,
         marginBottom: 10,
     },
     buttonContainer: {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         width: '100%',
-        backgroundColor: colors.white,
+        backgroundColor: colors.maranduGreenShadow,
         borderRadius: 5,
         padding: 10,
     },
@@ -64,6 +64,10 @@ const styles = StyleSheet.create({
         top: 0,
         right: 0,
         padding: 10,
+    },
+    textOptions: {
+        color: colors.darkGray,
+        fontSize: 16,
     },
 });
 

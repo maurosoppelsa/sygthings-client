@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import colors from '../../config/colors';
 
 export default function CameraButtonComponent({ onPressCameraBt, customStyles, disable }: { onPressCameraBt: any, customStyles?: any, disable: boolean }) {
     return (
@@ -14,6 +15,6 @@ const styles = StyleSheet.create({
     cameraButton: {
         width: 100,
         height: 100,
-        color: 'white',
+        color: colors.maranduGreen,
     },
 });

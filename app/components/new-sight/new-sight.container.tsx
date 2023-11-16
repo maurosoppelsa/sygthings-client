@@ -23,6 +23,7 @@ import UploadImageOptionModal from './upload-image-option-modal/upload-image-opt
 import * as ImagePicker from "react-native-image-picker"
 import { MediaType } from 'react-native-image-picker';
 import LoadingMapComponent from './loading-map.component';
+import NewSightButtonComponent from './new-sight-button.component';
 
 export default function NewSight() {
   const dispatch = useAppDispatch();
@@ -180,11 +181,7 @@ export default function NewSight() {
         <Box style={styles.locationDetailcontainer}>
           <Box style={styles.locationDetailContent}>
             <LocationDetailsComponent locationInfo={locationToLegend(locationInfo)} />
-            <Button
-              disabled={hasEmptyCoordinates(currentCoordinates)}
-              style={styles.newSightBt}
-              title={I18n.t('NewSight.button')}
-              onPress={() => toggleOptionsModal()}></Button>
+            <NewSightButtonComponent action={toggleOptionsModal} disabled={hasEmptyCoordinates(currentCoordinates)} style={styles.cameraButton}/>
           </Box>
         </Box>
       </BackgroundComponent>
@@ -223,5 +220,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.syghtingGreen,
     marginTop: 30,
     alignSelf: 'center',
-  }
+  },
+  cameraButton: {
+    alignSelf: 'center',
+  },
 });
