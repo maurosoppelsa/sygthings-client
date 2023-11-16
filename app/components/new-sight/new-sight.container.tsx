@@ -12,11 +12,9 @@ import { hasZeroCoordinates } from '../../utils/common';
 import CameraHandler from '../camera/camera-handler.container';
 import LocationDetailsComponent from './location-details.component';
 import colors from '../../config/colors';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import NewSightModalComponent from './new-sight-modal/new-sight-modal.component';
-import { Box, Button } from '@react-native-material/core';
+import { Box } from '@react-native-material/core';
 import BackgroundComponent from '../common/background.component';
-import I18n from '../../../i18n/i18n';
 import { Picture, User } from '../../interfaces/common';
 import { location } from '../../redux/interfaces';
 import UploadImageOptionModal from './upload-image-option-modal/upload-image-option-modal';
@@ -24,6 +22,7 @@ import * as ImagePicker from "react-native-image-picker"
 import { MediaType } from 'react-native-image-picker';
 import LoadingMapComponent from './loading-map.component';
 import NewSightButtonComponent from './new-sight-button.component';
+import NewSightMarkerComponent from './new-sight-marker.component';
 
 export default function NewSight() {
   const dispatch = useAppDispatch();
@@ -167,7 +166,7 @@ export default function NewSight() {
   return (
     !isCameraActive ?
       <BackgroundComponent imageUrl={mapImageUrl} enableDefaultBg={hasZeroCoordinates(currentCoordinates) || mapImageUrl === ''}>
-        <MaterialCommunityIcons name="map-marker-plus" size={35} style={styles.markerBt} onPress={() => openUpdateLocationModal()} />
+        <NewSightMarkerComponent action={openUpdateLocationModal} style={styles.markerBt}/>
         <NewSightModalComponent
           modalFormStatus={modalStatus}
           imageUrl={picture ? picture.uri : ''}
@@ -192,9 +191,8 @@ export default function NewSight() {
 const styles = StyleSheet.create({
   markerBt: {
     alignSelf: 'flex-end',
-    marginRight: 15,
-    marginTop: 10,
-    color: colors.black,
+    right: 20,
+    top: 20,
   },
   newSightLegend: {
     paddingLeft: 12,
