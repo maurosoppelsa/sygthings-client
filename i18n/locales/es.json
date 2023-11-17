@@ -79,9 +79,9 @@
         "noLocationLegend": "No hemos podido encontrar la ubicación, pero puedes hacerlo manualmente"
     },
     "NewSightForm": {
-        "animalName": "Nombre del animal",
+        "animalName": "Especie animal",
         "condition": "Condición",
-        "description": "Descripción",
+        "description": "Observaciones",
         "button": "Enviar",
         "alive": "vivo",
         "dead": "muerto",
@@ -89,8 +89,8 @@
         "cancel": "Cancelar",
         "statusModal": {
             "success": {
-                "title": "Cargado con éxito",
-                "message": "Gracias por tu aporte, tu avistamiento se encontrará bajo revisión."
+                "title": "¡Listo!",
+                "message": "Gracias por cargar un nuevo avistamiento."
             },
             "pending": {
                 "title": "Cargando por favor espera...",

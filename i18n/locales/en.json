@@ -80,9 +80,9 @@
         "noLocation": "We weren't able to locate your position, but you can do it manually."
     },
     "NewSightForm": {
-        "animalName": "Animal name",
+        "animalName": "animal specie",
         "condition": "Condition",
-        "description": "Description",
+        "description": "Observation",
         "button": "Submit",
         "alive": "alive",
         "dead": "dead",
@@ -90,8 +90,8 @@
         "cancel": "Cancel",
         "statusModal": {
             "success": {
-                "title": "Success!",
-                "message": "Thanks for submitting, your new sight will be under review."
+                "title": "Done!",
+                "message": "Thanks for adding a new Sight."
             },
             "pending": {
                 "title": "Loading, please wait...",

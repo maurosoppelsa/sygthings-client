@@ -1,10 +1,11 @@
 import { Box } from '@react-native-material/core';
 import React from 'react';
-import { Text, StyleSheet, Pressable } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../../../config/colors';
 import { SIGHT_MODAL_STATUS } from '../../../constants';
 import I18n from '../../../../i18n/i18n';
 import LoadingSpinnerComponent from '../../common/loading-spiner.component';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function NewSightLegendStatus({ status, onClose }: { status: string, onClose: any }) {
     let legendText: string = '';
@@ -29,31 +30,29 @@ export default function NewSightLegendStatus({ status, onClose }: { status: stri
     }
     return (
         <Box style={styles.container}>
-            <Text style={[statusStyle,styles.leyendText]}>{legendText}</Text>
+            <Text style={[statusStyle, styles.leyendText]}>{legendText}</Text>
             <Text style={styles.textInfo}>{textInfo}</Text>
             {status === SIGHT_MODAL_STATUS.PENDING &&
                 <LoadingSpinnerComponent />}
 
             {(status === (SIGHT_MODAL_STATUS.SUCCESS) || (status === SIGHT_MODAL_STATUS.FAILED)) &&
-                <Pressable
-                    style={styles.closeButton}
-                    onPress={() => { onClose() }}
-                >
-                    <Text style={styles.closeText}>{I18n.t('NewSightForm.statusModal.close')}</Text>
-                </Pressable>}
+                <TouchableOpacity style={styles.closeButton} onPress={() => onClose()}>
+                    <MaterialCommunityIcons color={colors.maranduGreen} name="close-circle" size={25} />
+                </TouchableOpacity>}
         </Box>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.white,
-        width: 200,
-        height: 130,
+        backgroundColor: colors.maranduGreenShadow,
+        width: 350,
+        height: 140,
         alignItems: 'center',
         padding: 20,
         marginBottom: 20,
         shadowColor: colors.black,
+        borderRadius: 10,
         shadowOffset: {
             width: 0,
             height: 2
@@ -70,25 +69,23 @@ const styles = StyleSheet.create({
     },
     pending: {
         color: 'gray',
+        marginTop: 20,
     },
     leyendText: {
-        fontSize: 18,
+        fontSize: 28,
         textAlign: 'center',
     },
     textInfo: {
-        fontSize: 10,
+        fontSize: 18,
         textAlign: 'center',
-        color: colors.gray,
+        marginTop: 5,
+        color: colors.darkGray,
     },
     closeButton: {
-        borderRadius: 5,
+        position: 'absolute',
+        top: 0,
+        right: 0,
         padding: 10,
-        minWidth: 100,
-        elevation: 2,
-        alignSelf: "center",
-        backgroundColor: colors.blue,
-        marginTop: 10,
-        marginBottom: 10,
     },
     closeText: {
         color: "white",

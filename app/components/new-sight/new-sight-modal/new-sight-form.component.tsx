@@ -16,41 +16,46 @@ export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo
     return (
         <View style={styles.modalForm}>
             <Image source={imageUrl} style={styles.sightImg}></Image>
-            <TextInput
-                style={styles.animalInput}
-                onChangeText={onChangeAnimalName}
-                value={animalName}
-                placeholder={I18n.t('NewSightForm.animalName')}
-            />
-            <TextInput
-                style={styles.animalInput}
-                onChangeText={onChangeDescription}
-                value={description}
-                placeholder={I18n.t('NewSightForm.description')}
-            />
-            <Box style={styles.radioContainer}>
-                <Text style={styles.radioTitle}>{alive}</Text>
-                <RadioButton
-                    value={alive}
-                    status={checked === alive ? 'checked' : 'unchecked'}
-                    onPress={() => setChecked(alive)}
+            <Box style={styles.animalFieldsContainer}>
+                <TextInput
+                    style={styles.animalInput}
+                    onChangeText={onChangeAnimalName}
+                    value={animalName}
+                    placeholder={I18n.t('NewSightForm.animalName')}
                 />
-            </Box>
-            <Box style={styles.radioContainer}>
-                <Text style={styles.radioTitle}>{wounded}</Text>
-                <RadioButton
-                    value={wounded}
-                    status={checked === wounded ? 'checked' : 'unchecked'}
-                    onPress={() => setChecked(wounded)}
+                <TextInput
+                    style={styles.animalInput}
+                    onChangeText={onChangeDescription}
+                    value={description}
+                    placeholder={I18n.t('NewSightForm.description')}
                 />
-            </Box>
-            <Box style={styles.radioContainer}>
-                <Text style={styles.radioTitle}>{dead}</Text>
-                <RadioButton
-                    value={dead}
-                    status={checked === dead ? 'checked' : 'unchecked'}
-                    onPress={() => setChecked(dead)}
-                />
+                <Box style={styles.radioContainer}>
+                    <RadioButton
+                        color={colors.maranduGreen}
+                        value={alive}
+                        status={checked === alive ? 'checked' : 'unchecked'}
+                        onPress={() => setChecked(alive)}
+                    />
+                    <Text style={styles.radioTitle}>{alive}</Text>
+                </Box>
+                <Box style={styles.radioContainer}>
+                    <RadioButton
+                        color={colors.maranduGreen}
+                        value={wounded}
+                        status={checked === wounded ? 'checked' : 'unchecked'}
+                        onPress={() => setChecked(wounded)}
+                    />
+                    <Text style={styles.radioTitle}>{wounded}</Text>
+                </Box>
+                <Box style={styles.radioContainer}>
+                    <RadioButton
+                        color={colors.maranduGreen}
+                        value={dead}
+                        status={checked === dead ? 'checked' : 'unchecked'}
+                        onPress={() => setChecked(dead)}
+                    />
+                    <Text style={styles.radioTitle}>{dead}</Text>
+                </Box>
             </Box>
             <Box style={styles.locationLegend}>
                 <MaterialCommunityIcons name="map-marker" size={30} style={styles.locationIcon} />
@@ -97,18 +102,18 @@ const styles = StyleSheet.create({
         elevation: 2,
         alignSelf: "center",
         margin: 10,
-
     },
     buttonDisabled: {
         backgroundColor: colors.lightGray,
     },
     buttonEnabled: {
-        backgroundColor: colors.syghtingGreen,
+        backgroundColor: colors.maranduGreen,
     },
     textStyle: {
-        color: "white",
+        color: colors.maranduYellow,
         fontWeight: "bold",
-        textAlign: "center"
+        textAlign: "center",
+        textTransform: "uppercase",
     },
     sightImg: {
         width: '100%',
@@ -116,38 +121,66 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         borderWidth: 1,
         borderColor: colors.lightGray,
-        borderRadius: 2,
+        borderRadius: 10,
+    },
+    animalFieldsContainer: {
+        alignSelf: "center",
+        width: '100%',
+        borderWidth: 2,
+        borderRadius: 10,
+        borderColor: colors.maranduGreenShadow,
+        padding: 20,
+        marginTop: 20,
     },
     animalInput: {
         height: 40,
-        width: 200,
-        borderWidth: 1,
+        borderWidth: 2,
         padding: 10,
         marginTop: 12,
         marginBottom: 10,
-        borderColor: colors.lightGray,
+        borderColor: colors.maranduGreenShadow,
         borderRadius: 5,
     },
     radioContainer: {
         flexDirection: "row",
     },
     radioTitle: {
-        marginTop: 8,
+        marginTop: 7,
+        marginLeft: 10,
+        color: colors.maranduGreen,
+        fontSize: 16,
+        textTransform: "capitalize",
+        fontWeight: "bold",
     },
     locationTxt: {
-        marginTop: 10,
-        marginBottom: 20,
+        fontSize: 18,
+        marginTop: 5,
+        marginLeft: 10,
+        color: colors.darkGray,
     },
     locationLegend: {
         flexDirection: "row",
+        alignSelf: "center",
+        alignItems: "center",
+        marginTop: 20,
+        marginBottom: 25,
+        paddingLeft: 15,
+        paddingRight: 15,
+        paddingTop: 10,
+        paddingBottom: 15,
+        width: '100%',
+        backgroundColor: colors.maranduGreenShadow2,
+        borderRadius: 10,
     },
     locationIcon: {
-        color: 'red',
+        color: colors.maranduGreen,
         marginTop: 5,
     },
     buttonContainer: {
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-between",
         width: '100%',
-    }
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
 });
