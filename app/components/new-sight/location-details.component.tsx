@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     },
     legend: {
         alignSelf: 'center',
-        marginLeft: 10,
     },
     details: {
         color: colors.darkGray,
