@@ -60,8 +60,9 @@
     "Sight": {
         "placeName": "Lugar",
         "condition": "Condición",
-        "button": "ver avistamiento",
-        "createdBy": "Creado por",
+        "observations": "Observaciones",
+        "button": "ver más",
+        "createdBy": "Por",
         "createdAt": "Creado",
         "deleteTitle": "¿Estas seguro de que quieres eliminar este avistamiento?",
         "deleteSubtitle": "Esta acción no se puede deshacer."
@@ -76,7 +77,7 @@
     },
     "LocationDetails": {
         "yourLocation": "Tu ubicación",
-        "noLocationLegend": "No hemos podido encontrar la ubicación, pero puedes hacerlo manualmente"
+        "noLocationLegend": "No hemos podido encontrar tu ubicación, pero puedes hacerlo manualmente"
     },
     "NewSightForm": {
         "animalName": "Especie animal",
@@ -109,9 +110,9 @@
     },
     "EditSight": {
         "title": "Editar avistamiento",
-        "animalName": "Nombre del animal:",
+        "specie": "Especie:",
         "condition": "Condición:",
-        "description": "Descripción:",
+        "observations": "Observaciones:",
         "updatePicture": "Actualizar foto"
     },
     "Camera": {

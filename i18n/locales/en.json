@@ -60,9 +60,10 @@
     },
     "Sight": {
         "condition": "Condition",
+        "observations": "Observations",
         "placeName": "Place",
-        "button": "see this sight",
-        "createdBy": "Created by",
+        "button": "see more",
+        "createdBy": "By",
         "createdAt": "Created",
         "deleteTitle": "Are you sure you want to delete this sight?",
         "deleteSubtitle": "This action cannot be undone."
@@ -110,9 +111,9 @@
     },
     "EditSight": {
         "title": "Edit Sight",
-        "animalName": "Animal name:",
+        "specie": "Specie:",
         "condition": "Condition:",
-        "description": "Description:",
+        "observations": "observations:",
         "updatePicture": "Update picture"
     },
     "Camera": {

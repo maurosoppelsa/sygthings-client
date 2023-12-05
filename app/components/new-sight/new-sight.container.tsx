@@ -51,7 +51,14 @@ export default function NewSight() {
         await dispatch(getLocationInfo());
         setLoadingMap(false);
       },
-      (error) => console.log(error.message),
+      async (error) => {
+        setLoadingMap(false);
+        await dispatch(setCurrentCoordinates({
+          longitude: '0',
+          latitude: '0',
+        }));
+        console.log(error.message)
+      },
       {
         enableHighAccuracy: false,
         timeout: 20000,

@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '40%',
+        width: '45%',
         marginTop: 15,
     },
     imageSightBox: {
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     },
     rightContent: {
         width: '50%',
-        paddingLeft: 20,
+        paddingLeft: 5,
         alignSelf: "center",
         marginTop: 30,
     },

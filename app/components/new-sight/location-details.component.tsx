@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     },
     legend: {
         alignSelf: 'center',
+        maxWidth: '90%',
     },
     details: {
         color: colors.darkGray,

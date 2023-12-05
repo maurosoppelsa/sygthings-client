@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, Image, TextInput } from "react-native";
-import { Box, Button } from "@react-native-material/core";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet, Text, Image, TextInput, View, ScrollView } from "react-native";
+import { Box } from "@react-native-material/core";
 import { Picture, Sight } from "../../interfaces/common";
 import colors from "../../config/colors";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { RadioButton } from 'react-native-paper';
+import { Button, RadioButton } from 'react-native-paper';
 import I18n from '../../../i18n/i18n';
 import * as ImagePicker from "react-native-image-picker"
 import { MediaType } from "react-native-image-picker";
@@ -19,6 +18,7 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
     const [checked, setChecked] = useState(sight?.condition);
     const [picture, setPicture] = useState(sight?.picture);
     const [imageSource, setImageSource] = useState(getSightImageUri(sight?.imageId));
+    const scrollViewRef = useRef<ScrollView>(null);
 
     useEffect(() => {
         const updatedImageSource = picture ? picture.uri : getSightImageUri(sight?.imageId);
@@ -49,7 +49,7 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
                 path: 'images',
             },
         };
-       await ImagePicker.launchImageLibrary(options, (response) => {
+        await ImagePicker.launchImageLibrary(options, (response) => {
             if (response.didCancel) {
                 return;
             } else if (response?.errorCode) {
@@ -80,53 +80,54 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
     }
 
     return (
-        <Box style={styles.container}>
-            <Box style={styles.header}>
-                <MaterialCommunityIcons style={styles.icon} name="border-color" size={25} />
-                <Text style={styles.title}>{I18n.t('EditSight.title')}</Text>
-            </Box>
-            <Box style={styles.imageContainer}>
-                <Image style={styles.image} source={{ uri: imageSource }} />
-                <Button title={I18n.t('EditSight.updatePicture')} style={[styles.button, styles.updatePictureBT]} onPress={() => { openImageinFileSystem() }} />
-            </Box>
-            <Box>
-                <Text style={styles.inputTitle}>{I18n.t('EditSight.animalName')}</Text>
-                <TextInput style={styles.sightInputs} value={animalName} onChangeText={(value) => { setAnimalName(value) }} />
-                <Text style={styles.inputTitle}>{I18n.t('EditSight.description')}</Text>
-                <TextInput
-                    multiline
-                    numberOfLines={4}
-                    style={[styles.sightInputs, styles.inputDesc]} value={description}
-                    onChangeText={(value) => { setDescription(value) }} />
-            </Box>
-            <Box>
-                <Text style={styles.inputTitle}>{I18n.t('EditSight.condition')}</Text>
-                <Box style={styles.radioContainer}>
-                    <Text style={styles.radioTitle}>{alive}</Text>
-                    <RadioButton
-                        value={alive}
-                        status={checked === alive ? 'checked' : 'unchecked'}
-                        onPress={() => setChecked(alive)}
-                    />
-                    <Text style={styles.radioTitle}>{wounded}</Text>
-                    <RadioButton
-                        value={wounded}
-                        status={checked === wounded ? 'checked' : 'unchecked'}
-                        onPress={() => setChecked(wounded)}
-                    />
-                    <Text style={styles.radioTitle}>{dead}</Text>
-                    <RadioButton
-                        value={dead}
-                        status={checked === dead ? 'checked' : 'unchecked'}
-                        onPress={() => setChecked(dead)}
-                    />
+        <ScrollView ref={scrollViewRef}>
+            <View style={styles.container}>
+                <Box style={styles.imageContainer}>
+                    <Image style={styles.image} source={{ uri: imageSource }} />
+                    <Button color={colors.maranduYellow} style={[styles.button, styles.updatePictureBT]} onPress={() => { openImageinFileSystem() }}>{I18n.t('EditSight.updatePicture')}</Button>
                 </Box>
-            </Box>
-            <Box style={styles.actionButtonContainer}>
-                <Button title={I18n.t('Common.edit')} style={[styles.button, styles.actionBT]} onPress={() => editSight(sight)} disabled={!animalName || !description || !isSightUpdated()} />
-                <Button title={I18n.t('Common.cancel')} style={[styles.button, styles.actionBT]} onPress={() => onCancelUpdate()} />
-            </Box>
-        </Box>
+                <Box>
+                    <Text style={styles.inputTitle}>{I18n.t('EditSight.specie')}</Text>
+                    <TextInput style={styles.sightInputs} value={animalName} onChangeText={(value) => { setAnimalName(value) }} />
+                    <Text style={styles.inputTitle}>{I18n.t('EditSight.observations')}</Text>
+                    <TextInput
+                        multiline
+                        numberOfLines={4}
+                        style={[styles.sightInputs, styles.inputDesc]} value={description}
+                        onChangeText={(value) => { setDescription(value) }} />
+                </Box>
+                <Box>
+                    <Text style={styles.inputTitle}>{I18n.t('EditSight.condition')}</Text>
+                    <Box style={styles.radioContainer}>
+                        <Text style={styles.radioTitle}>{alive}</Text>
+                        <RadioButton
+                            color={colors.maranduGreen}
+                            value={alive}
+                            status={checked === alive ? 'checked' : 'unchecked'}
+                            onPress={() => setChecked(alive)}
+                        />
+                        <Text style={styles.radioTitle}>{wounded}</Text>
+                        <RadioButton
+                            color={colors.maranduGreen}
+                            value={wounded}
+                            status={checked === wounded ? 'checked' : 'unchecked'}
+                            onPress={() => setChecked(wounded)}
+                        />
+                        <Text style={styles.radioTitle}>{dead}</Text>
+                        <RadioButton
+                            color={colors.maranduGreen}
+                            value={dead}
+                            status={checked === dead ? 'checked' : 'unchecked'}
+                            onPress={() => setChecked(dead)}
+                        />
+                    </Box>
+                </Box>
+                <Box style={styles.actionButtonContainer}>
+                    <Button color={colors.maranduYellow} style={[styles.button, styles.actionBT]} onPress={() => editSight(sight)} disabled={!animalName || !description || !isSightUpdated()}>{I18n.t('Common.edit')}</Button>
+                    <Button color={colors.maranduYellow} style={[styles.button, styles.actionBT]} onPress={() => onCancelUpdate()}>{I18n.t('Common.cancel')}</Button>
+                </Box>
+            </View>
+        </ScrollView>
     );
 }
 
@@ -155,13 +156,13 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        marginTop: 10,
     },
     image: {
         width: 300,
         height: 300,
         borderWidth: 2,
-        borderColor: colors.gray,
-        borderRadius: 5,
+        borderRadius: 10,
     },
     updatePictureBT: {
         width: 300,
@@ -172,21 +173,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: 300,
+        marginBottom: 20,
     },
     button: {
         borderRadius: 5,
-        backgroundColor: colors.syghtingGreen,
-        marginTop: 30,
+        backgroundColor: colors.maranduGreen,
+        marginTop: 30
     },
     inputTitle: {
-        fontWeight: 'bold',
+        color: colors.darkGray,
         marginTop: 10,
     },
     sightInputs: {
         width: 300,
         height: 40,
-        borderColor: 'gray',
+        borderColor: colors.maranduGreenShadow2,
         borderWidth: 1,
+        borderRadius: 5,
         marginTop: 10,
         padding: 5,
     },
@@ -205,5 +208,8 @@ const styles = StyleSheet.create({
     },
     radioTitle: {
         marginTop: 8,
+        color: colors.maranduGreen,
+        fontWeight: 'bold',
+        textTransform: 'capitalize',
     },
 });

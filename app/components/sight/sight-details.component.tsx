@@ -1,6 +1,6 @@
-import { Box, Divider } from '@react-native-material/core';
+import { Box } from '@react-native-material/core';
 import React from 'react';
-import { StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, Image, TouchableOpacity, View, ScrollView } from 'react-native';
 import colors from '../../config/colors';
 import { Sight } from '../../interfaces/common';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -23,22 +23,24 @@ export default function SightDetailsComponent({ sight, onClose, allowDelete = fa
 
     const renderDetails = () => {
         return (
-            <Box style={styles.container}>
-                <Image style={styles.sightImage} source={{ uri: getSightImageUri(sight?.imageId) }} />
-                <TouchableOpacity style={[styles.touchableHeader, styles.touchableBackBtWrapper]} onPress={() => { onClose() }}>
+            <View style={styles.container}>
+                <Box style={styles.header}>
+                <TouchableOpacity style={styles.closeBt} onPress={() => { onClose() }}>
                     <MaterialCommunityIcons name="arrow-left" size={40} style={styles.headerButton} />
                 </TouchableOpacity>
                 {
                     allowDelete &&
-                    <Box style={[styles.touchableActionContainer, styles.touchableHeader]}>
+                    <Box style={[styles.touchableActionContainer, styles.actionBt]}>
                         <TouchableOpacity onPress={() => { setShowModal(true) }}>
-                            <MaterialCommunityIcons name="trash-can-outline" size={30} style={[styles.headerButton, styles.actionButton]} />
+                            <MaterialCommunityIcons name="trash-can-outline" size={28} style={[styles.headerButton, styles.actionButton]} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => { setShowEdit(true) }}>
-                            <MaterialCommunityIcons name="border-color" size={30} style={[styles.headerButton, styles.actionButton]} />
+                            <MaterialCommunityIcons name="border-color" size={28} style={[styles.headerButton, styles.actionButton, styles.editBt]} />
                         </TouchableOpacity>
                     </Box>
                 }
+                </Box>
+                <Image style={styles.sightImage} source={{ uri: getSightImageUri(sight?.imageId) }} />
                 <Box style={styles.headerContainer}>
                     <Text style={styles.sightName}>{sight?.animal}</Text>
                     <Box style={styles.locationContainer}>
@@ -46,14 +48,18 @@ export default function SightDetailsComponent({ sight, onClose, allowDelete = fa
                         <Text>{sight?.placeName}</Text>
                     </Box>
                 </Box>
-                <Divider style={styles.divider} />
-                <Box style={styles.detailsContainer}>
-                    <Text>Condition: {capitalizeText(sight?.condition)}</Text>
-                    <Text>Description: <Text style={styles.description}>{sight?.description}</Text></Text>
+                <Text>{I18n.t('Sight.condition')}: {capitalizeText(sight?.condition)}</Text>
+                <Text style={styles.observationTitle}>{I18n.t('Sight.observations')}:</Text>
+                <ScrollView>
+                    <Box style={styles.descriptionBox}>
+                        <View>
+                            <Text style={styles.description}>{sight?.description}</Text>
+                        </View>
+                    </Box>
+                </ScrollView>
                     <Text style={styles.createdText}>
                         {getCreatedByLegend(name, lastName, occupation, sight?.createdAt)}
                     </Text>
-                </Box>
                 <ActionModalComponent
                     showModal={showModal}
                     actionBtText={I18n.t('Common.delete')}
@@ -61,7 +67,7 @@ export default function SightDetailsComponent({ sight, onClose, allowDelete = fa
                     actionProceed={() => onDelete()}
                     title={I18n.t('Sight.deleteTitle')}
                     subtitle={I18n.t('Sight.deleteSubtitle')} />
-            </Box>
+            </View>
         );
     }
     const renderEdit = () => {
@@ -83,32 +89,33 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
+        padding: 15,
     },
     headerContainer: {
         marginBottom: 2,
-        alignItems: 'center',
+        alignItems: 'flex-start',
     },
     sightImage: {
         width: '100%',
-        height: '60%',
+        height: '50%',
+        borderRadius: 10,
     },
     sightName: {
         marginTop: 5,
-        color: colors.black,
+        color: colors.maranduGreen,
+        textTransform: 'capitalize',
         fontSize: 30,
         fontWeight: 'bold',
-    },
-    detailsContainer: {
-        padding: 10,
     },
     locationContainer: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 5,
+        marginBottom: 5,
     },
     locationIcon: {
-        color: 'red',
+        color: colors.maranduGreen,
         marginRight: 5,
     },
     description: {
@@ -116,32 +123,48 @@ const styles = StyleSheet.create({
         lineHeight: 20
     },
     createdText: {
+        marginTop: 5,
         fontSize: 12,
-        alignSelf: 'center',
-        color: colors.black,
-    },
-    touchableHeader: {
-        position: 'absolute',
-        margin: 10,
-    },
-    touchableBackBtWrapper: {
-        alignSelf: 'flex-start',
+        alignSelf: 'flex-end',
+        color: colors.darkGray,
     },
     touchableActionContainer: {
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         alignSelf: 'flex-end',
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 10,
     },
     headerButton: {
-        color: colors.white,
+        color: colors.maranduGreen,
     },
     actionButton: {
         paddingVertical: 5,
     },
-    divider: {
-        marginTop: 15,
+    descriptionBox: {
+        backgroundColor: colors.maranduGreenShadow,
+        borderRadius: 5,
+        padding: 10
+    },
+    observationTitle: {
+        marginTop: 5,
+        marginBottom: 10,
+    },
+    closeBt: {
+        alignSelf: 'flex-start',
+    },
+    actionBt: {
+        alignSelf: 'flex-end',
+    },
+    header: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    editBt: {
+        marginLeft: 10,
+        marginTop: 7,
     }
 });

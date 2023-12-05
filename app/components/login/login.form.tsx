@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   boxImg: {
-    marginBottom: 80,
+    marginBottom: 10,
   },
   loginForm: {
     padding: 20,
