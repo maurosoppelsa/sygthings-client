@@ -10,7 +10,7 @@
             "send": "Enviar",
             "cancel": "Cancelar",
             "waitingEmailVerification": "Te enviamos un correo electrónico con un link de confirmación. Por favor confirma en tu correo electrónico que deseas reestablecer tu contraseña.",
-            "allowedToReset": "¡Listo!, ya puedes reestablecer tu contraseña.",
+            "allowedToReset": "Ya puedes reestablecer tu contraseña.",
             "updatePassword": "Actualizar",
             "cancelUpdatePassTitle": "¿Estas seguro de que quieres cancelar la actualización de tu contraseña?",
             "cancelUpdatePassSubtitle": "Luego tendrás que realizar nuevamente todo el proceso.",

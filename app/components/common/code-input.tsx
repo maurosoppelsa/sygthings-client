@@ -40,16 +40,16 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    color: colors.syghtingDarkGreen,
+    color: colors.gray,
   },
   input: {
     width: 50,
     height: 50,
     borderWidth: 3,
     borderRadius: 2,
-    borderColor: colors.syghtingDarkGreen,
+    borderColor: colors.mgray,
     textAlign: 'center',
-    color: colors.syghtingDarkGreen,
+    color: colors.maranduGreen,
     margin: 5,
   },
 });

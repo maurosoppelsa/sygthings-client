@@ -8,6 +8,7 @@ import { StyleSheet, Text, Modal } from 'react-native';
 import { customRules, spanishErrorMessages } from '../../utils/customInputValidation';
 import ActionModalComponent from '../common/action-modal.component';
 import VerifyEmail from './email-verification/verify-email';
+import { MaranduButtonComponent } from '../common/marandu-button.component';
 
 const { useValidation } = require('react-native-form-validator')
 
@@ -36,14 +37,14 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                 visible={showCompleteModal}
             >
                 <View style={styles.centeredView}>
-                        <Box style={styles.modalContainer}>
-                            <Box>
-                                <Text>{I18n.t('Login.resetPassword.modalResetTitle')}</Text>
-                            </Box>
-                            <Box>
-                                <Button style={styles.button} onPress={() => onAccept()} title={I18n.t('Common.accept')}></Button>
-                            </Box>
+                    <Box style={styles.modalContainer}>
+                        <Box>
+                            <Text style={styles.modalText}>{I18n.t('Login.resetPassword.modalResetTitle')}</Text>
                         </Box>
+                        <Box>
+                            <MaranduButtonComponent title={I18n.t('Common.accept')} style={styles.button} onPress={() => onAccept()}/>
+                        </Box>
+                    </Box>
                 </View>
             </Modal>
         );
@@ -93,8 +94,8 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                         onChangeText={email => setEmail(email)}
                         autoComplete="email"
                         underlineColor={colors.syghtingGreen}
-                        activeUnderlineColor={colors.syghtingDarkGreen}
-                        left={<TextInput.Icon color={colors.gray} name="email" />}
+                        activeUnderlineColor={colors.maranduGreen}
+                        left={<TextInput.Icon color={colors.maranduGreen} name="email" />}
                         disabled={false}
                     />
                     {isFieldInError('email') &&
@@ -102,11 +103,15 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                             <Text style={styles.error} key={index}>{errorMessage}</Text>
                         ))}
                     <Box style={styles.buttonContainer}>
-                        <Button style={styles.button}
+                        <MaranduButtonComponent
                             title={I18n.t('Login.resetPassword.send')}
-                            onPress={() => sendEmail()}
-                            disabled={email === ''} />
-                        <Button style={styles.button} title={I18n.t('Login.resetPassword.cancel')} onPress={() => onCancel()} />
+                            onPress={() => { sendEmail() }}
+                            disabled={email === ''}
+                            style={styles.maranduBt} />
+                        <MaranduButtonComponent
+                            title={I18n.t('Login.resetPassword.cancel')}
+                            onPress={() => onCancel()}
+                            style={styles.maranduBt} />
                     </Box>
                 </Box>
                 }
@@ -127,9 +132,9 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                                 label={I18n.t('Login.password')}
                                 onChangeText={pass => setPassword(pass)}
                                 secureTextEntry={true}
-                                underlineColor={colors.syghtingGreen}
-                                activeUnderlineColor={colors.syghtingDarkGreen}
-                                left={<TextInput.Icon color={colors.gray} name="key" />}
+                                underlineColor={colors.maranduGreen}
+                                activeUnderlineColor={colors.maranduGreen}
+                                left={<TextInput.Icon color={colors.maranduGreen} name="key" />}
                                 error={isFieldInError('password')}
 
                             />
@@ -144,9 +149,9 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                                 label={I18n.t('Login.NewUser.confirmPassword')}
                                 onChangeText={pass => setConfirmPassword(pass)}
                                 secureTextEntry={true}
-                                underlineColor={colors.syghtingGreen}
-                                activeUnderlineColor={colors.syghtingDarkGreen}
-                                left={<TextInput.Icon color={colors.gray} name="key" />}
+                                underlineColor={colors.maranduGreen}
+                                activeUnderlineColor={colors.maranduGreen}
+                                left={<TextInput.Icon color={colors.maranduGreen} name="key" />}
                                 error={isFieldInError('confirmPassword')}
                             />
                             {isFieldInError('confirmPassword') &&
@@ -155,11 +160,14 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                                 ))}
                         </Box>
                         <Box style={styles.buttonContainer}>
-                            <Button style={styles.button}
+                            <MaranduButtonComponent
                                 title={I18n.t('Login.resetPassword.updatePassword')}
                                 onPress={() => updatePassword()}
-                                disabled={password === '' || confirmPassword === ''} />
-                            <Button style={styles.button} title={I18n.t('Login.resetPassword.cancel')} onPress={() => setShowModal(true)} />
+                                disabled={password === '' || confirmPassword === ''} style={styles.button} />
+                            <MaranduButtonComponent
+                                title={I18n.t('Login.resetPassword.cancel')}
+                                onPress={() => setShowModal(true)}
+                                style={styles.button} />
                         </Box>
                     </Box>
                 }
@@ -183,8 +191,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 30,
-        color: colors.syghtingGreen,
-        alignSelf: 'center',
+        color: colors.maranduGreen,
         fontWeight: 'bold',
     },
     subtitle: {
@@ -202,9 +209,10 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     button: {
-        backgroundColor: colors.syghtingGreen,
-        marginTop: 20,
-        height: 40
+        width: '100%',
+    },
+    maranduBt: {
+        width: '100%',
     },
     error: {
         color: colors.red,
@@ -234,5 +242,10 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
+    },
+    modalText: {
+        fontSize: 14,
+        color: colors.darkGray,
+        marginBottom: 10,
     },
 });

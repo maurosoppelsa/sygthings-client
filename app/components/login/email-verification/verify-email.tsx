@@ -8,6 +8,7 @@ import CodeInput from '../../common/code-input';
 import { Button } from 'react-native-paper';
 import EmailVerificationModal from './email-verification-modal';
 import ActionModalComponent from '../../common/action-modal.component';
+import { MaranduButtonComponent } from '../../common/marandu-button.component';
 
 export default function VerifyEmail({ onVerify, onResendEmail, onRedirect, onCancel }: { onVerify: any, onResendEmail: any, onRedirect?: any, onCancel: any }) {
 
@@ -50,18 +51,14 @@ export default function VerifyEmail({ onVerify, onResendEmail, onRedirect, onCan
     return (
         <View>
             <Box style={styles.container}>
-                <MaterialCommunityIcons name="email-send-outline" size={80} color={colors.syghtingDarkGreen} />
+                <MaterialCommunityIcons name="email-send-outline" size={80} color={colors.maranduGreen} />
                 <Text style={styles.text1}>{I18n.t('Login.NewUser.verifyEmail.text1')}</Text>
                 <Text style={styles.text2}>{I18n.t('Login.NewUser.verifyEmail.text2')}</Text>
                 <Text style={styles.text3}>{I18n.t('Login.NewUser.verifyEmail.text3')}</Text>
                 <CodeInput onChange={getCode} />
                 <Box style={styles.buttonContainer}>
-                    <Button disabled={authCode.length < 6} style={styles.verifyBt} mode="contained" onPress={() => verify()}>
-                        {I18n.t('Login.NewUser.verifyEmail.verifyBtn')}
-                    </Button>
-                    <Button style={styles.verifyBt} mode="contained" onPress={() => onCancelVerifyBt()}>
-                        {I18n.t('Login.NewUser.verifyEmail.cancelBtn')}
-                    </Button>
+                    <MaranduButtonComponent title={I18n.t('Login.NewUser.verifyEmail.verifyBtn')} onPress={() => verify()} disabled={authCode.length < 6}/>
+                    <MaranduButtonComponent title={I18n.t('Login.NewUser.verifyEmail.cancelBtn')} onPress={() => onCancelVerifyBt()} />
                 </Box>
                 <TouchableOpacity onPress={() => { onResendEmail() }}>
                     <Text style={styles.resendEmailBT}>{I18n.t('Login.NewUser.verifyEmail.resend')}</Text>
@@ -89,6 +86,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginTop: 10,
         marginBottom: 10,
+        color: colors.maranduGreen,
     },
     text2: {
         fontSize: 15,
@@ -100,19 +98,16 @@ const styles = StyleSheet.create({
     },
     resendEmailBT: {
         fontSize: 15,
-        color: colors.syghtingDarkGreen,
+        color: colors.maranduGreen,
         marginTop: 10,
         marginBottom: 10,
         fontWeight: "bold",
     },
-    verifyBt: {
-        marginTop: 20,
-        marginBottom: 10,
-        backgroundColor: colors.syghtingDarkGreen,
-    },
     buttonContainer: {
-        width: '60%',
+        width: '100%',
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        padding: 20,
+        alignContent: 'center',
+        justifyContent: 'center',
     },
 });
