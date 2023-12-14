@@ -1,10 +1,8 @@
 import { Box } from '@react-native-material/core';
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import colors from '../../config/colors';
-import PersonCircleComponent from '../common/profile-circle.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import TotalSightsComponent from './total-sights.component';
 import { useAppDispatch } from '../../redux/store';
 import { logoutUser, updateUser, openUserUpdate, closeUserUpdate, cleanupMessages, setError, deleteUser } from '../../redux/auth-slice';
 import { Sight, User, UserToUpdate } from '../../interfaces/common';
@@ -13,6 +11,9 @@ import I18n from '../../../i18n/i18n';
 import UserUpdateForm from './user-update-form.component';
 import { useFocusEffect } from '@react-navigation/native';
 import { getSightsByUser } from '../../redux/sight-slice';
+import { Divider } from 'react-native-paper';
+// @ts-ignore
+import customLogo from '../../assets/marandu.png';
 
 export default function Profile() {
 
@@ -86,32 +87,46 @@ export default function Profile() {
         <View style={styles.container}>
             <Box style={styles.profileContent}>
                 <TouchableOpacity onPress={() => onUserUpdate()}>
-                    <MaterialCommunityIcons style={styles.editBt} name="border-color" size={20} />
+                    <MaterialCommunityIcons style={styles.editBt} name="border-color" size={30} />
                 </TouchableOpacity>
+                <MaterialCommunityIcons style={styles.accountIcon} name="account-circle-outline" size={120} />
                 <Box style={styles.personContent}>
-                    <PersonCircleComponent fullname={fullName}></PersonCircleComponent>
                     <Box style={styles.personDescription}>
-                        <Text>{fullName}</Text>
-                        <Text style={styles.occupation}>{currentUser?.occupation}</Text>
+                        <Box style={styles.personInfoField}>
+                            <MaterialCommunityIcons style={styles.infoIcon} name="account" size={25} onPress={() => () => { }} />
+                            <Text style={styles.userTextField}>{fullName}</Text>
+                        </Box>
+                        <Divider style={styles.divider}></Divider>
+                        <Box style={styles.personInfoField}>
+                            <MaterialCommunityIcons style={styles.infoIcon} name="email" size={25} onPress={() => () => { }} />
+                            <Text style={styles.userTextField}>{currentUser?.email}</Text>
+                        </Box>
+                        <Divider style={styles.divider}></Divider>
+                        <Box style={styles.personInfoField}>
+                            <MaterialCommunityIcons style={styles.infoIcon} name="briefcase" size={25} onPress={() => () => { }} />
+                            <Text style={styles.userTextField}>{currentUser?.occupation}</Text>
+                        </Box>
+                        <Divider style={styles.divider}></Divider>
                     </Box>
                 </Box>
-                <Box style={styles.personInfoContent}>
-                    <MaterialCommunityIcons style={styles.mailIcon} name="email-outline" size={15} onPress={() => () => { }} />
-                    <Text style={styles.email}>{currentUser?.email}</Text>
-                </Box>
-                <Box style={styles.totalSightsContent}>
-                    <TotalSightsComponent sightsAmount={mySights.length} />
-                    <Text style={styles.sightsLegend}>{I18n.t('Profile.sightsLegend')}</Text>
+                <Box style={styles.legendContainer}>
+                    {
+                        message !== '' &&
+                        <Text style={[styles.message, error ? styles.errorMessage : styles.successMessage]}>{message}</Text>
+                    }
+                    {message === '' &&
+                        <Box>
+                            <Text style={styles.legend}>{I18n.t("Profile.legend1")}</Text>
+                            <Image source={customLogo} style={styles.customLogo}></Image>
+                            <Text style={styles.legend}>{I18n.t("Profile.legend2")}</Text>
+                        </Box>
+                    }
                 </Box>
                 <TouchableOpacity style={styles.logoutBox} onPress={() => logout()}>
                     <MaterialCommunityIcons style={styles.logoutIcon} name="power-standby" size={20} />
                     <Text style={styles.logoutTxt}>{I18n.t('Profile.logout')}</Text>
                 </TouchableOpacity>
             </Box>
-            {
-                message !== '' &&
-                <Text style={[styles.message, error ? styles.errorMessage : styles.successMessage]}>{message}</Text>
-            }
         </View>
     );
 }
@@ -130,31 +145,37 @@ const styles = StyleSheet.create({
     personContent: {
         display: 'flex',
         flexDirection: 'row',
+        alignSelf: 'flex-start',
     },
     personDescription: {
         alignSelf: 'center',
         marginLeft: 10,
     },
-    occupation: {
-        color: colors.gray,
-        fontSize: 10,
+    accountIcon: {
+        alignSelf: 'center',
+        color: colors.lightGray,
+        marginTop: 20,
+        marginBottom: 15,
     },
-    personInfoContent: {
+    personInfoField: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 10,
+        marginTop: 15,
     },
     editBt: {
         alignSelf: 'flex-end',
+        color: colors.maranduGreen,
     },
-    mailIcon: {
-        color: colors.gray,
+    infoIcon: {
+        color: colors.maranduGreen,
         marginRight: 10,
         marginTop: 1,
     },
-    email: {
-        color: colors.gray,
-        fontSize: 12,
+    userTextField: {
+        marginTop: 3,
+        marginBottom: 10,
+        color: colors.darkGray,
+        fontSize: 16,
     },
     logoutBox: {
         display: 'flex',
@@ -169,11 +190,6 @@ const styles = StyleSheet.create({
     logoutTxt: {
         color: colors.red,
         fontSize: 14,
-    },
-    totalSightsContent: {
-        display: 'flex',
-        alignItems: 'center',
-        marginTop: 30,
     },
     sightsLegend: {
         fontStyle: 'italic',
@@ -194,4 +210,26 @@ const styles = StyleSheet.create({
     errorMessage: {
         color: colors.red,
     },
+    divider: {
+        width: '100%',
+        backgroundColor: colors.lightGray,
+        marginTop: 10,
+        marginLeft: 25,
+        height: 1,
+    },
+    legendContainer: {
+        marginTop: 40,
+        marginBottom: 10,
+        alignSelf: 'center',
+    },
+    legend: {
+        fontSize: 14,
+        color: colors.darkGray,
+        textAlign: 'center',
+    },
+    customLogo: {
+        alignSelf: 'center',
+        marginTop: 15,
+        marginBottom: 15,
+    }
 });

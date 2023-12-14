@@ -121,7 +121,8 @@
         "noAccessCamera": "No camera access"
     },
     "Profile": {
-        "sightsLegend": "Thanks for your help! Animals around the world will appreciate your effort.",
+        "legend1": "Thanks for colaborating with ",
+        "legen2": "the wild life appreciate it.",
         "totalSights": "Total Sights",
         "logout": "Logout",
         "cancel": "Cancel",

@@ -120,7 +120,8 @@
         "noAccessCamera": "No hay acceso a la cámara"
     },
     "Profile": {
-        "sightsLegend": "Gracias por tu ayuda, los animales del mundo apreciarán tu esfuerzo.",
+        "legend1": "Gracias por colaborar con ",
+        "legend2": "la fauna silvestre te lo agradece.",
         "totalSights": "Total de avistamientos",
         "logout": "Cerrar sesión",
         "cancel": "Cancelar",
@@ -131,7 +132,7 @@
         "noDiffereces": "Los valores a actualizar son iguales a los actuales",
         "UpdateUserForm": {
             "deleteAccount": "Deseo eliminar mi cuenta",
-            "deleteTitle": "¿Estas seguro de que quieres eliminar tu cuenta?",
+            "deleteTitle": "¿Estás seguro de que quieres eliminar tu cuenta?",
             "deleteSubtitle": "Esta acción no se puede deshacer."
         }
     },

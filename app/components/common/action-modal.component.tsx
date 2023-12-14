@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, Modal, StyleSheet } from 'react-native';
+import { View, Text, Modal, StyleSheet, Pressable } from 'react-native';
 import { Box } from '@react-native-material/core';
 import colors from '../../config/colors';
-import { Button } from 'react-native-paper';
 import I18n from '../../../i18n/i18n';
 
 export default function ActionModalComponent({ title, subtitle, actionBtText, cancelBtText = I18n.t('Common.cancel'), showModal, actionCancel, actionProceed }: { title: string, subtitle: string, actionBtText: string, showModal: boolean, actionCancel: any, cancelBtText?: string, actionProceed: any }) {
@@ -15,8 +14,18 @@ export default function ActionModalComponent({ title, subtitle, actionBtText, ca
                         <Text>{subtitle}</Text>
                     </Box>
                     <Box style={styles.deleteButtonsContainer}>
-                        <Button style={styles.deleteBt} mode="contained" onPress={() => actionProceed()}>{actionBtText}</Button>
-                        <Button style={styles.deleteBt} mode="contained" onPress={() => actionCancel()}>{cancelBtText}</Button>
+                        <Pressable
+                            style={[styles.buttonSubmit, styles.button]}
+                            onPress={() => { actionProceed() }}
+                        >
+                            <Text style={styles.textBtStyle}>{actionBtText}</Text>
+                        </Pressable>
+                        <Pressable
+                            style={[styles.buttonSubmit, styles.button]}
+                            onPress={() => actionCancel()}
+                        >
+                            <Text style={styles.textBtStyle}>{cancelBtText}</Text>
+                        </Pressable>
                     </Box>
                 </Box>
             </Box>
@@ -64,10 +73,23 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20,
+        marginTop: 10,
     },
-    deleteBt: {
+    button: {
+        backgroundColor: colors.maranduGreen,
+    },
+    buttonSubmit: {
         borderRadius: 5,
-        backgroundColor: colors.syghtingGreen,
-    }
+        padding: 10,
+        minWidth: 100,
+        elevation: 2,
+        alignSelf: "center",
+        margin: 10,
+    },
+    textBtStyle: {
+        color: colors.maranduYellow,
+        fontWeight: "bold",
+        textAlign: "center",
+        textTransform: "uppercase",
+    },
 });
