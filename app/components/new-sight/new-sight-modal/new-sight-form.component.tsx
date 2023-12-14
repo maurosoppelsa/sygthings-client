@@ -29,6 +29,7 @@ export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo
                     value={description}
                     placeholder={I18n.t('NewSightForm.description')}
                 />
+                <Box style={styles.conditionBox}>
                 <Box style={styles.radioContainer}>
                     <RadioButton
                         color={colors.maranduGreen}
@@ -56,6 +57,7 @@ export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo
                     />
                     <Text style={styles.radioTitle}>{dead}</Text>
                 </Box>
+                </Box>
             </Box>
             <Box style={styles.locationLegend}>
                 <MaterialCommunityIcons name="map-marker" size={30} style={styles.locationIcon} />
@@ -82,9 +84,10 @@ export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo
 
 const styles = StyleSheet.create({
     modalForm: {
-        width: '90%',
+        width: '95%',
+        marginTop: 5,
         backgroundColor: colors.white,
-        padding: 25,
+        padding: 20,
         alignItems: "flex-start",
         shadowColor: colors.black,
         shadowOffset: {
@@ -129,7 +132,10 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 10,
         borderColor: colors.maranduGreenShadow,
-        padding: 20,
+        paddingLeft: 20,
+        paddingRight: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
         marginTop: 20,
     },
     animalInput: {
@@ -146,7 +152,7 @@ const styles = StyleSheet.create({
     },
     radioTitle: {
         marginTop: 7,
-        marginLeft: 10,
+        marginLeft: 4,
         color: colors.maranduGreen,
         fontSize: 16,
         textTransform: "capitalize",
@@ -155,7 +161,7 @@ const styles = StyleSheet.create({
     locationTxt: {
         fontSize: 18,
         marginTop: 5,
-        marginLeft: 10,
+        marginRight: 5,
         color: colors.darkGray,
     },
     locationLegend: {
@@ -163,9 +169,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         alignItems: "center",
         marginTop: 20,
-        marginBottom: 25,
-        paddingLeft: 15,
-        paddingRight: 15,
+        marginBottom: 15,
         paddingTop: 10,
         paddingBottom: 15,
         width: '100%',
@@ -175,12 +179,15 @@ const styles = StyleSheet.create({
     locationIcon: {
         color: colors.maranduGreen,
         marginTop: 5,
+        marginLeft: 5,
+        marginRight: 5,
     },
     buttonContainer: {
         flexDirection: "row",
-        justifyContent: "space-between",
         width: '100%',
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 15,
     },
+    conditionBox: {
+        flexDirection: "row",
+    }
 });

@@ -52,18 +52,21 @@ const styles = StyleSheet.create({
         backgroundColor: colors.maranduGreenShadow,
         borderRadius: 5,
         padding: 10,
+        elevation: 5,
     },
     button: {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
+        zIndex: 1,
     },
     closeBt: {
         position: 'absolute',
         top: 0,
         right: 0,
         padding: 10,
+        zIndex: 2,
     },
     textOptions: {
         color: colors.darkGray,
