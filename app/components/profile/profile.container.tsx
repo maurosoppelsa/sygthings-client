@@ -1,5 +1,5 @@
 import { Box } from '@react-native-material/core';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import colors from '../../config/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 import I18n from '../../../i18n/i18n';
 import UserUpdateForm from './user-update-form.component';
 import { useFocusEffect } from '@react-navigation/native';
-import { getSightsByUser } from '../../redux/sight-slice';
 import { Divider } from 'react-native-paper';
 // @ts-ignore
 import customLogo from '../../assets/marandu.png';
@@ -19,7 +18,6 @@ export default function Profile() {
 
     const dispatch = useAppDispatch();
     const logout = () => dispatch(logoutUser());
-    const mySights: Array<Sight> = useSelector((state: any) => state.sight.mySights);
     const authentication = useSelector((state: any) => state.authentication);
     const currentUser: User = authentication.user;
     const isUpdatingUser = authentication.isUpdatingUser;
@@ -59,12 +57,6 @@ export default function Profile() {
     const onUserDelete = () => {
         dispatch(deleteUser(currentUser?.id));
     }
-
-    useEffect(() => {
-        if (mySights.length === 0 && currentUser?.id) {
-            dispatch(getSightsByUser(currentUser.id));
-        }
-    }, []);
 
     useFocusEffect(
         React.useCallback(() => {
