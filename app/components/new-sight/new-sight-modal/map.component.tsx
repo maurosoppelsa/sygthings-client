@@ -6,6 +6,8 @@ import colors from '../../../config/colors';
 import { mapbox_token, map_zoom_level } from "../../../config/map-settings";
 import { Location } from '../../../interfaces/common';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaranduButtonComponent } from '../../common/marandu-button.component';
+import I18n from '../../../../i18n/i18n';
 
 
 
@@ -49,18 +51,16 @@ export default function MapComponent({ onUpdatelocation, onClose, location }: { 
                 {renderAnnotations()}
             </MapboxGL.MapView>
             <Box style={styles.buttonsContainer}>
-                <Pressable
+                <MaranduButtonComponent
+                    title={I18n.t('Common.update')}
                     style={styles.mapButton}
                     onPress={() => { onUpdatelocation(coordinates) }}
-                >
-                    <Text style={styles.closeText}>Update</Text>
-                </Pressable>
-                <Pressable
+                />
+                <MaranduButtonComponent
+                    title={I18n.t('Common.cancel')}
                     style={styles.mapButton}
                     onPress={() => { onClose() }}
-                >
-                    <Text style={styles.closeText}>Cancel</Text>
-                </Pressable>
+                />
             </Box>
         </Box>
     );
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
         minWidth: 100,
         elevation: 2,
         alignSelf: "center",
-        backgroundColor: colors.blue,
         marginTop: 10,
         marginBottom: 10,
         marginRight: 10

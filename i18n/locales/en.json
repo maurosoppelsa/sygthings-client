@@ -27,7 +27,7 @@
             "ocuppation": "Ocuppation",
             "agreement": "Agree with",
             "terms": "Terms and Conditions",
-            "createAccount": "Create Account",
+            "createAccount": "Create",
             "cancel": "Cancel",
             "verifyEmail": {
                 "text1": "Confirm your email address",
@@ -155,6 +155,8 @@
     },
     "Common": {
         "delete": "Delete",
+        "edit": "Edit",
+        "update": "Update",
         "cancel": "Cancel",
         "continue": "Continue",
         "back": "Back",

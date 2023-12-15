@@ -1,11 +1,11 @@
 import { Box } from '@react-native-material/core';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image, ScrollView } from 'react-native';
 import colors from '../../config/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAppDispatch } from '../../redux/store';
 import { logoutUser, updateUser, openUserUpdate, closeUserUpdate, cleanupMessages, setError, deleteUser } from '../../redux/auth-slice';
-import { Sight, User, UserToUpdate } from '../../interfaces/common';
+import { User, UserToUpdate } from '../../interfaces/common';
 import { useSelector } from 'react-redux';
 import I18n from '../../../i18n/i18n';
 import UserUpdateForm from './user-update-form.component';
@@ -77,48 +77,50 @@ export default function Profile() {
 
     return (
         <View style={styles.container}>
-            <Box style={styles.profileContent}>
-                <TouchableOpacity onPress={() => onUserUpdate()}>
-                    <MaterialCommunityIcons style={styles.editBt} name="border-color" size={30} />
-                </TouchableOpacity>
-                <MaterialCommunityIcons style={styles.accountIcon} name="account-circle-outline" size={120} />
-                <Box style={styles.personContent}>
-                    <Box style={styles.personDescription}>
-                        <Box style={styles.personInfoField}>
-                            <MaterialCommunityIcons style={styles.infoIcon} name="account" size={25} onPress={() => () => { }} />
-                            <Text style={styles.userTextField}>{fullName}</Text>
+            <ScrollView>
+                <Box style={styles.profileContent}>
+                    <TouchableOpacity onPress={() => onUserUpdate()}>
+                        <MaterialCommunityIcons style={styles.editBt} name="border-color" size={30} />
+                    </TouchableOpacity>
+                    <MaterialCommunityIcons style={styles.accountIcon} name="account-circle-outline" size={120} />
+                    <Box style={styles.personContent}>
+                        <Box style={styles.personDescription}>
+                            <Box style={styles.personInfoField}>
+                                <MaterialCommunityIcons style={styles.infoIcon} name="account" size={25} onPress={() => () => { }} />
+                                <Text style={styles.userTextField}>{fullName}</Text>
+                            </Box>
+                            <Divider style={styles.divider}></Divider>
+                            <Box style={styles.personInfoField}>
+                                <MaterialCommunityIcons style={styles.infoIcon} name="email" size={25} onPress={() => () => { }} />
+                                <Text style={styles.userTextField}>{currentUser?.email}</Text>
+                            </Box>
+                            <Divider style={styles.divider}></Divider>
+                            <Box style={styles.personInfoField}>
+                                <MaterialCommunityIcons style={styles.infoIcon} name="briefcase" size={25} onPress={() => () => { }} />
+                                <Text style={styles.userTextField}>{currentUser?.occupation}</Text>
+                            </Box>
+                            <Divider style={styles.divider}></Divider>
                         </Box>
-                        <Divider style={styles.divider}></Divider>
-                        <Box style={styles.personInfoField}>
-                            <MaterialCommunityIcons style={styles.infoIcon} name="email" size={25} onPress={() => () => { }} />
-                            <Text style={styles.userTextField}>{currentUser?.email}</Text>
-                        </Box>
-                        <Divider style={styles.divider}></Divider>
-                        <Box style={styles.personInfoField}>
-                            <MaterialCommunityIcons style={styles.infoIcon} name="briefcase" size={25} onPress={() => () => { }} />
-                            <Text style={styles.userTextField}>{currentUser?.occupation}</Text>
-                        </Box>
-                        <Divider style={styles.divider}></Divider>
                     </Box>
+                    <Box style={styles.legendContainer}>
+                        {
+                            message !== '' &&
+                            <Text style={[styles.message, error ? styles.errorMessage : styles.successMessage]}>{message}</Text>
+                        }
+                        {message === '' &&
+                            <Box>
+                                <Text style={styles.legend}>{I18n.t("Profile.legend1")}</Text>
+                                <Image source={customLogo} style={styles.customLogo}></Image>
+                                <Text style={styles.legend}>{I18n.t("Profile.legend2")}</Text>
+                            </Box>
+                        }
+                    </Box>
+                    <TouchableOpacity style={styles.logoutBox} onPress={() => logout()}>
+                        <MaterialCommunityIcons style={styles.logoutIcon} name="power-standby" size={20} />
+                        <Text style={styles.logoutTxt}>{I18n.t('Profile.logout')}</Text>
+                    </TouchableOpacity>
                 </Box>
-                <Box style={styles.legendContainer}>
-                    {
-                        message !== '' &&
-                        <Text style={[styles.message, error ? styles.errorMessage : styles.successMessage]}>{message}</Text>
-                    }
-                    {message === '' &&
-                        <Box>
-                            <Text style={styles.legend}>{I18n.t("Profile.legend1")}</Text>
-                            <Image source={customLogo} style={styles.customLogo}></Image>
-                            <Text style={styles.legend}>{I18n.t("Profile.legend2")}</Text>
-                        </Box>
-                    }
-                </Box>
-                <TouchableOpacity style={styles.logoutBox} onPress={() => logout()}>
-                    <MaterialCommunityIcons style={styles.logoutIcon} name="power-standby" size={20} />
-                    <Text style={styles.logoutTxt}>{I18n.t('Profile.logout')}</Text>
-                </TouchableOpacity>
-            </Box>
+            </ScrollView>
         </View>
     );
 }

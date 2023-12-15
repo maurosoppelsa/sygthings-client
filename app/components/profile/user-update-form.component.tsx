@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Pressable, ScrollView } from 'react-native';
 import colors from '../../config/colors';
 import I18n from '../../../i18n/i18n';
 import { TextInput } from 'react-native-paper';
@@ -58,157 +58,159 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
 
     return (
         <View>
-            <Box style={styles.container}>
-                <TextInput
-                    autoComplete="off"
-                    value={name}
-                    style={styles.input}
-                    label={I18n.t('Login.NewUser.name')}
-                    onChangeText={name => setName(name)}
-                    underlineColor={colors.maranduGreen}
-                    activeUnderlineColor={colors.maranduGreen}
-                    left={<TextInput.Icon color={colors.gray} name="account" />}
-                    error={isFieldInError('name') && !touchedForm}
-                    onFocus={() => setTouchedForm(true)}
-                />
-                {isFieldInError('name') && !touchedForm &&
-                    getErrorsInField('name').map((errorMessage: any, index: any) => (
-                        <Text style={styles.error} key={index}>{errorMessage}</Text>
-                    ))}
+            <ScrollView>
+                <Box style={styles.container}>
+                    <TextInput
+                        autoComplete="off"
+                        value={name}
+                        style={styles.input}
+                        label={I18n.t('Login.NewUser.name')}
+                        onChangeText={name => setName(name)}
+                        underlineColor={colors.maranduGreen}
+                        activeUnderlineColor={colors.maranduGreen}
+                        left={<TextInput.Icon color={colors.gray} name="account" />}
+                        error={isFieldInError('name') && !touchedForm}
+                        onFocus={() => setTouchedForm(true)}
+                    />
+                    {isFieldInError('name') && !touchedForm &&
+                        getErrorsInField('name').map((errorMessage: any, index: any) => (
+                            <Text style={styles.error} key={index}>{errorMessage}</Text>
+                        ))}
 
-                <TextInput
-                    autoComplete="off"
-                    value={lastName}
-                    style={styles.input}
-                    label={I18n.t('Login.NewUser.lastName')}
-                    onChangeText={lastName => setlastName(lastName)}
-                    underlineColor={colors.maranduGreen}
-                    activeUnderlineColor={colors.maranduGreen}
-                    left={<TextInput.Icon color={colors.gray} name="account" />}
-                    error={isFieldInError('lastName') && !touchedForm}
-                    onFocus={() => setTouchedForm(true)}
-                />
-                {isFieldInError('lastName') && !touchedForm &&
-                    getErrorsInField('lastName').map((errorMessage: any, index: any) => (
-                        <Text style={styles.error} key={index}>{errorMessage}</Text>
-                    ))}
+                    <TextInput
+                        autoComplete="off"
+                        value={lastName}
+                        style={styles.input}
+                        label={I18n.t('Login.NewUser.lastName')}
+                        onChangeText={lastName => setlastName(lastName)}
+                        underlineColor={colors.maranduGreen}
+                        activeUnderlineColor={colors.maranduGreen}
+                        left={<TextInput.Icon color={colors.gray} name="account" />}
+                        error={isFieldInError('lastName') && !touchedForm}
+                        onFocus={() => setTouchedForm(true)}
+                    />
+                    {isFieldInError('lastName') && !touchedForm &&
+                        getErrorsInField('lastName').map((errorMessage: any, index: any) => (
+                            <Text style={styles.error} key={index}>{errorMessage}</Text>
+                        ))}
 
-                <TextInput
-                    autoComplete="off"
-                    value={email}
-                    style={styles.input}
-                    label={I18n.t('Login.NewUser.email')}
-                    onChangeText={email => setEmail(email)}
-                    underlineColor={colors.maranduGreen}
-                    activeUnderlineColor={colors.maranduGreen}
-                    left={<TextInput.Icon color={colors.gray} name="email" />}
-                    error={isFieldInError('email') && !touchedForm}
-                    onFocus={() => setTouchedForm(true)}
-                />
-                {isFieldInError('email') && !touchedForm &&
-                    getErrorsInField('email').map((errorMessage: any, index: any) => (
-                        <Text style={styles.error} key={index}>{errorMessage}</Text>
-                    ))}
+                    <TextInput
+                        autoComplete="off"
+                        value={email}
+                        style={styles.input}
+                        label={I18n.t('Login.NewUser.email')}
+                        onChangeText={email => setEmail(email)}
+                        underlineColor={colors.maranduGreen}
+                        activeUnderlineColor={colors.maranduGreen}
+                        left={<TextInput.Icon color={colors.gray} name="email" />}
+                        error={isFieldInError('email') && !touchedForm}
+                        onFocus={() => setTouchedForm(true)}
+                    />
+                    {isFieldInError('email') && !touchedForm &&
+                        getErrorsInField('email').map((errorMessage: any, index: any) => (
+                            <Text style={styles.error} key={index}>{errorMessage}</Text>
+                        ))}
 
-                <TextInput
-                    autoComplete="off"
-                    value={password}
-                    style={styles.input}
-                    label={I18n.t('Profile.currentPassword')}
-                    onChangeText={pass => setPassword(pass)}
-                    secureTextEntry={true}
-                    underlineColor={colors.maranduGreen}
-                    activeUnderlineColor={colors.maranduGreen}
-                    left={<TextInput.Icon color={colors.gray} name="key" />}
-                    error={isFieldInError('password') && !touchedForm}
-                    onFocus={() => setTouchedForm(true)}
-                />
-                {isFieldInError('password') && !touchedForm &&
-                    getErrorsInField('password').map((errorMessage: any, index: any) => (
-                        <Text style={styles.error} key={index}>{errorMessage}</Text>
-                    ))}
+                    <TextInput
+                        autoComplete="off"
+                        value={password}
+                        style={styles.input}
+                        label={I18n.t('Profile.currentPassword')}
+                        onChangeText={pass => setPassword(pass)}
+                        secureTextEntry={true}
+                        underlineColor={colors.maranduGreen}
+                        activeUnderlineColor={colors.maranduGreen}
+                        left={<TextInput.Icon color={colors.gray} name="key" />}
+                        error={isFieldInError('password') && !touchedForm}
+                        onFocus={() => setTouchedForm(true)}
+                    />
+                    {isFieldInError('password') && !touchedForm &&
+                        getErrorsInField('password').map((errorMessage: any, index: any) => (
+                            <Text style={styles.error} key={index}>{errorMessage}</Text>
+                        ))}
 
-                <TextInput
-                    autoComplete="off"
-                    style={styles.input}
-                    label={I18n.t('Profile.newPassword')}
-                    onChangeText={pass => setNewPassword(pass)}
-                    secureTextEntry={true}
-                    underlineColor={colors.maranduGreen}
-                    activeUnderlineColor={colors.maranduGreen}
-                    left={<TextInput.Icon color={colors.gray} name="key" />}
-                    error={isFieldInError('newPassword') && !touchedForm}
-                    onFocus={() => setTouchedForm(true)}
-                />
-                {isFieldInError('newPassword') && !touchedForm &&
-                    getErrorsInField('newPassword').map((errorMessage: any, index: any) => (
-                        <Text style={styles.error} key={index}>{errorMessage}</Text>
-                    ))}
+                    <TextInput
+                        autoComplete="off"
+                        style={styles.input}
+                        label={I18n.t('Profile.newPassword')}
+                        onChangeText={pass => setNewPassword(pass)}
+                        secureTextEntry={true}
+                        underlineColor={colors.maranduGreen}
+                        activeUnderlineColor={colors.maranduGreen}
+                        left={<TextInput.Icon color={colors.gray} name="key" />}
+                        error={isFieldInError('newPassword') && !touchedForm}
+                        onFocus={() => setTouchedForm(true)}
+                    />
+                    {isFieldInError('newPassword') && !touchedForm &&
+                        getErrorsInField('newPassword').map((errorMessage: any, index: any) => (
+                            <Text style={styles.error} key={index}>{errorMessage}</Text>
+                        ))}
 
-                <TextInput
-                    autoComplete="off"
-                    style={styles.input}
-                    label={I18n.t('Profile.confirmNewPassword')}
-                    onChangeText={pass => setconfirmNewPassword(pass)}
-                    secureTextEntry={true}
-                    underlineColor={colors.maranduGreen}
-                    activeUnderlineColor={colors.maranduGreen}
-                    left={<TextInput.Icon color={colors.gray} name="key" />}
-                    error={isFieldInError('confirmNewPassword') && !touchedForm}
-                    onFocus={() => setTouchedForm(true)}
-                />
-                {isFieldInError('confirmNewPassword') && !touchedForm &&
-                    getErrorsInField('confirmNewPassword').map((errorMessage: any, index: any) => (
-                        <Text style={styles.error} key={index}>{errorMessage}</Text>
-                    ))}
+                    <TextInput
+                        autoComplete="off"
+                        style={styles.input}
+                        label={I18n.t('Profile.confirmNewPassword')}
+                        onChangeText={pass => setconfirmNewPassword(pass)}
+                        secureTextEntry={true}
+                        underlineColor={colors.maranduGreen}
+                        activeUnderlineColor={colors.maranduGreen}
+                        left={<TextInput.Icon color={colors.gray} name="key" />}
+                        error={isFieldInError('confirmNewPassword') && !touchedForm}
+                        onFocus={() => setTouchedForm(true)}
+                    />
+                    {isFieldInError('confirmNewPassword') && !touchedForm &&
+                        getErrorsInField('confirmNewPassword').map((errorMessage: any, index: any) => (
+                            <Text style={styles.error} key={index}>{errorMessage}</Text>
+                        ))}
 
-                <TextInput
-                    autoComplete="off"
-                    value={occupation}
-                    style={styles.input}
-                    label={I18n.t('Login.NewUser.ocuppation')}
-                    onChangeText={occupation => setOccupation(occupation)}
-                    underlineColor={colors.maranduGreen}
-                    activeUnderlineColor={colors.maranduGreen}
-                    left={<TextInput.Icon color={colors.gray} name="briefcase" />}
-                    error={isFieldInError('occupation') && !touchedForm}
-                    onFocus={() => setTouchedForm(true)}
-                />
-                {isFieldInError('occupation') && !touchedForm &&
-                    getErrorsInField('occupation').map((errorMessage: any, index: any) => (
-                        <Text style={styles.error} key={index}>{errorMessage}</Text>
-                    ))}
-                <Box style={styles.buttonContainer}>
-                <Pressable
-                    style={[styles.buttonSubmit, styles.button]}
-                    onPress={() => { updateUser() } }
-                >
-                    <Text style={styles.textBtStyle}>{I18n.t('Profile.update')}</Text>
-                </Pressable>
-                <Pressable
-                    style={[styles.buttonSubmit, styles.button]}
-                    onPress={() => onCancel()}
-                >
-                    <Text style={styles.textBtStyle}>{I18n.t('Profile.cancel')}</Text>
-                </Pressable>
-            </Box>
-                <TouchableOpacity onPress={() => {
-                    setShowModal(true)
-                }
-                }>
-                    <Box style={styles.deleteAccountContainer}>
-                        <MaterialCommunityIcons style={styles.userDeleteIcon} name="account-off" size={18} />
-                        <Text style={styles.deleteAccount}>{I18n.t('Profile.UpdateUserForm.deleteAccount')}</Text>
+                    <TextInput
+                        autoComplete="off"
+                        value={occupation}
+                        style={styles.input}
+                        label={I18n.t('Login.NewUser.ocuppation')}
+                        onChangeText={occupation => setOccupation(occupation)}
+                        underlineColor={colors.maranduGreen}
+                        activeUnderlineColor={colors.maranduGreen}
+                        left={<TextInput.Icon color={colors.gray} name="briefcase" />}
+                        error={isFieldInError('occupation') && !touchedForm}
+                        onFocus={() => setTouchedForm(true)}
+                    />
+                    {isFieldInError('occupation') && !touchedForm &&
+                        getErrorsInField('occupation').map((errorMessage: any, index: any) => (
+                            <Text style={styles.error} key={index}>{errorMessage}</Text>
+                        ))}
+                    <Box style={styles.buttonContainer}>
+                        <Pressable
+                            style={[styles.buttonSubmit, styles.button]}
+                            onPress={() => { updateUser() }}
+                        >
+                            <Text style={styles.textBtStyle}>{I18n.t('Profile.update')}</Text>
+                        </Pressable>
+                        <Pressable
+                            style={[styles.buttonSubmit, styles.button]}
+                            onPress={() => onCancel()}
+                        >
+                            <Text style={styles.textBtStyle}>{I18n.t('Profile.cancel')}</Text>
+                        </Pressable>
                     </Box>
-                </TouchableOpacity>
-                <ActionModalComponent
-                    showModal={showModal}
-                    actionBtText={I18n.t('Common.delete')} 
-                    actionCancel={() => setShowModal(false)}
-                    actionProceed={() => deleteUser()}
-                    title={I18n.t('Profile.UpdateUserForm.deleteTitle')}
-                    subtitle={I18n.t('Profile.UpdateUserForm.deleteSubtitle')} />
-            </Box>
+                    <TouchableOpacity onPress={() => {
+                        setShowModal(true)
+                    }
+                    }>
+                        <Box style={styles.deleteAccountContainer}>
+                            <MaterialCommunityIcons style={styles.userDeleteIcon} name="account-off" size={18} />
+                            <Text style={styles.deleteAccount}>{I18n.t('Profile.UpdateUserForm.deleteAccount')}</Text>
+                        </Box>
+                    </TouchableOpacity>
+                    <ActionModalComponent
+                        showModal={showModal}
+                        actionBtText={I18n.t('Common.delete')}
+                        actionCancel={() => setShowModal(false)}
+                        actionProceed={() => deleteUser()}
+                        title={I18n.t('Profile.UpdateUserForm.deleteTitle')}
+                        subtitle={I18n.t('Profile.UpdateUserForm.deleteSubtitle')} />
+                </Box>
+            </ScrollView>
         </View>
     );
 }
