@@ -9,6 +9,8 @@ import ActionModalComponent from '../common/action-modal.component';
 import I18n from '../../../i18n/i18n';
 import SightEditComponent from './sight-edit.component';
 import { getSightImageUri } from '../../utils/images';
+import Clipboard from '@react-native-community/clipboard';
+import { ToastAndroid } from 'react-native'
 
 
 export default function SightDetailsComponent({ sight, onClose, allowDelete = false, onDelete, onUpdate }: { sight: Sight, onClose: any, allowDelete?: boolean, onDelete?: any, onUpdate?: any }) {
@@ -21,24 +23,29 @@ export default function SightDetailsComponent({ sight, onClose, allowDelete = fa
         onUpdate(sight);
     }
 
+    const copyCoordinates = () => {
+        Clipboard.setString(`${sight?.location.latitude}, ${sight?.location.longitude}`);
+        ToastAndroid.show(`${I18n.t('Sight.coordinatesCopied')}`, ToastAndroid.SHORT)
+    }
+
     const renderDetails = () => {
         return (
             <View style={styles.container}>
                 <Box style={styles.header}>
-                <TouchableOpacity style={styles.closeBt} onPress={() => { onClose() }}>
-                    <MaterialCommunityIcons name="arrow-left" size={40} style={styles.headerButton} />
-                </TouchableOpacity>
-                {
-                    allowDelete &&
-                    <Box style={[styles.touchableActionContainer, styles.actionBt]}>
-                        <TouchableOpacity onPress={() => { setShowModal(true) }}>
-                            <MaterialCommunityIcons name="trash-can-outline" size={28} style={[styles.headerButton, styles.actionButton]} />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setShowEdit(true) }}>
-                            <MaterialCommunityIcons name="border-color" size={28} style={[styles.headerButton, styles.actionButton, styles.editBt]} />
-                        </TouchableOpacity>
-                    </Box>
-                }
+                    <TouchableOpacity style={styles.closeBt} onPress={() => { onClose() }}>
+                        <MaterialCommunityIcons name="arrow-left" size={40} style={styles.headerButton} />
+                    </TouchableOpacity>
+                    {
+                        allowDelete &&
+                        <Box style={[styles.touchableActionContainer, styles.actionBt]}>
+                            <TouchableOpacity onPress={() => { setShowModal(true) }}>
+                                <MaterialCommunityIcons name="trash-can-outline" size={28} style={[styles.headerButton, styles.actionButton]} />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { setShowEdit(true) }}>
+                                <MaterialCommunityIcons name="border-color" size={28} style={[styles.headerButton, styles.actionButton, styles.editBt]} />
+                            </TouchableOpacity>
+                        </Box>
+                    }
                 </Box>
                 <Image style={styles.sightImage} source={{ uri: getSightImageUri(sight?.imageId) }} />
                 <Box style={styles.headerContainer}>
@@ -46,6 +53,12 @@ export default function SightDetailsComponent({ sight, onClose, allowDelete = fa
                     <Box style={styles.locationContainer}>
                         <MaterialCommunityIcons name="map-marker" size={22} style={styles.locationIcon} />
                         <Text>{sight?.placeName}</Text>
+                    </Box>
+                    <Box>
+                        <TouchableOpacity style={[styles.locationContainer, styles.copyCoordinates]} onPress={() => { copyCoordinates() }}>
+                            <MaterialCommunityIcons name="content-copy" size={22} style={styles.locationIcon} />
+                            <Text>{I18n.t('Sight.copyCoordinates')}</Text>
+                        </TouchableOpacity>
                     </Box>
                 </Box>
                 <Text>{I18n.t('Sight.condition')}: {capitalizeText(sight?.condition)}</Text>
@@ -57,9 +70,9 @@ export default function SightDetailsComponent({ sight, onClose, allowDelete = fa
                         </View>
                     </Box>
                 </ScrollView>
-                    <Text style={styles.createdText}>
-                        {getCreatedByLegend(name, lastName, occupation, sight?.createdAt)}
-                    </Text>
+                <Text style={styles.createdText}>
+                    {getCreatedByLegend(name, lastName, occupation, sight?.createdAt)}
+                </Text>
                 <ActionModalComponent
                     showModal={showModal}
                     actionBtText={I18n.t('Common.delete')}
@@ -113,6 +126,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 5,
         marginBottom: 5,
+    },
+    copyCoordinates: {
+        marginLeft: 5,
     },
     locationIcon: {
         color: colors.maranduGreen,

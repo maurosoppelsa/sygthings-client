@@ -65,7 +65,9 @@
         "createdBy": "Por",
         "createdAt": "Creado",
         "deleteTitle": "¿Estas seguro de que quieres eliminar este avistamiento?",
-        "deleteSubtitle": "Esta acción no se puede deshacer."
+        "deleteSubtitle": "Esta acción no se puede deshacer.",
+        "copyCoordinates": "Copiar coordenadas",
+        "coordinatesCopied": "Coordenadas copiadas al portapapeles"
     },
     "NewSight": {
         "button": "Crear nuevo avistamiento",

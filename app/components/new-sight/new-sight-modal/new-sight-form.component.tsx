@@ -65,8 +65,8 @@ export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo
             </Box>
             <Box style={styles.buttonContainer}>
                 <Pressable
-                    disabled={!animalName}
-                    style={[styles.buttonSubmit, !animalName ? styles.buttonDisabled : styles.buttonEnabled]}
+                    disabled={!animalName || !description}
+                    style={[styles.buttonSubmit, (!animalName || !description) ? styles.buttonDisabled : styles.buttonEnabled]}
                     onPress={() => onSubmit({ animalName, description, condition: checked, placeName: locationInfo })}
                 >
                     <Text style={styles.textStyle}>{I18n.t('NewSightForm.button')}</Text>
