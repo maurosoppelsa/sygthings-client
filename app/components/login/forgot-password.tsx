@@ -12,7 +12,7 @@ import { MaranduButtonComponent } from '../common/marandu-button.component';
 
 const { useValidation } = require('react-native-form-validator')
 
-export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, hasNotified, isAllowReset, onUpdatePassword, verifyReset }: { onSendResetPasswordEmail: any, onCancel: any, isAllowReset: boolean, hasNotified: boolean, onUpdatePassword: any, verifyReset: any }) {
+export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, hasNotified, isAllowReset, onUpdatePassword, verifyReset, isLoading, hasFailed }: { onSendResetPasswordEmail: any, onCancel: any, isAllowReset: boolean, hasNotified: boolean, onUpdatePassword: any, verifyReset: any, isLoading: boolean, hasFailed: boolean }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -29,6 +29,16 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
         await verifyReset(email, code);
     }
 
+    const renderServerStatus = () => {
+        if (hasFailed) {
+            return <Text style={[styles.serverStatusTxt, styles.serverErrorTxt]}>{I18n.t('Common.serverError')}</Text>
+        } else if (isLoading) {
+            return <Text style={styles.serverStatusTxt}>{I18n.t('Common.waiting')}</Text>
+        } else {
+            return;
+        }
+    }
+
     const CompleteResetModal = () => {
         return (
             <Modal
@@ -42,7 +52,7 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                             <Text style={styles.modalText}>{I18n.t('Login.resetPassword.modalResetTitle')}</Text>
                         </Box>
                         <Box>
-                            <MaranduButtonComponent title={I18n.t('Common.accept')} style={styles.button} onPress={() => onAccept()}/>
+                            <MaranduButtonComponent title={I18n.t('Common.accept')} style={styles.button} onPress={() => onAccept()} />
                         </Box>
                     </Box>
                 </View>
@@ -96,7 +106,7 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                         underlineColor={colors.syghtingGreen}
                         activeUnderlineColor={colors.maranduGreen}
                         left={<TextInput.Icon color={colors.maranduGreen} name="email" />}
-                        disabled={false}
+                        disabled={isLoading}
                     />
                     {isFieldInError('email') &&
                         getErrorsInField('email').map((errorMessage: any, index: any) => (
@@ -106,7 +116,7 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                         <MaranduButtonComponent
                             title={I18n.t('Login.resetPassword.send')}
                             onPress={() => { sendEmail() }}
-                            disabled={email === ''}
+                            disabled={email === '' || isLoading}
                             style={styles.maranduBt} />
                         <MaranduButtonComponent
                             title={I18n.t('Login.resetPassword.cancel')}
@@ -181,6 +191,7 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
                     subtitle={I18n.t('Login.resetPassword.cancelUpdatePassSubtitle')} />
                 <CompleteResetModal />
             </Box>
+            {renderServerStatus()}
         </View>
     );
 }
@@ -248,4 +259,13 @@ const styles = StyleSheet.create({
         color: colors.darkGray,
         marginBottom: 10,
     },
+    serverStatusTxt: {
+        fontSize: 14,
+        color: colors.darkGray,
+        alignSelf: 'center',
+        marginTop: 10,
+    },
+    serverErrorTxt: {
+        color: colors.red,
+    }
 });

@@ -326,12 +326,17 @@ const authSlice = createSlice({
         state.isResettingPassword = true;
         state.message = authErrorMessages['auth/error-sending-email'];
       })
+      .addCase(notifyUserResetPassword.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(notifyUserResetPassword.fulfilled, (state) => {
         state.hasUserAskedPassReset = true;
+        state.loading = false;
       })
       .addCase(notifyUserResetPassword.rejected, (state) => {
         state.error = true;
         state.message = authErrorMessages['auth/error-sending-email'];
+        state.loading = false;
       })
       .addCase(cancelResetPassword.fulfilled, (state) => {
         state.isResettingPassword = false;

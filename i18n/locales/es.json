@@ -161,6 +161,8 @@
         "cancel": "Cancelar",
         "continue": "Continuar",
         "back": "Volver",
-        "accept": "Aceptar"
+        "accept": "Aceptar",
+        "waiting" : "Espera por favor...",
+        "serverError": "Algo salió mal, por favor intenta nuevamente o vuelve más tarde."
     }
 }

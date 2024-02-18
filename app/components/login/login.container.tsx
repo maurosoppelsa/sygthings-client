@@ -116,6 +116,8 @@ export default function Login() {
         hasNotified={authentication.hasUserAskedPassReset}
         isAllowReset={authentication.isUserAllowedReset}
         onUpdatePassword={(email: string, password: string) => updatePassword(email, password)}
+        isLoading={authentication.loading}
+        hasFailed={authentication.error}
       />
     }
     else {

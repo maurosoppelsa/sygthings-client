@@ -5,7 +5,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../../config/colors';
 import I18n from '../../../../i18n/i18n';
 import CodeInput from '../../common/code-input';
-import { Button } from 'react-native-paper';
 import EmailVerificationModal from './email-verification-modal';
 import ActionModalComponent from '../../common/action-modal.component';
 import { MaranduButtonComponent } from '../../common/marandu-button.component';

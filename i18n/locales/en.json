@@ -162,6 +162,8 @@
         "cancel": "Cancel",
         "continue": "Continue",
         "back": "Back",
-        "accept": "Accept"
+        "accept": "Accept",
+        "waiting": "Please wait...",
+        "serverError": "Something went wrong, please try again or comeback later."
     }
 }
