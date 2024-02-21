@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, StyleSheet, View, Text } from "react-native";
+import { Modal, StyleSheet, View } from "react-native";
 import { SIGHT_MODAL_STATUS } from "../../../constants";
 import { Location } from "../../../interfaces/common";
 import MapComponent from "./map.component";
@@ -23,6 +23,7 @@ const NewSightModalComponent = ({ modalFormStatus, imageUrl, showModal, onSubmit
         animationType="fade"
         transparent={true}
         visible={showModal}
+        onRequestClose={() => onClose()}
       >
         <View style={styles.centeredView}>
           <ModalContent />

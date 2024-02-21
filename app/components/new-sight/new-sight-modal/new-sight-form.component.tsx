@@ -185,7 +185,9 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: "row",
         width: '100%',
-        paddingLeft: 15,
+        justifyContent: "space-between",
+        paddingLeft: 20,
+        paddingRight: 20,
     },
     conditionBox: {
         flexDirection: "row",

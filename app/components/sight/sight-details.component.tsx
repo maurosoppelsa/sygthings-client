@@ -1,5 +1,5 @@
 import { Box } from '@react-native-material/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, Image, TouchableOpacity, View, ScrollView } from 'react-native';
 import colors from '../../config/colors';
 import { Sight } from '../../interfaces/common';
@@ -11,13 +11,27 @@ import SightEditComponent from './sight-edit.component';
 import { getSightImageUri } from '../../utils/images';
 import Clipboard from '@react-native-community/clipboard';
 import { ToastAndroid } from 'react-native'
-
+import { BackHandler } from 'react-native';
 
 export default function SightDetailsComponent({ sight, onClose, allowDelete = false, onDelete, onUpdate }: { sight: Sight, onClose: any, allowDelete?: boolean, onDelete?: any, onUpdate?: any }) {
     const { name, lastName, occupation } = sight?.user ?? {};
     const [showModal, setShowModal] = React.useState(false);
     const [showEdit, setShowEdit] = React.useState(false);
 
+    useEffect(() => {
+        const backHandlerListener = BackHandler.addEventListener(
+            'hardwareBackPress',
+            handleBackButtonPress
+        );
+
+        return () => backHandlerListener.remove();
+    }, []);
+
+    const handleBackButtonPress = () => {
+        onClose(); // Call the onClose method provided in props
+        return true;  // Returning true indicates that the event has been handled
+    };
+    
     const updateSight = (sight: Sight) => {
         setShowEdit(false);
         onUpdate(sight);

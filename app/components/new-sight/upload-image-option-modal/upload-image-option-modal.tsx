@@ -10,6 +10,7 @@ const UploadImageOptionModal = ({ showModal, onSelectCamera, onSelectGallery, on
         <View style={styles.centeredView}>
             <Modal
                 animationType="fade"
+                onRequestClose={() => onClose()}
                 transparent={true}
                 visible={showModal}
             >
