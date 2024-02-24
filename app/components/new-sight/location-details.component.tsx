@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     legend: {
         alignSelf: 'center',
         maxWidth: '90%',
+        paddingRight: 5,
     },
     details: {
         color: colors.darkGray,
