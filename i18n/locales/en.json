@@ -164,6 +164,7 @@
         "back": "Back",
         "accept": "Accept",
         "waiting": "Please wait...",
-        "serverError": "Something went wrong, please try again or comeback later."
+        "serverError": "Something went wrong, please try again or comeback later.",
+        "close": "Close"
     }
 }

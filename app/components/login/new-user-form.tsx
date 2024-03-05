@@ -10,6 +10,7 @@ import I18n from '../../../i18n/i18n';
 // @ts-ignore
 import logo from '../../assets/logo_new_user.png';
 import { ScrollView } from 'react-native-gesture-handler';
+import TermsModal from './terms-and-condition-modal';
 
 const { useValidation } = require('react-native-form-validator')
 
@@ -24,6 +25,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
     const [occupation, setOccupation] = useState('');
     const [touchedForm, setTouchedForm] = useState(false);
     const [termsChecked, setChecked] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const { validate, isFieldInError, getErrorsInField } =
         useValidation({
@@ -169,7 +171,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                             }}
                         />
                         <Text>{I18n.t('Login.NewUser.agreement')} </Text>
-                        <TouchableOpacity onPress={() => console.log('terms and conditions')}>
+                        <TouchableOpacity onPress={() => setModalVisible(true)}>
                             <Text style={styles.termsLink}>{I18n.t('Login.NewUser.terms')}</Text>
                         </TouchableOpacity>
                     </Box>
@@ -179,6 +181,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                     <Button color={colors.maranduYellow} style={styles.formButton} onPress={() => onCancel()}>{I18n.t('Login.NewUser.cancel')}</Button>
                 </Box>
         </Box>
+        <TermsModal onClose={() => {setModalVisible(false)}} visible={modalVisible} />
         </ScrollView>
     );
 }

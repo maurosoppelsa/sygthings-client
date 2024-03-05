@@ -163,6 +163,7 @@
         "back": "Volver",
         "accept": "Aceptar",
         "waiting" : "Espera por favor...",
-        "serverError": "Algo salió mal, por favor intenta nuevamente o vuelve más tarde."
+        "serverError": "Algo salió mal, por favor intenta nuevamente o vuelve más tarde.",
+        "close": "Cerrar"
     }
 }
