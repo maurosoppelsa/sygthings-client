@@ -13,6 +13,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Divider } from 'react-native-paper';
 // @ts-ignore
 import customLogo from '../../assets/marandu.png';
+import { version } from '../../../package.json';
 
 export default function Profile() {
 
@@ -121,6 +122,7 @@ export default function Profile() {
                     </TouchableOpacity>
                 </Box>
             </ScrollView>
+            <Text style={styles.versionText}>App Version: {version}</Text>
         </View>
     );
 }
@@ -225,5 +227,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 15,
         marginBottom: 15,
-    }
+    },
+    versionText: {
+        fontSize: 14,
+        color: colors.darkGray,
+        textAlign: 'center',
+    },
 });
