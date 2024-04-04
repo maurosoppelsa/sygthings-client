@@ -9,9 +9,9 @@ import ActionModalComponent from '../common/action-modal.component';
 import I18n from '../../../i18n/i18n';
 import SightEditComponent from './sight-edit.component';
 import { getSightImageUri } from '../../utils/images';
-import Clipboard from '@react-native-community/clipboard';
 import { ToastAndroid } from 'react-native'
 import { BackHandler } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 export default function SightDetailsComponent({ sight, onClose, allowDelete = false, onDelete, onUpdate }: { sight: Sight, onClose: any, allowDelete?: boolean, onDelete?: any, onUpdate?: any }) {
     const { name, lastName, occupation } = sight?.user ?? {};
