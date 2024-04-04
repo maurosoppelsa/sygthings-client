@@ -57,9 +57,9 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <ScrollView>
-                <Box style={styles.container}>
+                <Box>
                     <TextInput
                         autoComplete="off"
                         value={name}

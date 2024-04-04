@@ -84,7 +84,7 @@ export default function TabNavigator() {
                     if (route.name === 'Dashboard') {
                         iconName = focused ? 'home' : 'home-outline';
                     } else if (route.name === 'MySights') {
-                        iconName = focused ? 'md-paw' : 'md-paw-outline';
+                        iconName = focused ? 'paw' : 'paw-outline';
                     }
                     else if (route.name === 'NewSight') {
                         iconName = focused ? 'camera' : 'camera-outline';

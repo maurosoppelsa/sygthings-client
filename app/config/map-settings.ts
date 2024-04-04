@@ -1,4 +1,4 @@
-export const mapbox_token = 'pk.eyJ1IjoibWF1cm9zb3BwZWxzYSIsImEiOiJjbDU4NWh3c2cxdTNzM29xeDlrc243d3Z3In0.HiJKZTcG3rXLL8eeJyK-xQ';
+export const mapbox_token = 'pk.eyJ1IjoibWFyYW5kdSIsImEiOiJjbHVsbmkzdzcxMTc2Mm5vM2ptbmY1MGowIn0.nu8kJv9TuY0gsxUxjeDj-w';
 export const mapbox_base_path = 'https://api.mapbox.com';
 export const map_size = {
     width: 800,
