@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
 import colors from '../../config/colors';
+import { isTabletDevice } from '../../utils/common';
 
 export function MaranduButtonComponent({title, onPress, disabled, style }: {title: string, onPress: any, disabled?: boolean, style?: any}) {
     return (
@@ -33,5 +34,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         textTransform: "uppercase",
+        ...(isTabletDevice() && { fontSize: 18 }),
     },
 });

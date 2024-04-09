@@ -5,6 +5,7 @@ import { RadioButton } from 'react-native-paper';
 import colors from "../../../config/colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import I18n from '../../../../i18n/i18n';
+import { isTabletDevice } from "../../../utils/common";
 
 export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo, onClose }: { imageUrl: { uri: string }, onSubmit: any, locationInfo: string, onClose: any }) {
     const [animalName, onChangeAnimalName] = React.useState("");
@@ -60,7 +61,7 @@ export default function NewSightFormComponent({ imageUrl, onSubmit, locationInfo
                 </Box>
             </Box>
             <Box style={styles.locationLegend}>
-                <MaterialCommunityIcons name="map-marker" size={30} style={styles.locationIcon} />
+                <MaterialCommunityIcons name="map-marker" size={isTabletDevice() ? 40 : 30} style={styles.locationIcon} />
                 <Text style={styles.locationTxt}>{locationInfo}</Text>
             </Box>
             <Box style={styles.buttonContainer}>
@@ -101,7 +102,8 @@ const styles = StyleSheet.create({
     buttonSubmit: {
         borderRadius: 5,
         padding: 10,
-        minWidth: 120,
+        minWidth: isTabletDevice() ? 200 : 120,
+        ...(isTabletDevice() && { minHeight: 50}),
         elevation: 2,
         alignSelf: "center",
         margin: 10,
@@ -117,10 +119,11 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         textTransform: "uppercase",
+        ...(isTabletDevice() && { fontSize: 18}),
     },
     sightImg: {
         width: '100%',
-        minHeight: 200,
+        minHeight: isTabletDevice() ? 400 : 200,
         alignSelf: "center",
         borderWidth: 1,
         borderColor: colors.lightGray,
@@ -132,10 +135,10 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 10,
         borderColor: colors.maranduGreenShadow,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingLeft: isTabletDevice() ? 40 : 20,
+        paddingRight: isTabletDevice() ? 40 : 20,
+        paddingTop: isTabletDevice() ? 20 : 10,
+        paddingBottom: isTabletDevice() ? 20 : 10,
         marginTop: 20,
     },
     animalInput: {
@@ -146,6 +149,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderColor: colors.maranduGreenShadow,
         borderRadius: 5,
+        ...(isTabletDevice() && { fontSize: 18}),
     },
     radioContainer: {
         flexDirection: "row",
@@ -159,11 +163,11 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     locationTxt: {
-        fontSize: 18,
+        fontSize: isTabletDevice() ? 22 : 18,
         marginTop: 5,
         marginRight: 5,
         color: colors.darkGray,
-        maxWidth: '80%',
+        maxWidth: isTabletDevice() ? '100%' :'85%',
     },
     locationLegend: {
         flexDirection: "row",
@@ -174,13 +178,14 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 15,
         width: '100%',
+        ...(isTabletDevice() && { minHeight: 70}),
         backgroundColor: colors.maranduGreenShadow2,
         borderRadius: 10,
     },
     locationIcon: {
         color: colors.maranduGreen,
         marginTop: 5,
-        marginLeft: 5,
+        marginLeft: isTabletDevice() ? 10 : 5,
         marginRight: 5,
     },
     buttonContainer: {

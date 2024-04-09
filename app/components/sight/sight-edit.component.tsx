@@ -8,6 +8,7 @@ import I18n from '../../../i18n/i18n';
 import * as ImagePicker from "react-native-image-picker"
 import { MediaType } from "react-native-image-picker";
 import { getSightImageUri } from "../../utils/images";
+import { isTabletDevice } from "../../utils/common";
 
 export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSight }: { sight: Sight, onCancelUpdate: any, onUpdateSight: any }) {
     const [animalName, setAnimalName] = useState(sight?.animal);
@@ -84,7 +85,7 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
             <View style={styles.container}>
                 <Box style={styles.imageContainer}>
                     <Image style={styles.image} source={{ uri: imageSource }} />
-                    <Button color={colors.maranduYellow} style={[styles.button, styles.updatePictureBT]} onPress={() => { openImageinFileSystem() }}>{I18n.t('EditSight.updatePicture')}</Button>
+                    <Button labelStyle={styles.buttonText} color={colors.maranduYellow} style={[styles.button, styles.updatePictureBT]} onPress={() => { openImageinFileSystem() }}>{I18n.t('EditSight.updatePicture')}</Button>
                 </Box>
                 <Box>
                     <Text style={styles.inputTitle}>{I18n.t('EditSight.specie')}</Text>
@@ -123,8 +124,8 @@ export default function SightEditComponent({ sight, onCancelUpdate, onUpdateSigh
                     </Box>
                 </Box>
                 <Box style={styles.actionButtonContainer}>
-                    <Button color={colors.maranduYellow} style={[styles.button, styles.actionBT]} onPress={() => editSight(sight)} disabled={!animalName || !description || !isSightUpdated()}>{I18n.t('Common.edit')}</Button>
-                    <Button color={colors.maranduYellow} style={[styles.button, styles.actionBT]} onPress={() => onCancelUpdate()}>{I18n.t('Common.cancel')}</Button>
+                    <Button labelStyle={styles.buttonText} color={colors.maranduYellow} style={[styles.button, styles.actionBT]} onPress={() => editSight(sight)} disabled={!animalName || !description || !isSightUpdated()}>{I18n.t('Common.edit')}</Button>
+                    <Button labelStyle={styles.buttonText} color={colors.maranduYellow} style={[styles.button, styles.actionBT]} onPress={() => onCancelUpdate()}>{I18n.t('Common.cancel')}</Button>
                 </Box>
             </View>
         </ScrollView>
@@ -145,13 +146,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 5,
     },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        alignSelf: 'center',
-        marginLeft: 5,
-        marginBottom: 5,
-    },
     imageContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -159,57 +153,63 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     image: {
-        width: 300,
-        height: 300,
+        width: isTabletDevice() ? 500 : 300,
+        height: isTabletDevice() ? 500 : 300,
         borderWidth: 2,
         borderRadius: 10,
     },
     updatePictureBT: {
-        width: 300,
+        width: isTabletDevice() ? 500 : 300,
         marginTop: 10,
     },
     actionButtonContainer: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 300,
+        width: isTabletDevice() ? 500 : 300,
         marginBottom: 20,
     },
     button: {
         borderRadius: 5,
         backgroundColor: colors.maranduGreen,
-        marginTop: 30
+        marginTop: 30,
     },
     inputTitle: {
         color: colors.darkGray,
         marginTop: 10,
+        ...(isTabletDevice() && { fontSize: 18}),
     },
     sightInputs: {
-        width: 300,
+        width: isTabletDevice() ? 500 : 300,
         height: 40,
         borderColor: colors.maranduGreenShadow2,
         borderWidth: 1,
         borderRadius: 5,
         marginTop: 10,
         padding: 5,
+        ...(isTabletDevice() && { fontSize: 18}),
     },
     inputDesc: {
         height: 100,
     },
     actionBT: {
-        width: 140,
+        width: isTabletDevice() ? 200 : 140,
     },
     radioContainer: {
         flexDirection: "row",
         marginTop: 10,
         alignItems: 'flex-start',
         justifyContent: 'space-between',
-        width: 300,
+        width: isTabletDevice() ? 500 : 300,
     },
     radioTitle: {
         marginTop: 8,
         color: colors.maranduGreen,
         fontWeight: 'bold',
         textTransform: 'capitalize',
+        ...(isTabletDevice() && { fontSize: 18}),
+    },
+    buttonText: {
+        ...(isTabletDevice() && { fontSize: 18}),
     },
 });

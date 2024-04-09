@@ -2,6 +2,7 @@ import moment from 'moment';
 import I18n from '../../i18n/i18n';
 import { defaultLanguage } from '../config/language';
 import 'moment/locale/es';
+import { Platform, Dimensions } from 'react-native';
 
 moment.locale(defaultLanguage);
 
@@ -53,3 +54,8 @@ export const hasDateExpired = function (expiresIn: number) {
 export const getTomorrowDate = function () {
     return moment().add(1, 'days').unix();
 }
+
+export const isTabletDevice = function () {
+    const { height, width } = Dimensions.get('window'); // Get screen dimensions
+    return (Platform.OS === 'android' && (height > 960 || width > 960));
+};

@@ -5,7 +5,7 @@ import { Button } from "react-native-paper"
 import colors from '../../config/colors';
 import { Sight } from "../../interfaces/common";
 import I18n from '../../../i18n/i18n';
-import { getCreatedByLegend } from '../../utils/common';
+import { getCreatedByLegend, isTabletDevice } from '../../utils/common';
 import LinearGradient from 'react-native-linear-gradient';
 
 export default function SightComponent({ sight, getDetails }: { sight: Sight, getDetails: any }) {
@@ -33,7 +33,7 @@ export default function SightComponent({ sight, getDetails }: { sight: Sight, ge
                             {getCreatedByLegend(name, lastName, '', sight?.createdAt)}
                         </Text>
                     </Box>
-                    <Button style={styles.sightBt} onPress={() => getDetails(sight)} color={colors.maranduYellow}>{I18n.t('Sight.button')}</Button>
+                    <Button style={styles.sightBt} labelStyle={styles.buttonLabel} onPress={() => getDetails(sight)} color={colors.maranduYellow}>{I18n.t('Sight.button')}</Button>
                 </Box>
             </Box>
         </Box>
@@ -68,12 +68,12 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 10,
         borderBottomEndRadius: 10,
         borderBottomLeftRadius: 10,
-      },
+    },
     leftContent: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '45%',
+        width: isTabletDevice() ? '30%' : '45%',
         marginTop: 15,
     },
     imageSightBox: {
@@ -84,18 +84,18 @@ const styles = StyleSheet.create({
         borderTopEndRadius: 10,
         borderTopLeftRadius: 10,
         borderColor: colors.maranduGreenShadow,
-        height: 150,
-        width: 130,
+        height: isTabletDevice() ? 200 : 150,
+        width: isTabletDevice() ? 180 : 130,
     },
     rightContent: {
-        width: '50%',
-        paddingLeft: 5,
+        width: isTabletDevice() ? '70%' : '50%',
+        paddingLeft: 20,
         alignSelf: "center",
         marginTop: 30,
     },
     footprintIcon: {
-        width: 50,
-        height: 50,
+        width: isTabletDevice() ? 85 : 50,
+        height: isTabletDevice() ? 85 : 50,
         zIndex: 0,
         alignSelf: "center",
         top: 10,
@@ -112,12 +112,12 @@ const styles = StyleSheet.create({
     },
     animalName: {
         position: "absolute",
-        top: 5,
+        top: isTabletDevice() ? 1 : 5,
         alignSelf: "center",
         color: colors.darkGray,
         zIndex: 2,
         textTransform: "capitalize",
-        fontSize: 16,
+        fontSize: isTabletDevice() ? 20 : 16,
     },
     sightInfoTitleBox: {
         minWidth: 70
@@ -125,26 +125,25 @@ const styles = StyleSheet.create({
     sightInfoTitleText: {
         lineHeight: 25,
         color: colors.darkGray,
-        fontSize: 16,
+        fontSize: isTabletDevice() ? 20 : 16,
     },
     sightInfoValue: {
         flex: 1,
     },
-    sightInfoValueText: {
-        fontWeight: "600",
-        lineHeight: 19,
-        fontSize: 13,
-        color: colors.black
-    },
     sightBt: {
         backgroundColor: colors.maranduGreen,
         alignSelf: "flex-start",
-        marginTop: 20,
+        marginTop: isTabletDevice() ? 30 : 20,
         marginBottom: 20,
+        ...(isTabletDevice() && { width: 140, height: 50, padding: 2 })
+    },
+    buttonLabel: {
+        // Define your font size here
+        fontSize: isTabletDevice() ? 18 : 14, // Example sizes
     },
     sightAuthor: {
-        fontSize: 14,
+        fontSize: isTabletDevice() ? 16 : 14,
         color: colors.darkGray,
-        marginTop: 10,
+        marginTop: isTabletDevice() ? 20 : 10,
     }
 });

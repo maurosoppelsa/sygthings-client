@@ -7,6 +7,7 @@ import { TextInput } from 'react-native-paper';
 // @ts-ignore
 import logo from '../../assets/logo_name.png';
 import I18n from '../../../i18n/i18n';
+import { isTabletDevice } from '../../utils/common';
 
 export default function LoginForm({ handleLogin, loadingUser, goToRegister, goToForgot }: { handleLogin: any, loadingUser: boolean, goToRegister: any, goToForgot: any }) {
   const [password, setPassword] = useState('');
@@ -45,7 +46,7 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister, goTo
           <Text style={styles.forgotPasswordLegend}>{I18n.t('Login.forgotPassword')}</Text>
         </TouchableOpacity>
       </Box>
-      <Button onPress={() => handleLogin(email, password)} disabled={isButtonEnabled()} style={styles.loginButton} color={colors.maranduYellow}>{I18n.t('Login.signIn')}</Button>
+      <Button labelStyle={styles.textButton} onPress={() => handleLogin(email, password)} disabled={isButtonEnabled()} style={styles.loginButton} color={colors.maranduYellow}>{I18n.t('Login.signIn')}</Button>
       <TouchableOpacity onPress={() => goToRegister()}>
         <Text style={styles.registerlink}>
           {I18n.t('Login.notRegistered')}
@@ -56,25 +57,25 @@ export default function LoginForm({ handleLogin, loadingUser, goToRegister, goTo
 }
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 25,
-    color: colors.gray,
-    marginBottom: 20
-  },
   input: {
     backgroundColor: colors.white,
+    ...(isTabletDevice() && { fontSize: 20 })
   },
   loginButton: {
     backgroundColor: colors.maranduGreen,
-    marginTop: 50,
+    marginTop: isTabletDevice() ? 70 : 50,
     width: '100%',
-    height: 40,
+    height: isTabletDevice() ? 60 : 40,
     borderRadius: 10,
+  },
+  textButton: {
+    ...(isTabletDevice() && { fontSize: 20, padding: 5 })
   },
   forgotPasswordLegend: {
     alignSelf: 'flex-end',
     color: colors.gray,
-    marginTop: 5
+    marginTop: 5,
+    ...(isTabletDevice() && { fontSize: 18 })
   },
   registerlink: {
     alignSelf: 'center',
@@ -83,13 +84,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   logoImage: {
-    width: 300,
-    height: 300,
+    width: isTabletDevice() ? 400 : 300,
+    height: isTabletDevice() ? 400 : 300,
     resizeMode: 'contain',
     alignSelf: 'center',
   },
   boxImg: {
-    marginBottom: 10,
+    marginBottom: isTabletDevice() ? 20 : 10,
   },
   loginForm: {
     padding: 20,

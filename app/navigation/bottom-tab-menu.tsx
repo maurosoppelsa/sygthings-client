@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import I18n from '../../i18n/i18n';
 // @ts-ignore
 import profileIcon from '../assets/profile_bar.png';
+import { isTabletDevice } from '../utils/common';
 
 
 const Stack = createNativeStackNavigator();
@@ -106,17 +107,19 @@ const styles = StyleSheet.create({
         width: fullScreenWidth,
         backgroundColor: colors.maranduGreen,
         color: colors.white,
-        borderTopColor: colors.maranduGreen
+        borderTopColor: colors.maranduGreen,
+        ...(isTabletDevice() && { height: 70 })
     },
     bottomMenuIcon: {
         color: colors.maranduYellow,
-        fontSize: 30
+        fontSize: isTabletDevice() ? 35 : 30,
+        ...(isTabletDevice() && { width: 45, height: 40 })
     },
     profileBt: {
         padding: 10,
     },
     headerTitle: {
         color: colors.maranduYellow,
-        fontSize: 18,
+        fontSize: isTabletDevice()? 22 : 18,
     },
 });

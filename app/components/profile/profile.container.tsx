@@ -14,6 +14,7 @@ import { Divider } from 'react-native-paper';
 // @ts-ignore
 import customLogo from '../../assets/marandu.png';
 import { version } from '../../../package.json';
+import { isTabletDevice } from '../../utils/common';
 
 export default function Profile() {
 
@@ -81,23 +82,23 @@ export default function Profile() {
             <ScrollView>
                 <Box style={styles.profileContent}>
                     <TouchableOpacity onPress={() => onUserUpdate()}>
-                        <MaterialCommunityIcons style={styles.editBt} name="border-color" size={30} />
+                        <MaterialCommunityIcons style={styles.editBt} name="border-color" size={ isTabletDevice() ? 50 : 30} />
                     </TouchableOpacity>
-                    <MaterialCommunityIcons style={styles.accountIcon} name="account-circle-outline" size={120} />
+                    <MaterialCommunityIcons style={styles.accountIcon} name="account-circle-outline" size={isTabletDevice() ? 240 : 120} />
                     <Box style={styles.personContent}>
                         <Box style={styles.personDescription}>
                             <Box style={styles.personInfoField}>
-                                <MaterialCommunityIcons style={styles.infoIcon} name="account" size={25} onPress={() => () => { }} />
+                                <MaterialCommunityIcons style={styles.infoIcon} name="account" size={ isTabletDevice() ? 35 : 25 } onPress={() => () => { }} />
                                 <Text style={styles.userTextField}>{fullName}</Text>
                             </Box>
                             <Divider style={styles.divider}></Divider>
                             <Box style={styles.personInfoField}>
-                                <MaterialCommunityIcons style={styles.infoIcon} name="email" size={25} onPress={() => () => { }} />
+                                <MaterialCommunityIcons style={styles.infoIcon} name="email" size={ isTabletDevice() ? 35 : 25 } onPress={() => () => { }} />
                                 <Text style={styles.userTextField}>{currentUser?.email}</Text>
                             </Box>
                             <Divider style={styles.divider}></Divider>
                             <Box style={styles.personInfoField}>
-                                <MaterialCommunityIcons style={styles.infoIcon} name="briefcase" size={25} onPress={() => () => { }} />
+                                <MaterialCommunityIcons style={styles.infoIcon} name="briefcase" size={ isTabletDevice() ? 35 : 25 } onPress={() => () => { }} />
                                 <Text style={styles.userTextField}>{currentUser?.occupation}</Text>
                             </Box>
                             <Divider style={styles.divider}></Divider>
@@ -117,7 +118,7 @@ export default function Profile() {
                         }
                     </Box>
                     <TouchableOpacity style={styles.logoutBox} onPress={() => logout()}>
-                        <MaterialCommunityIcons style={styles.logoutIcon} name="power-standby" size={20} />
+                        <MaterialCommunityIcons style={styles.logoutIcon} name="power-standby" size={isTabletDevice() ? 30 : 20} />
                         <Text style={styles.logoutTxt}>{I18n.t('Profile.logout')}</Text>
                     </TouchableOpacity>
                 </Box>
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     },
     personDescription: {
         alignSelf: 'center',
-        marginLeft: '15%',
+        marginLeft: isTabletDevice() ? '30%' : '15%',
     },
     accountIcon: {
         alignSelf: 'center',
@@ -164,20 +165,20 @@ const styles = StyleSheet.create({
     },
     infoIcon: {
         color: colors.maranduGreen,
-        marginRight: 10,
+        marginRight: isTabletDevice() ? 20 : 10,
         marginTop: 1,
     },
     userTextField: {
         marginTop: 3,
         marginBottom: 10,
         color: colors.darkGray,
-        fontSize: 16,
+        fontSize: isTabletDevice() ? 22 : 16,
     },
     logoutBox: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 15,
-        marginBottom: 5,
+        marginTop: isTabletDevice() ? 40 : 15,
+        marginBottom: isTabletDevice() ? 20 : 5,
         alignSelf: 'center'
     },
     logoutIcon: {
@@ -186,14 +187,8 @@ const styles = StyleSheet.create({
     },
     logoutTxt: {
         color: colors.red,
-        fontSize: 14,
-    },
-    sightsLegend: {
-        fontStyle: 'italic',
-        color: colors.gray,
-        fontSize: 14,
-        marginTop: 10,
-        textAlign: 'center',
+        fontSize: isTabletDevice() ? 18 : 14,
+        ...(isTabletDevice() && { marginTop: 3 })
     },
     message: {
         fontSize: 18,
@@ -210,7 +205,7 @@ const styles = StyleSheet.create({
     divider: {
         width: '100%',
         backgroundColor: colors.lightGray,
-        marginTop: 10,
+        marginTop: isTabletDevice() ? 15 : 10,
         marginLeft: 25,
         height: 1,
     },
@@ -220,17 +215,17 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     legend: {
-        fontSize: 14,
+        fontSize: isTabletDevice() ? 18 : 14,
         color: colors.darkGray,
         textAlign: 'center',
     },
     customLogo: {
         alignSelf: 'center',
-        marginTop: 15,
-        marginBottom: 15,
+        marginTop: isTabletDevice() ? 30 : 15,
+        marginBottom: isTabletDevice() ? 30 : 15,
     },
     versionText: {
-        fontSize: 10,
+        fontSize: isTabletDevice() ? 14 : 10,
         color: colors.darkGray,
         alignSelf: 'center',
         textAlign: 'center',

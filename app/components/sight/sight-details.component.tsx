@@ -4,7 +4,7 @@ import { StyleSheet, Text, Image, TouchableOpacity, View, ScrollView } from 'rea
 import colors from '../../config/colors';
 import { Sight } from '../../interfaces/common';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { capitalizeText, getCreatedByLegend } from '../../utils/common';
+import { capitalizeText, getCreatedByLegend, isTabletDevice } from '../../utils/common';
 import ActionModalComponent from '../common/action-modal.component';
 import I18n from '../../../i18n/i18n';
 import SightEditComponent from './sight-edit.component';
@@ -47,16 +47,16 @@ export default function SightDetailsComponent({ sight, onClose, allowDelete = fa
             <View style={styles.container}>
                 <Box style={styles.header}>
                     <TouchableOpacity style={styles.closeBt} onPress={() => { onClose() }}>
-                        <MaterialCommunityIcons name="arrow-left" size={35} style={styles.headerButton} />
+                        <MaterialCommunityIcons name="arrow-left" size={ isTabletDevice() ? 60 : 35 } style={styles.headerButton} />
                     </TouchableOpacity>
                     {
                         allowDelete &&
                         <Box style={[styles.touchableActionContainer, styles.actionBt]}>
                             <TouchableOpacity onPress={() => { setShowModal(true) }}>
-                                <MaterialCommunityIcons name="trash-can-outline" size={28} style={[styles.headerButton, styles.actionButton]} />
+                                <MaterialCommunityIcons name="trash-can-outline" size={isTabletDevice() ? 46 : 28} style={[styles.headerButton, styles.actionButton]} />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { setShowEdit(true) }}>
-                                <MaterialCommunityIcons name="border-color" size={28} style={[styles.headerButton, styles.actionButton, styles.editBt]} />
+                                <MaterialCommunityIcons name="border-color" size={isTabletDevice() ? 46 : 28} style={[styles.headerButton, styles.actionButton, styles.editBt]} />
                             </TouchableOpacity>
                         </Box>
                     }
@@ -65,17 +65,17 @@ export default function SightDetailsComponent({ sight, onClose, allowDelete = fa
                 <Box style={styles.headerContainer}>
                     <Text style={styles.sightName}>{sight?.animal}</Text>
                     <Box style={styles.locationContainer}>
-                        <MaterialCommunityIcons name="map-marker" size={20} style={styles.locationIcon} />
-                        <Text>{sight?.placeName}</Text>
+                        <MaterialCommunityIcons name="map-marker" size={isTabletDevice() ? 30 : 20} style={styles.locationIcon} />
+                        <Text style={styles.placeName}>{sight?.placeName}</Text>
                     </Box>
                     <Box>
                         <TouchableOpacity style={[styles.locationContainer, styles.copyCoordinates]} onPress={() => { copyCoordinates() }}>
-                            <MaterialCommunityIcons name="content-copy" size={20} style={styles.locationIcon} />
-                            <Text>{I18n.t('Sight.copyCoordinates')}</Text>
+                            <MaterialCommunityIcons name="content-copy" size={isTabletDevice() ? 30 : 20} style={styles.locationIcon} />
+                            <Text style={styles.coordinatesTxt}>{I18n.t('Sight.copyCoordinates')}</Text>
                         </TouchableOpacity>
                     </Box>
                 </Box>
-                <Text>{I18n.t('Sight.condition')}: {capitalizeText(sight?.condition)}</Text>
+                <Text style={styles.condition}>{I18n.t('Sight.condition')}: {capitalizeText(sight?.condition)}</Text>
                 <Text style={styles.observationTitle}>{I18n.t('Sight.observations')}:</Text>
                     <ScrollView style={styles.descriptionBox}>
                             <Text style={styles.description}>{sight?.description}</Text>
@@ -112,71 +112,70 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        padding: 15,
+        padding: isTabletDevice() ? 30 : 15,
     },
     headerContainer: {
-        marginBottom: 2,
+        marginBottom: isTabletDevice() ? 5 : 2,
         alignItems: 'flex-start',
     },
     sightImage: {
         width: '100%',
-        height: '50%',
+        height: isTabletDevice() ? '60%' : '50%',
         borderRadius: 10,
     },
     sightName: {
-        marginTop: 5,
+        marginTop: isTabletDevice() ? 10 : 5,
         color: colors.maranduGreen,
         textTransform: 'capitalize',
-        fontSize: 16,
+        fontSize: isTabletDevice() ? 25 : 16,
         fontWeight: 'bold',
     },
     locationContainer: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 5,
-        marginBottom: 1,
+        marginTop: isTabletDevice() ? 10 : 5,
+        marginBottom: isTabletDevice() ? 3 : 1,
     },
     copyCoordinates: {
-        marginLeft: 5,
+        marginLeft: isTabletDevice() ? 10 : 5,
     },
     locationIcon: {
         color: colors.maranduGreen,
-        marginRight: 5,
+        marginRight: isTabletDevice() ? 10 : 5,
     },
     description: {
-        fontSize: 12,
-        lineHeight: 20,
+        ...(isTabletDevice() && { fontSize: 18 }),
     },
     createdText: {
-        marginTop: 5,
-        fontSize: 12,
+        marginTop: isTabletDevice() ? 10 : 5,
         alignSelf: 'flex-end',
         color: colors.darkGray,
+        ...(isTabletDevice() && { fontSize: 16, color: colors.darkGray }),
     },
     touchableActionContainer: {
         display: 'flex',
         flexDirection: 'row',
-        alignSelf: 'flex-end',
+        paddingHorizontal: isTabletDevice() ? 20 : 10,
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 10,
     },
     headerButton: {
         color: colors.maranduGreen,
     },
     actionButton: {
-        paddingVertical: 5,
+        paddingVertical: isTabletDevice() ? 10 : 5,
     },
     descriptionBox: {
         backgroundColor: colors.maranduGreenShadow,
         borderRadius: 5,
-        padding: 10,
-        maxHeight: 70,
+        padding: isTabletDevice() ? 15 : 10,
+        maxHeight: isTabletDevice() ? 140 : 70,
     },
     observationTitle: {
-        marginTop: 5,
-        marginBottom: 10,
+        marginTop: isTabletDevice() ? 10 : 5,
+        marginBottom: isTabletDevice() ? 20 : 10,
+        ...(isTabletDevice() && { fontSize: 18 }),
     },
     closeBt: {
         alignSelf: 'flex-start',
@@ -191,7 +190,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     editBt: {
-        marginLeft: 10,
-        marginTop: 7,
+        marginLeft: isTabletDevice() ? 20 : 10,
+        marginTop: isTabletDevice() ? 14 : 7,
+    },
+    placeName: {
+        ...(isTabletDevice() && { fontSize: 20 }),
+    },
+    coordinatesTxt: {
+        ...(isTabletDevice() && { fontSize: 18 }),
+    },
+    condition: {
+        ...(isTabletDevice() && { fontSize: 18, marginTop: 5 }),
     }
 });

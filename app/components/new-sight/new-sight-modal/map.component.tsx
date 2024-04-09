@@ -1,13 +1,13 @@
 import { Box } from '@react-native-material/core';
 import MapboxGL, { Logger } from '@rnmapbox/maps';
 import React, { useState } from 'react';
-import { Text, StyleSheet, Pressable } from 'react-native';
+import { StyleSheet } from 'react-native';
 import colors from '../../../config/colors';
 import { mapbox_token, map_zoom_level } from "../../../config/map-settings";
 import { Location } from '../../../interfaces/common';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaranduButtonComponent } from '../../common/marandu-button.component';
 import I18n from '../../../../i18n/i18n';
+import { isTabletDevice } from '../../../utils/common';
 
 
 
@@ -35,7 +35,6 @@ export default function MapComponent({ onUpdatelocation, onClose, location }: { 
                 key="pointAnnotation"
                 id="pointAnnotation"
                 coordinate={coordinates}>
-                <MaterialCommunityIcons name="map-marker" size={22} style={styles.locationIcon} />
             </MapboxGL.PointAnnotation>
         );
     }
@@ -69,8 +68,8 @@ export default function MapComponent({ onUpdatelocation, onClose, location }: { 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.white,
-        width: 300,
-        height: 300,
+        width: isTabletDevice() ? 500 : 300,
+        height: isTabletDevice() ? 500 : 300,
         alignItems: 'center',
         padding: 5,
         shadowColor: colors.black,
@@ -85,7 +84,8 @@ const styles = StyleSheet.create({
     mapButton: {
         borderRadius: 5,
         padding: 10,
-        minWidth: 100,
+        minWidth: isTabletDevice() ? 200 : 100,
+        ...(isTabletDevice() && { minHeight: 50}),
         elevation: 2,
         alignSelf: "center",
         marginTop: 10,
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     },
     map: {
         flex: 1,
-        width: 290,
+        width: isTabletDevice() ? 490 : 290,
     },
     buttonsContainer: {
         flexDirection: 'row',
