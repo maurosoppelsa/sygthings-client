@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import colors from '../../config/colors';
 import { Box } from "@react-native-material/core";
 import { Button } from 'react-native-paper';
@@ -9,7 +9,6 @@ import { User } from '../../interfaces/common';
 import I18n from '../../../i18n/i18n';
 // @ts-ignore
 import logo from '../../assets/logo_new_user.png';
-import { ScrollView } from 'react-native-gesture-handler';
 import TermsModal from './terms-and-condition-modal';
 
 const { useValidation } = require('react-native-form-validator')
@@ -41,7 +40,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
 
     const createUser = async () => {
         const isValid = await validate({
-            name: { minlength: 3, maxlength: 10, required: true },
+            name: { minlength: 3, maxlength: 14, required: true },
             lastName: { minlength: 3, maxlength: 10, required: true },
             email: { email: true, required: true },
             password: { minlength: 3, maxlength: 7, required: true },
@@ -56,7 +55,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
 
     return (
         <ScrollView>
-        <Box style={styles.newUserForm}>
+            <Box style={styles.newUserForm}>
                 <Box>
                     <Box style={styles.headerContent}>
                         <Image source={logo} style={styles.logoImage}></Image>
@@ -180,8 +179,8 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
                     <Button color={colors.white} disabled={!termsChecked} style={styles.formButton} onPress={() => { createUser() }}>{I18n.t('Login.NewUser.createAccount')}</Button>
                     <Button color={colors.maranduYellow} style={styles.formButton} onPress={() => onCancel()}>{I18n.t('Login.NewUser.cancel')}</Button>
                 </Box>
-        </Box>
-        <TermsModal onClose={() => {setModalVisible(false)}} visible={modalVisible} />
+            </Box>
+            <TermsModal onClose={() => { setModalVisible(false) }} visible={modalVisible} />
         </ScrollView>
     );
 }

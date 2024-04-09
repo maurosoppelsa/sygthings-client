@@ -121,8 +121,8 @@ export default function Profile() {
                         <Text style={styles.logoutTxt}>{I18n.t('Profile.logout')}</Text>
                     </TouchableOpacity>
                 </Box>
+                <Text style={styles.versionText}>App Version: {version}</Text>
             </ScrollView>
-            <Text style={styles.versionText}>App Version: {version}</Text>
         </View>
     );
 }
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     },
     personDescription: {
         alignSelf: 'center',
-        marginLeft: 10,
+        marginLeft: '15%',
     },
     accountIcon: {
         alignSelf: 'center',
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     personInfoField: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 15,
+        marginTop: 10,
     },
     editBt: {
         alignSelf: 'flex-end',
@@ -176,7 +176,8 @@ const styles = StyleSheet.create({
     logoutBox: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 25,
+        marginTop: 15,
+        marginBottom: 5,
         alignSelf: 'center'
     },
     logoutIcon: {
@@ -229,8 +230,9 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     versionText: {
-        fontSize: 14,
+        fontSize: 10,
         color: colors.darkGray,
+        alignSelf: 'center',
         textAlign: 'center',
     },
 });

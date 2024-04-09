@@ -47,7 +47,7 @@ export default function SightDetailsComponent({ sight, onClose, allowDelete = fa
             <View style={styles.container}>
                 <Box style={styles.header}>
                     <TouchableOpacity style={styles.closeBt} onPress={() => { onClose() }}>
-                        <MaterialCommunityIcons name="arrow-left" size={40} style={styles.headerButton} />
+                        <MaterialCommunityIcons name="arrow-left" size={35} style={styles.headerButton} />
                     </TouchableOpacity>
                     {
                         allowDelete &&
@@ -65,25 +65,21 @@ export default function SightDetailsComponent({ sight, onClose, allowDelete = fa
                 <Box style={styles.headerContainer}>
                     <Text style={styles.sightName}>{sight?.animal}</Text>
                     <Box style={styles.locationContainer}>
-                        <MaterialCommunityIcons name="map-marker" size={22} style={styles.locationIcon} />
+                        <MaterialCommunityIcons name="map-marker" size={20} style={styles.locationIcon} />
                         <Text>{sight?.placeName}</Text>
                     </Box>
                     <Box>
                         <TouchableOpacity style={[styles.locationContainer, styles.copyCoordinates]} onPress={() => { copyCoordinates() }}>
-                            <MaterialCommunityIcons name="content-copy" size={22} style={styles.locationIcon} />
+                            <MaterialCommunityIcons name="content-copy" size={20} style={styles.locationIcon} />
                             <Text>{I18n.t('Sight.copyCoordinates')}</Text>
                         </TouchableOpacity>
                     </Box>
                 </Box>
                 <Text>{I18n.t('Sight.condition')}: {capitalizeText(sight?.condition)}</Text>
                 <Text style={styles.observationTitle}>{I18n.t('Sight.observations')}:</Text>
-                <ScrollView>
-                    <Box style={styles.descriptionBox}>
-                        <View>
+                    <ScrollView style={styles.descriptionBox}>
                             <Text style={styles.description}>{sight?.description}</Text>
-                        </View>
-                    </Box>
-                </ScrollView>
+                    </ScrollView>
                 <Text style={styles.createdText}>
                     {getCreatedByLegend(name, lastName, occupation, sight?.createdAt)}
                 </Text>
@@ -131,7 +127,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
         color: colors.maranduGreen,
         textTransform: 'capitalize',
-        fontSize: 30,
+        fontSize: 16,
         fontWeight: 'bold',
     },
     locationContainer: {
@@ -139,7 +135,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 5,
-        marginBottom: 5,
+        marginBottom: 1,
     },
     copyCoordinates: {
         marginLeft: 5,
@@ -150,7 +146,7 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: 12,
-        lineHeight: 20
+        lineHeight: 20,
     },
     createdText: {
         marginTop: 5,
@@ -175,7 +171,8 @@ const styles = StyleSheet.create({
     descriptionBox: {
         backgroundColor: colors.maranduGreenShadow,
         borderRadius: 5,
-        padding: 10
+        padding: 10,
+        maxHeight: 70,
     },
     observationTitle: {
         marginTop: 5,

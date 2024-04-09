@@ -11,17 +11,6 @@ export default class AuthService implements Tokenizable{
         }
         AuthService._instance = this;
     }
-//TODO: remove this, it's just for testing redux persist
-/*     public getEverything = async () => { 
-        AsyncStorage.getAllKeys((err, keys) => {
-            AsyncStorage.multiGet(keys, (error, stores) => {
-              stores.map((result, i, store) => {
-                console.log({ [store[i][0]]: store[i][1] });
-                return true;
-              });
-            });
-          });
-        } */
 
     public static getInstance(): AuthService {
         return AuthService._instance;
