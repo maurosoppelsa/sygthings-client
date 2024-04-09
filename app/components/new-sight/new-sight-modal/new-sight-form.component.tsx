@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginRight: 5,
         color: colors.darkGray,
+        maxWidth: '80%',
     },
     locationLegend: {
         flexDirection: "row",
