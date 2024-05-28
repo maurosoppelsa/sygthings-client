@@ -1,8 +1,6 @@
 import { SERVER_URL } from "../config/authentication";
 import { Sight } from "../interfaces/common";
 import RNFS from 'react-native-fs';
-import RNFetchBlob from "rn-fetch-blob";
-const { fs } = RNFetchBlob;
 
 export default class SightService implements Tokenizable {
     private static _instance: SightService = new SightService();

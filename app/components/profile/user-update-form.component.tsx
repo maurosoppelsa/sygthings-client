@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Pressable, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import colors from '../../config/colors';
 import I18n from '../../../i18n/i18n';
 import { TextInput } from 'react-native-paper';
@@ -39,8 +39,8 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
             name: { minlength: 3, maxlength: 10, required: true },
             lastName: { minlength: 3, maxlength: 10, required: true },
             email: { email: true, required: true },
-            password: { minlength: 3, maxlength: 7, required: false, passwordsNotEmpty: { password, newPassword, confirmNewPassword }, notEqualPassword: newPassword },
-            newPassword: { minlength: 3, maxlength: 7, required: false, passwordsNotEmpty: { newPassword, password, confirmNewPassword } },
+            password: { minlength: 6, maxlength: 12, required: false, passwordsNotEmpty: { password, newPassword, confirmNewPassword }, notEqualPassword: newPassword },
+            newPassword: { minlength: 6, maxlength: 12, required: false, passwordsNotEmpty: { newPassword, password, confirmNewPassword } },
             confirmNewPassword: { equalPassword: newPassword, required: false, passwordsNotEmpty: { confirmNewPassword, password, newPassword } },
             occupation: { minlength: 3, maxlength: 25, required: true },
         });
@@ -58,7 +58,6 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
 
     return (
         <View style={styles.container}>
-            <ScrollView>
                 <Box>
                     <TextInput
                         autoComplete="off"
@@ -182,7 +181,8 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
                     <Box style={styles.buttonContainer}>
                         <Pressable
                             style={[styles.buttonSubmit, styles.button]}
-                            onPress={() => { updateUser() }}
+                            onPress={() => { 
+                                updateUser() }}
                         >
                             <Text style={styles.textBtStyle}>{I18n.t('Profile.update')}</Text>
                         </Pressable>
@@ -210,7 +210,6 @@ export default function UserUpdateForm({ user, onCancel, onUpdate, onDelete }: {
                         title={I18n.t('Profile.UpdateUserForm.deleteTitle')}
                         subtitle={I18n.t('Profile.UpdateUserForm.deleteSubtitle')} />
                 </Box>
-            </ScrollView>
         </View>
     );
 }
@@ -221,6 +220,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         padding: 20,
+        justifyContent: 'center',
     },
     input: {
         backgroundColor: colors.white,
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '100%',
+        alignItems: 'center',
         paddingHorizontal: 15,
         marginTop: 20,
     },

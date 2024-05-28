@@ -79,7 +79,7 @@ export default function ForgotPassword({ onSendResetPasswordEmail, onCancel, has
 
     const updatePassword = async () => {
         const isValid = await validate({
-            password: { minlength: 3, maxlength: 7, required: true },
+            password: { minlength: 6, maxlength: 12, required: true },
             confirmPassword: { equalPassword: password, required: true },
         });
         if (isValid) {

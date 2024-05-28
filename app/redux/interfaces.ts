@@ -33,6 +33,7 @@ export type newSightState = {
     loadingMySights: boolean,
     modalStatus: SIGHT_MODAL_STATUS,
     showImageOptionsModal: boolean,
+    backToMainScreen: boolean,
 };
 
 export type picture = {

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Marandu",
     "slug": "syghtings-client",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
     "splash": {
@@ -20,7 +20,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 4,
+      "versionCode": 5,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/icon.png",
         "backgroundColor": "#FFFFFF"

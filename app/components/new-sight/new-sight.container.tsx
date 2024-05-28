@@ -134,8 +134,8 @@ export default function NewSight() {
     const options = {
       title: 'Select Sight Picture',
       mediaType: 'photo' as MediaType,
-      maxWidth: 300,
-      maxHeight: 300,
+      maxWidth: 600,
+      maxHeight: 600,
       storageOptions: {
         skipBackup: true,
         path: 'images',

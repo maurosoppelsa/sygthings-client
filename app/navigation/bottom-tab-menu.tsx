@@ -9,12 +9,12 @@ import NewSightScreen from '../screens/new-sight.screen';
 import MySightsScreen from '../screens/my-sights.screen';
 import colors from '../config/colors';
 import ProfileScreen from '../screens/profile.screen';
-import { User } from '../interfaces/common';
-import { useSelector } from 'react-redux';
 import I18n from '../../i18n/i18n';
 // @ts-ignore
 import profileIcon from '../assets/profile_bar.png';
 import { isTabletDevice } from '../utils/common';
+import { useAppDispatch } from '../redux/store'
+import { returnToMainScreen } from "../redux/sight-slice";
 
 
 const Stack = createNativeStackNavigator();
@@ -65,6 +65,7 @@ function ProfileStackScreen() {
 
 
 export default function TabNavigator() {
+    const dispatch = useAppDispatch();
     return (
         <Tab.Navigator
             screenOptions={({ route, navigation }) => ({
@@ -74,8 +75,7 @@ export default function TabNavigator() {
                 headerStyle: {
                     backgroundColor: colors.maranduGreen,
                 },
-                headerRight(props) {
-                    const currentUser: User = useSelector((state: any) => state.authentication.user);
+                headerRight() {
                     return <TouchableOpacity style={styles.profileBt} onPress={() => navigation.navigate('Profile')}>
                         <Image source={profileIcon} style={styles.profileBt}></Image>
                     </TouchableOpacity>
@@ -94,9 +94,25 @@ export default function TabNavigator() {
                 },
             })}
         >
-            <Tab.Screen name='Dashboard' component={DashboardStackScreen} options={{ headerTitleStyle: styles.headerTitle, tabBarShowLabel: false, title: I18n.t('Navigation.sections.dashboard') }}></Tab.Screen>
+            <Tab.Screen name='Dashboard' component={DashboardStackScreen} options={{ headerTitleStyle: styles.headerTitle, tabBarShowLabel: false, title: I18n.t('Navigation.sections.dashboard') }}
+                listeners={({ navigation, route }) => ({
+                    tabPress: (e) => {
+                        e.preventDefault();
+                        dispatch(returnToMainScreen(true));
+                        navigation.navigate(route.name);
+                    },
+                })}>
+            </Tab.Screen>
             <Tab.Screen name='NewSight' component={NewSightStackScreen} options={{ headerTitleStyle: styles.headerTitle, tabBarShowLabel: false, title: I18n.t('Navigation.sections.newSights') }}></Tab.Screen>
-            <Tab.Screen name='MySights' component={MySightsStackScreen} options={{ headerTitleStyle: styles.headerTitle, tabBarShowLabel: false, title: I18n.t('Navigation.sections.mySights') }}></Tab.Screen>
+            <Tab.Screen name='MySights' component={MySightsStackScreen} options={{ headerTitleStyle: styles.headerTitle, tabBarShowLabel: false, title: I18n.t('Navigation.sections.mySights') }}
+                listeners={({ navigation, route }) => ({
+                    tabPress: (e) => {
+                        e.preventDefault();
+                        dispatch(returnToMainScreen(true));
+                        navigation.navigate(route.name);
+                    },
+                })}>
+            </Tab.Screen>
             <Tab.Screen name='Profile' component={ProfileStackScreen} options={{ headerTitleStyle: styles.headerTitle, tabBarShowLabel: false, title: I18n.t('Navigation.sections.profile'), tabBarButton: () => null }}></Tab.Screen>
         </Tab.Navigator>
     );
@@ -120,6 +136,6 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         color: colors.maranduYellow,
-        fontSize: isTabletDevice()? 22 : 18,
+        fontSize: isTabletDevice() ? 22 : 18,
     },
 });

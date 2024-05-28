@@ -15,6 +15,7 @@ const initialState: newSightState = {
   modalStatus: SIGHT_MODAL_STATUS.NEW,
   showImageOptionsModal: false,
   currentSights: [],
+  backToMainScreen: false,
 };
 
 const sightService: SightService = SightService.getInstance();
@@ -92,6 +93,10 @@ export const deleteSight = createAsyncThunk<{ sight: Sight }, string | undefined
 
 export const resetSights = createAsyncThunk("resetSights", async () => {
   return;
+});
+
+export const returnToMainScreen = createAsyncThunk("returnToMainScreen", async (shouldReturn: boolean) => {
+  return shouldReturn;
 });
 
 
@@ -178,6 +183,9 @@ const sightSlice = createSlice({
       })      
       .addCase(editSight.rejected, (state) => {
         state.error = true;
+      })
+      .addCase(returnToMainScreen.fulfilled, (state, action) => {
+        state.backToMainScreen = action.payload;
       });
   },
 });

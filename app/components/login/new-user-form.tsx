@@ -43,7 +43,7 @@ export default function NewUserForm({ onCreate, onCancel }: { onCreate: onCreate
             name: { minlength: 3, maxlength: 14, required: true },
             lastName: { minlength: 3, maxlength: 10, required: true },
             email: { email: true, required: true },
-            password: { minlength: 3, maxlength: 7, required: true },
+            password: { minlength: 6, maxlength: 12, required: true },
             confirmPassword: { equalPassword: password, required: true },
             occupation: { minlength: 3, maxlength: 25, required: true },
         });
