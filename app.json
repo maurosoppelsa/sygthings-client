@@ -2,6 +2,7 @@
   "expo": {
     "name": "Marandu",
     "slug": "syghtings-client",
+    "owner": "maranduapp",
     "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
