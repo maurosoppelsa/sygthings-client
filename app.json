@@ -21,7 +21,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 7,
+      "versionCode": 8,
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/icon.png",
         "backgroundColor": "#FFFFFF"
